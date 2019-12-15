@@ -34,10 +34,10 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx'],
     alias: {
-      Components: path.resolve(__dirname, 'src/components'),
-      Container: path.resolve(__dirname, 'src/container'),
-      Utils: path.resolve(__dirname, 'src/utils'),
-      Sass: path.resolve(__dirname, 'src/sass'),
+      Components: path.resolve(__dirname, './src/components'),
+      Container: path.resolve(__dirname, './src/container'),
+      Utils: path.resolve(__dirname, './src/utils'),
+      Sass: path.resolve(__dirname, './src/sass'),
       //Styles: path.resolve(__dirname, 'src/styles')
     }
   },
