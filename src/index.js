@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { menuItemsMap, supportMenuItems, menuItems } from 'Constants/navbar-items'
 import Login from "Container/login"
-import Home from "Container/home"
+import Overview from "Container/overview"
 import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
 
@@ -24,9 +24,9 @@ const theme = createMuiTheme({
       contrastText: '#000',
     },
     secondary: {
-      light: '#f73378',
-      main: '#f50057',
-      dark: '#ab003c',
+      light: '#ed9638',
+      main: '#E97C07',
+      dark: '#a35604',
       contrastText: '#000',
     },
   },
@@ -36,7 +36,8 @@ const useStyles = makeStyles(theme => ({
   content: {
     position: "relative",
     top: "105px",
-    left: "245px"
+    padding: "50px 64px",
+    marginLeft: "245px"
   },
 }));
 
@@ -76,7 +77,7 @@ function App () {
             />
             <Switch>
               <div className={classes.content}>
-                <Route exact path="/home/overview" component={Home} />
+                <Route exact path="/home/overview" component={Overview} />
               </div>
             </Switch>
           </div>

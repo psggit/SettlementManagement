@@ -19,10 +19,10 @@ const useStyles = makeStyles(theme => ({
   activeItem: {
     padding: "8px 24px",
     '&:hover': {
-      backgroundColor: "#6676c1"
+      backgroundColor: theme.palette.primary.light
     },
     '&.active': {
-      backgroundColor: "#6676c1"
+      backgroundColor: theme.palette.primary.light
     }
   },
   drawerPaper: {
@@ -42,7 +42,8 @@ const useStyles = makeStyles(theme => ({
       fontSize: "22px",
       lineHeight: "27px",
       fontWeight: "600",
-      textTransform: "uppercase"
+      textTransform: "uppercase",
+      color: theme.palette.primary.main
     }
   }
 }));
