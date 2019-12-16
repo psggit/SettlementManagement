@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import "./login.scss"
 import Icon from "Components/icon"
+import { createSession } from "./session"
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -142,6 +143,10 @@ function login () {
 
   const handleLogin = (e) => {
     getInputTags()
+    if(!mobileErr.status && !passwordErr.status) {
+      createSession({ hasura_id: 123 })
+      window.location.href = "/home"
+    }
   }
 
   return (

@@ -38,7 +38,7 @@ module.exports = {
       Container: path.resolve(__dirname, './src/container'),
       Utils: path.resolve(__dirname, './src/utils'),
       Sass: path.resolve(__dirname, './src/sass'),
-      //Styles: path.resolve(__dirname, 'src/styles')
+      Constants: path.resolve(__dirname, './src/constants')
     }
   },
   plugins: [
