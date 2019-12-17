@@ -12,6 +12,7 @@ import Login from "Container/login"
 import Overview from "Container/overview"
 import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
+import SettlementHistory from './container/settlement-history'
 
 const history = createHistory()
 
@@ -37,7 +38,10 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     top: "105px",
     padding: "50px 64px",
-    marginLeft: "245px"
+    marginLeft: "245px",
+    backgroundColor: "#EEEEEE",
+    height: "calc(100vh - 105px)",
+    overflow: "auto"
   },
 }));
 
@@ -77,7 +81,21 @@ function App () {
             />
             <Switch>
               <div className={classes.content}>
-                <Route exact path="/home/overview" component={Overview} />
+                <Route 
+                  exact 
+                  path="/home/overview" 
+                  component={Overview} 
+                />
+                <Route 
+                  exact 
+                  path="/home/settlement-history"
+                  component={SettlementHistory} 
+                  // render={
+                  //   props => (
+                  //     <SettlementHistory {...props} />
+                  //   )
+                  // }
+                />
               </div>
             </Switch>
           </div>

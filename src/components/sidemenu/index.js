@@ -44,6 +44,13 @@ const useStyles = makeStyles(theme => ({
       fontWeight: "600",
       textTransform: "uppercase",
       color: theme.palette.primary.main
+    },
+    '& p.version': {
+      fontSize: "12px",
+      lineHeight: "15px",
+      textTransform: "lowercase",
+      color: "rgba(0, 0, 0, 0.5)",
+      fontStyle: "normal"
     }
   }
 }));
@@ -105,6 +112,7 @@ function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {
         <p>Account</p>
         <p>Reconciliation</p>
         <p>Dashboard</p>
+        <p className="version">version 1.3</p>
       </div>
     </Drawer>
   )
