@@ -12,7 +12,8 @@ import Login from "Container/login"
 import Overview from "Container/overview"
 import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
-import SettlementHistory from './container/settlement-history'
+import SettlementHistory from 'Container/settlement-history'
+import SettlementBreakup from "Container/settlement-history/settlement-breakup"
 
 const history = createHistory()
 
@@ -30,6 +31,20 @@ const theme = createMuiTheme({
       dark: '#a35604',
       contrastText: '#000',
     },
+  },
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Cabin',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
   },
 });
 
@@ -53,6 +68,9 @@ function App () {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("hasura-id") ? true : false)
   
   useEffect(() => {
+    if(!localStorage.getItem("hasura-id") &&  !location.pathname.includes("login")) {
+      window.location.href = "/login"
+    }
     history.listen((location) => {
       const newRoute = location.pathname.split('/')[2]
       setKey(key + 1)
@@ -89,12 +107,22 @@ function App () {
                 <Route 
                   exact 
                   path="/home/settlement-history"
-                  component={SettlementHistory} 
-                  // render={
-                  //   props => (
-                  //     <SettlementHistory {...props} />
-                  //   )
-                  // }
+                  //component={SettlementHistory} 
+                  render={
+                    props => (
+                      <SettlementHistory {...props} />
+                    )
+                  }
+                />
+                <Route
+                  exact
+                  path="/home/settlement-breakup/:SettlementId"
+                  //component={SettlementHistory} 
+                  render={
+                    props => (
+                      <SettlementBreakup {...props} />
+                    )
+                  }
                 />
               </div>
             </Switch>
