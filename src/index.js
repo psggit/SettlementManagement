@@ -70,6 +70,8 @@ function App () {
   useEffect(() => {
     if(!localStorage.getItem("hasura-id") &&  !location.pathname.includes("login")) {
       window.location.href = "/login"
+    } else if (localStorage.getItem("hasura-id") && !location.pathname.includes("home")) {
+      window.location.href = "/home/overview"
     }
     history.listen((location) => {
       const newRoute = location.pathname.split('/')[2]
