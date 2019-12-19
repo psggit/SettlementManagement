@@ -10,10 +10,14 @@ const useStyles = makeStyles({
     textAlign: "center",
     marginBottom: 28
   },
+  cardContent: {
+    padding: "14px !important",
+    //paddingBottom: "0 !important"
+  },
   title: {
     fontSize: "16px",
     lineHeight: "19px",
-    marginBottom: 16
+    marginBottom: 8
   },
   subtitle: {
     fontWeight: "bold",
@@ -26,7 +30,7 @@ function card (props) {
   const classes = useStyles();
   return (
     <Card className={classes.card} style={{width: props.width, marginRight: props.marginRight}}>
-      <CardContent>
+      <CardContent className={classes.cardContent}>
         <Typography className={classes.title} variant="h5" component="h2">{props.title}</Typography>
         <Typography className={classes.subtitle} component="p">{props.value}</Typography>
       </CardContent>
