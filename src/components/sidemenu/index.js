@@ -101,6 +101,7 @@ function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {
             button 
             key={item.label} 
             className={`${classes.activeItem} ${checkActiveClass(item.value)} `} 
+            onClick={(e) => { handleChangeRoute(e, item.value) }}
           >
             <ListItemIcon>
               <Icon name={`${item.icon}`} />

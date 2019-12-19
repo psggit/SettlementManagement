@@ -14,6 +14,7 @@ import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
 import SettlementHistory from 'Container/settlement-history'
 import SettlementBreakup from "Container/settlement-history/settlement-breakup"
+import UserGuide from "Container/user-guide"
 
 const history = createHistory()
 
@@ -70,7 +71,7 @@ function App () {
   useEffect(() => {
     if(!localStorage.getItem("hasura-id") &&  !location.pathname.includes("login")) {
       window.location.href = "/login"
-    } else if (localStorage.getItem("hasura-id") && !location.pathname.includes("home")) {
+    } else if (localStorage.getItem("hasura-id") && !location.pathname.includes("/home")) {
       window.location.href = "/home/overview"
     }
     history.listen((location) => {
@@ -105,6 +106,11 @@ function App () {
                   exact 
                   path="/home/overview" 
                   component={Overview} 
+                />
+                <Route
+                  exact
+                  path="/home/user-guide"
+                  component={UserGuide}
                 />
                 <Route 
                   exact 
