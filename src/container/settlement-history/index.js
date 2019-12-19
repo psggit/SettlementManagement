@@ -232,7 +232,7 @@ function settlementHistory(props) {
   }
 
   const handlePress = (event) => {
-    if(event.keyCode === 13) {
+    if (event.keyCode === 13) {
       console.log("Do search")
     }
   }

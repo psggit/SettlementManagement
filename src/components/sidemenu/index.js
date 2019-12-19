@@ -80,9 +80,9 @@ function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {
     >
       <List>
         {menuItems.map((item, index) => (
-          <ListItem 
-            button 
-            key={item.label} 
+          <ListItem
+            button
+            key={item.label}
             className={`${classes.activeItem} ${checkActiveClass(item.value)} `}
             onClick={(e) => { handleChangeRoute(e, item.value) }}
           >
@@ -96,10 +96,10 @@ function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {
       <Divider />
       <List>
         {supportMenuItems.map((item, index) => (
-          <ListItem 
-            button 
-            key={item.label} 
-            className={`${classes.activeItem} ${checkActiveClass(item.value)} `} 
+          <ListItem
+            button
+            key={item.label}
+            className={`${classes.activeItem} ${checkActiveClass(item.value)} `}
           >
             <ListItemIcon>
               <Icon name={`${item.icon}`} />

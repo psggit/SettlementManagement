@@ -8,7 +8,7 @@ module.exports = merge(common, {
   devServer: {
     contentBase: './dist',
     host: '0.0.0.0',
-    port: 8003,
+    port: 8008,
     compress: true,
     publicPath: '/',
     historyApiFallback: {

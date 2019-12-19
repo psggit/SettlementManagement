@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from 'react-router'
 import { Route, Switch } from 'react-router-dom'
@@ -14,6 +14,8 @@ import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
 import SettlementHistory from 'Container/settlement-history'
 import SettlementBreakup from "Container/settlement-history/settlement-breakup"
+import Reports from "./container/Reports"
+
 
 const history = createHistory()
 
@@ -60,15 +62,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function App () {
+function App() {
   const classes = useStyles();
 
   const [currentRoute, setCurrentRoute] = useState(location.pathname.split('/')[2] || '')
   const [key, setKey] = useState(0)
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("hasura-id") ? true : false)
-  
+
   useEffect(() => {
-    if(!localStorage.getItem("hasura-id") &&  !location.pathname.includes("login")) {
+    if (!localStorage.getItem("hasura-id") && !location.pathname.includes("login")) {
       window.location.href = "/login"
     }
     history.listen((location) => {
@@ -80,7 +82,7 @@ function App () {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router history = { history } >
+      <Router history={history} >
         <Route exact path="/login" component={Login} />
         {
           isLoggedIn &&
@@ -99,13 +101,13 @@ function App () {
             />
             <Switch>
               <div className={classes.content}>
-                <Route 
-                  exact 
-                  path="/home/overview" 
-                  component={Overview} 
+                <Route
+                  exact
+                  path="/home/overview"
+                  component={Overview}
                 />
-                <Route 
-                  exact 
+                <Route
+                  exact
                   path="/home/settlement-history"
                   //component={SettlementHistory} 
                   render={
@@ -124,11 +126,31 @@ function App () {
                     )
                   }
                 />
+                <Route
+                  exact
+                  path="/home/Reports"
+                  component={Reports}
+                  render={
+                    props => (
+                      <Reports {...props} />
+                    )
+                  }
+                />
+                {/* <Route
+                  exact
+                  path="/Support"
+                  //component={Support} 
+                  render={
+                    props => (
+                      <Support {...props} />
+                    )
+                  }
+                /> */}
               </div>
             </Switch>
           </div>
         }
-      </Router>  
+      </Router>
     </ThemeProvider>
   )
 }
