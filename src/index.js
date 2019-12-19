@@ -15,6 +15,7 @@ import Sidemenu from "Components/sidemenu"
 import SettlementHistory from 'Container/settlement-history'
 import SettlementBreakup from "Container/settlement-history/settlement-breakup"
 import UserGuide from "Container/user-guide"
+import Support from "Container/support"
 
 const history = createHistory()
 
@@ -129,6 +130,15 @@ function App () {
                   render={
                     props => (
                       <SettlementBreakup {...props} />
+                    )
+                  }
+                />
+                <Route
+                  exact
+                  path="/home/support"
+                  render={
+                    props => (
+                      <Support {...props} />
                     )
                   }
                 />

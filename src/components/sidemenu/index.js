@@ -16,13 +16,18 @@ const useStyles = makeStyles(theme => ({
     zIndex: 0,
     top: "105px"
   },
+  list : {
+    paddingTop: "32px"
+  },
   activeItem: {
     padding: "8px 24px",
     '&:hover': {
-      backgroundColor: theme.palette.primary.light
+      backgroundColor: theme.palette.primary.main,
+      //opacity: "0.4"
     },
     '&.active': {
-      backgroundColor: theme.palette.primary.light
+      backgroundColor: theme.palette.primary.main,
+      //opacity: "0.4"
     }
   },
   drawerPaper: {
@@ -37,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     position: "fixed",
     bottom: "0",
     padding: "0 24px",
-    paddingBottom: "8px",
+    paddingBottom: "32px",
     '& p': {
       fontSize: "22px",
       lineHeight: "27px",
@@ -79,7 +84,7 @@ function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {
         paper: classes.drawerPaper,
       }}
     >
-      <List>
+      <List className={classes.list}>
         {menuItems.map((item, index) => (
           <ListItem 
             button 
