@@ -64,7 +64,6 @@ function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {
   const classes = useStyles();
 
   const checkActiveClass = (selectedRoute) => {
-    console.log("current", currentRoute, "selected", selectedRoute)
     if (currentRoute === selectedRoute) {
       return 'active'
     }

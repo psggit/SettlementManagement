@@ -12,7 +12,7 @@ import Login from "Container/login"
 import Overview from "Container/overview"
 import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
-import SettlementHistory from 'Container/settlement-history'
+import TransactionHistory from 'Container/transaction-history'
 import SettlementBreakup from "Container/settlement-history/settlement-breakup"
 import UserGuide from "Container/user-guide"
 import Support from "Container/support"
@@ -115,11 +115,11 @@ function App () {
                 />
                 <Route 
                   exact 
-                  path="/home/settlement-history"
+                  path="/home/transaction-history"
                   //component={SettlementHistory} 
                   render={
                     props => (
-                      <SettlementHistory {...props} />
+                      <TransactionHistory {...props} />
                     )
                   }
                 />

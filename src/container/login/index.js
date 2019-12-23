@@ -145,7 +145,7 @@ function login () {
     getInputTags()
     if(!mobileErr.status && !passwordErr.status) {
       createSession({ hasura_id: 123 })
-      window.location.href = "/home"
+      window.location.href = "/home/overview"
     }
   }
 
