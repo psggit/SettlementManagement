@@ -16,18 +16,13 @@ const useStyles = makeStyles(theme => ({
     zIndex: 0,
     top: "105px"
   },
-  list : {
-    paddingTop: "32px"
-  },
   activeItem: {
     padding: "8px 24px",
     '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-      //opacity: "0.4"
+      backgroundColor: theme.palette.primary.light
     },
     '&.active': {
-      backgroundColor: theme.palette.primary.main,
-      //opacity: "0.4"
+      backgroundColor: theme.palette.primary.light
     }
   },
   drawerPaper: {
@@ -42,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     position: "fixed",
     bottom: "0",
     padding: "0 24px",
-    paddingBottom: "32px",
+    paddingBottom: "8px",
     '& p': {
       fontSize: "22px",
       lineHeight: "27px",
@@ -84,7 +79,7 @@ function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {
         paper: classes.drawerPaper,
       }}
     >
-      <List className={classes.list}>
+      <List>
         {menuItems.map((item, index) => (
           <ListItem
             button
@@ -102,18 +97,10 @@ function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {
       <Divider />
       <List>
         {supportMenuItems.map((item, index) => (
-<<<<<<< HEAD
           <ListItem
             button
             key={item.label}
             className={`${classes.activeItem} ${checkActiveClass(item.value)} `}
-=======
-          <ListItem 
-            button 
-            key={item.label} 
-            className={`${classes.activeItem} ${checkActiveClass(item.value)} `} 
-            onClick={(e) => { handleChangeRoute(e, item.value) }}
->>>>>>> 03edda3d07cec182164372d3a01aeb4ea19167b0
           >
             <ListItemIcon>
               <Icon name={`${item.icon}`} />

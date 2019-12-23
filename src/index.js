@@ -14,13 +14,10 @@ import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
 import SettlementHistory from 'Container/settlement-history'
 import SettlementBreakup from "Container/settlement-history/settlement-breakup"
-<<<<<<< HEAD
 import Reports from "./container/Reports"
-
-=======
 import UserGuide from "Container/user-guide"
-import Support from "Container/support"
->>>>>>> 03edda3d07cec182164372d3a01aeb4ea19167b0
+import RefundHistoty from "./container/refund-history"
+
 
 const history = createHistory()
 
@@ -115,14 +112,11 @@ function App() {
                 />
                 <Route
                   exact
-<<<<<<< HEAD
-=======
                   path="/home/user-guide"
                   component={UserGuide}
                 />
-                <Route 
-                  exact 
->>>>>>> 03edda3d07cec182164372d3a01aeb4ea19167b0
+                <Route
+                  exact
                   path="/home/settlement-history"
                   //component={SettlementHistory} 
                   render={
@@ -143,7 +137,6 @@ function App() {
                 />
                 <Route
                   exact
-<<<<<<< HEAD
                   path="/home/Reports"
                   component={Reports}
                   render={
@@ -152,23 +145,18 @@ function App() {
                     )
                   }
                 />
-                {/* <Route
+                <Route
                   exact
-                  path="/Support"
-                  //component={Support} 
-=======
-                  path="/home/support"
->>>>>>> 03edda3d07cec182164372d3a01aeb4ea19167b0
+                  path="/home/refund-history"
+                  //component={RefundHistoty}
                   render={
                     props => (
-                      <Support {...props} />
+                      <RefundHistoty {...props} />
                     )
                   }
-<<<<<<< HEAD
-                /> */}
-=======
                 />
->>>>>>> 03edda3d07cec182164372d3a01aeb4ea19167b0
+
+
               </div>
             </Switch>
           </div>

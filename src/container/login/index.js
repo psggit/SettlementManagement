@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import "./login.scss"
 import Icon from "Components/icon"
 import { createSession } from "./session"
@@ -14,7 +14,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { validateNumberField} from "Utils/validators"
+import { validateNumberField } from "Utils/validators"
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,19 +35,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function login () {
+function login() {
   const classes = useStyles();
 
   const [mobileNumber, setMobileNumber] = useState()
-  const [mobileErr, setMobileErr] = useState({status: false, value: ""})
+  const [mobileErr, setMobileErr] = useState({ status: false, value: "" })
   const [password, setPassword] = useState()
-  const [passwordErr, setPasswordErr] = useState({status: false, value: ""})
+  const [passwordErr, setPasswordErr] = useState({ status: false, value: "" })
   const [showPassword, setShowPassword] = useState(false)
 
   const inputNameMap = {
     mobileNumber: "Mobile Number",
     password: "password"
   }
+
+  // useEffect(() => {
+  //   console.log("date", new Date())
+  // }, [])
   // useEffect(() => {
   //   console.log("test")
   // }, [mobileErr, passwordErr])
@@ -62,12 +66,12 @@ function login () {
   // });
 
   const handleMobileChange = event => {
-    setMobileErr({...mobileErr, status: false})
+    setMobileErr({ ...mobileErr, status: false })
     setMobileNumber(event.target.value)
   }
 
   const handlePasswordChange = event => {
-    setPasswordErr({...passwordErr, status: false})
+    setPasswordErr({ ...passwordErr, status: false })
     setPassword(event.target.value)
   }
 
@@ -98,9 +102,9 @@ function login () {
     console.log("name", item.name, item.value, item)
     // console.log("name", item.name, "val", item.value, "value", `${item.name}ErrStatus`)
     const errorObj = validateNumberField({
-                      fieldName: item.name, 
-                      fieldValue: item.value
-                    })
+      fieldName: item.name,
+      fieldValue: item.value
+    })
     console.log("err", errorObj)
     return errorObj
     // setValues({
@@ -110,7 +114,7 @@ function login () {
     //   [`${item.name}ErrMessage`]: errorObj.value,
     // })
     //setValues({ ...values, mobileNumberErrStatus: true});
-   
+
   }
 
   const getInputTags = () => {
@@ -124,7 +128,7 @@ function login () {
         name: inputNameMap[item.name],
         value: item.value
       })
-      if(item.name === "mobileNumber") {
+      if (item.name === "mobileNumber") {
         setMobileErr({
           ...mobileErr, status: errorObject.status, value: errorObject.value
         })
@@ -143,7 +147,7 @@ function login () {
 
   const handleLogin = (e) => {
     getInputTags()
-    if(!mobileErr.status && !passwordErr.status) {
+    if (!mobileErr.status && !passwordErr.status) {
       createSession({ hasura_id: 123 })
       window.location.href = "/home"
     }
@@ -197,7 +201,7 @@ function login () {
                 : ""
             }
           </FormControl>
-         
+
           <div className="submit">
             <Button
               variant="contained"
