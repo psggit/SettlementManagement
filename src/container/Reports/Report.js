@@ -54,10 +54,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: "16px",
     lineHeight: "19px",
     fontWeight: "500",
+    marginTop: "-17px",
   },
   KeyboardDatePicker: {
     width: "200px",
-    height: "35px",
+    height: "55px",
     left: "35px",
     fontFamily: "Cabin",
     fontSize: "14px",

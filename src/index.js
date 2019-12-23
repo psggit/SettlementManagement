@@ -14,9 +14,9 @@ import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
 import TransactionHistory from 'Container/transaction-history'
 //import SettlementBreakup from "Container/settlement-history/settlement-breakup"
-import Reports from "./container/Reports"
 import UserGuide from "Container/user-guide"
-//import RefundHistoty from "./container/refund-history"
+import Reports from "./container/Reports"
+import Support from "Container/support"
 
 
 const history = createHistory()
@@ -138,25 +138,21 @@ function App() {
                 <Route
                   exact
                   path="/home/Reports"
-                  component={Reports}
                   render={
                     props => (
                       <Reports {...props} />
                     )
                   }
                 />
-                {/* <Route
+                <Route
                   exact
-                  path="/home/refund-history"
-                  //component={RefundHistoty}
+                  path="/home/support"
                   render={
                     props => (
-                      <RefundHistoty {...props} />
+                      <Support {...props} />
                     )
                   }
-                /> */}
-
-
+                />
               </div>
             </Switch>
           </div>
