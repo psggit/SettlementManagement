@@ -121,12 +121,20 @@ import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/he
 //   }
 // ]
 
+// const tableHeaders = [
+//   "UPI Transaction ID",
+//   "Date & Time",
+//   "Bank Account Number",
+//   "Retailer ID",
+//   "Amount"
+// ]
+
 const tableHeaders = [
-  "UPI Transaction ID",
-  "Date & Time",
-  "Bank Account Number",
-  "Retailer ID",
-  "Amount"
+  { label: "UPI Transaction ID", value: "transaction_id"},
+  { label: "Date & Time", value: "date_time" },
+  { label: "Bank Account Number", value: "account_no" },
+  { label: "Retailer ID", value: "retailer_id" },
+  { label: "Amount", value: "amount" }
 ]
 
 const useStyles = makeStyles(theme => ({
@@ -192,7 +200,7 @@ function settlementHistory(props) {
   const [pageNo, setPageNo] = useState(activePage)
   const [rowsPerPage, setRowsPerPage] = React.useState(itemsPerPage);
   const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, itemsPerPage))
-  const [totalCount, setTotalCount] = useState(0)
+  const [transactionHistoryCount, seTransactionHistoryCount] = useState(0)
   const [filterField, setFilterField] = useState("")
   const [filterValue, setFieldValue] = useState("")
   const classes = useStyles();
@@ -212,17 +220,19 @@ function settlementHistory(props) {
     const payload = {
       Limit: rowsPerPage,
       Offset: offset,
-      RetailerID: 93
+      RetailerID: 93,
+      SearchTerm: filterField,
+      SearchValue: filterValue
     }
     setLoading(true)
     fetchTransactionHistory(payload)
     .then((response) => {
       setLoading(false)
       setTransactionHistory(response.transactions)
-      setTotalCount(response.Count)
+      seTransactionHistoryCount(response.Count)
     })
     .catch((error) => {
-      //setLoading(false)
+      setLoading(false)
       console.log("error", error)
     })
   }
@@ -230,6 +240,7 @@ function settlementHistory(props) {
   const handleSearchChange = (event, option) => {
     console.log("select change", option)
     setFilterField(option.value)
+    setFieldValue("")
   }
 
   const handleTextChange = (event) => {
@@ -246,7 +257,9 @@ function settlementHistory(props) {
     setPageNo(newPage)
     const queryParamsObj = {
       activePage: newPage,
-      itemsPerPage: rowsPerPage
+      itemsPerPage: rowsPerPage,
+      // SearchTerm: filterField,
+      // SearchValue: filterValue
     }
     history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
   };
@@ -261,13 +274,16 @@ function settlementHistory(props) {
     history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
   };
 
-  const handleRowClick = (event, data) => {
-    props.history.push(`/home/settlement-breakup/${data.settlement_id}`, data)
-  }
-
   const handlePress = (event) => {
     if(event.keyCode === 13) {
-      console.log("Do search")
+      const queryParamsObj = {
+        activePage: 0,
+        itemsPerPage: event.target.value,
+        // SearchTerm: filterField,
+        // SearchValue: filterValue
+      }
+      history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
+      fetchRetailerTransactionHistory()
     }
   }
 
@@ -337,15 +353,18 @@ function settlementHistory(props) {
               )
           }
         </Table>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={1000}
-          rowsPerPage={parseInt(rowsPerPage)}
-          page={parseInt(pageNo)}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        {
+          !isLoading &&
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={transactionHistoryCount}
+            rowsPerPage={parseInt(rowsPerPage)}
+            page={parseInt(pageNo)}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        }
       </Paper>
     </div>
   )

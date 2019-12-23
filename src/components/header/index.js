@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "500",
     fontSize: "18px",
     lineHeight: "22px",
-    marginTop: "6px",
+    marginTop: "4px",
     color: "#fff"
   },
   logoutSection: {

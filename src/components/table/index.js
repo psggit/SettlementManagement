@@ -22,7 +22,7 @@ function table (props) {
         <TableHead>
           <TableRow>
             {props.tableHeaders.map((item, i) => (
-              <TableCell align="left" key={i}>{item}</TableCell>
+              <TableCell align="left" key={i}>{item.label}</TableCell>
             ))}
           </TableRow>
         </TableHead>
