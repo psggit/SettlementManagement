@@ -15,6 +15,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import { fetchTransactionHistory } from "../api"
+import TableLoadingShell from "Components/tableLoadingShell"
 import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/helpers"
 
 // const data = [
@@ -187,6 +188,7 @@ function settlementHistory(props) {
   const activePage = getQueryParamByName("activePage") || 0
   const itemsPerPage = getQueryParamByName("itemsPerPage") || 5
   const [transactionHistory, setTransactionHistory] = useState([])
+  const [isLoading, setLoading] = useState(false)
   const [pageNo, setPageNo] = useState(activePage)
   const [rowsPerPage, setRowsPerPage] = React.useState(itemsPerPage);
   const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, itemsPerPage))
@@ -212,12 +214,15 @@ function settlementHistory(props) {
       Offset: offset,
       RetailerID: 93
     }
+    setLoading(true)
     fetchTransactionHistory(payload)
     .then((response) => {
+      setLoading(false)
       setTransactionHistory(response.transactions)
       setTotalCount(response.Count)
     })
     .catch((error) => {
+      //setLoading(false)
       console.log("error", error)
     })
   }
@@ -308,20 +313,29 @@ function settlementHistory(props) {
           }
         </div>
         <Table tableHeaders={tableHeaders}>
-          {transactionHistory.map((data, index) => {
-            return (
-              <TableRow hover className={classes.tableRow} key={index} onClick={(event) => handleRowClick(event, data)}>
-                <TableCell component="th" scope="row" align="left">
-                  <u>{data.order_id}</u>
-                </TableCell>
-                {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
-                <TableCell align="left">{data.order_type}</TableCell>
-                <TableCell align="left">{data.consumer_id}</TableCell>
-                <TableCell align="left">{data.cart_total}</TableCell>
-                <TableCell align="left">{data.gift_wallet_amount}</TableCell>
-              </TableRow>
-            )
-          })}
+          {
+            !isLoading 
+              ? (
+                transactionHistory && transactionHistory.map((data, index) => {
+                return (
+                  <TableRow hover className={classes.tableRow} key={index} onClick={(event) => handleRowClick(event, data)}>
+                    <TableCell component="th" scope="row" align="left">
+                      <u>{data.order_id}</u>
+                    </TableCell>
+                    {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
+                    <TableCell align="left">{data.order_type}</TableCell>
+                    <TableCell align="left">{data.consumer_id}</TableCell>
+                    <TableCell align="left">{data.cart_total}</TableCell>
+                    <TableCell align="left">{data.gift_wallet_amount}</TableCell>
+                  </TableRow>
+                )
+              }))
+              : (
+                 [1, 2, 3, 4, 5].map(() => (
+                    <TableLoadingShell />
+                  ))
+              )
+          }
         </Table>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}

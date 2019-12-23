@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Icon from "Components/icon"
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 245;
 
@@ -17,17 +17,15 @@ const useStyles = makeStyles(theme => ({
     top: "105px"
   },
   list : {
-    paddingTop: "32px"
+    paddingTop: "32px",
   },
   activeItem: {
     padding: "8px 24px",
     '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-      //opacity: "0.4"
+      backgroundColor: fade(theme.palette.primary.light, 0.5),
     },
     '&.active': {
-      backgroundColor: theme.palette.primary.main,
-      //opacity: "0.4"
+      backgroundColor: fade(theme.palette.primary.light, 0.5),
     }
   },
   drawerPaper: {
