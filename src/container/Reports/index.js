@@ -2,15 +2,12 @@ import React from "react"
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Report from './Report'
-import 'Sass/report.scss'
+import './report.scss'
 
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    padding: "20px",
-    Width: "1067px",
-    height: "550px",
-    Top: "111px",
+    padding: "20px"
   },
 }));
 
@@ -20,9 +17,9 @@ export default function PaperSheet() {
 
   return (
     <div>
-      <div className="generate-report">GENERATE SETTLEMENT REPORT(UPI)</div>
+      <span className="report">GENERATE SETTLEMENT REPORT (UPI)</span>
       <div>
-        <Paper className={classes.root}>
+        <Paper className={classes.paper}>
           <Report />
         </Paper>
       </div>

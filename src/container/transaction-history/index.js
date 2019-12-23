@@ -16,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import { fetchTransactionHistory } from "../api"
 import TableLoadingShell from "Components/tableLoadingShell"
+import Pagination from "Components/pagination"
 import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/helpers"
 
 // const data = [
@@ -141,9 +142,9 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: "20px",
   },
-  tableRow: {
-    cursor: "pointer",
-  },
+  // tableRow: {
+  //   cursor: "pointer",
+  // },
   header: {
     display: "flex",
     alignItems: "center",
@@ -191,18 +192,20 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function settlementHistory(props) {
+function transactionHistoryList(props) {
 
-  const activePage = getQueryParamByName("activePage") || 0
-  const itemsPerPage = getQueryParamByName("itemsPerPage") || 5
+  const pageLimit = 10
+  const activePage = getQueryParamByName("activePage") || 1
+  //const itemsPerPage = getQueryParamByName("itemsPerPage") || 5
   const [transactionHistory, setTransactionHistory] = useState([])
   const [isLoading, setLoading] = useState(false)
   const [pageNo, setPageNo] = useState(activePage)
-  const [rowsPerPage, setRowsPerPage] = React.useState(itemsPerPage);
-  const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, itemsPerPage))
+  //const [rowsPerPage, setRowsPerPage] = React.useState(itemsPerPage);
+  const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, pageLimit))
   const [transactionHistoryCount, seTransactionHistoryCount] = useState(0)
   const [filterField, setFilterField] = useState("")
   const [filterValue, setFieldValue] = useState("")
+ 
   const classes = useStyles();
 
   const searchOptions = [
@@ -214,11 +217,11 @@ function settlementHistory(props) {
 
   useEffect(() => {
     fetchRetailerTransactionHistory()
-  }, [rowsPerPage, offset])
+  }, [pageNo])
 
   const fetchRetailerTransactionHistory = () => {
     const payload = {
-      Limit: rowsPerPage,
+      Limit: pageLimit,
       Offset: offset,
       RetailerID: 93,
       SearchTerm: filterField,
@@ -252,27 +255,27 @@ function settlementHistory(props) {
     setFieldValue("")
   }
 
-  const handleChangePage = (event, newPage) => {
-    setOffset(newPage * rowsPerPage)
-    setPageNo(newPage)
+  const handleChangePage = (pageObj) => {
+    setOffset(pageObj.offset)
+    setPageNo(pageObj.activePage)
     const queryParamsObj = {
-      activePage: newPage,
-      itemsPerPage: rowsPerPage,
+      activePage: pageObj.activePage,
+      //itemsPerPage: rowsPerPage,
       // SearchTerm: filterField,
       // SearchValue: filterValue
     }
     history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
   };
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(event.target.value)
-    setPageNo(0);
-    const queryParamsObj = {
-      activePage: 0,
-      itemsPerPage: event.target.value
-    }
-    history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
-  };
+  // const handleChangeRowsPerPage = event => {
+  //   setRowsPerPage(event.target.value)
+  //   setPageNo(0);
+  //   const queryParamsObj = {
+  //     activePage: 0,
+  //     itemsPerPage: event.target.value
+  //   }
+  //   history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
+  // };
 
   const handlePress = (event) => {
     if(event.keyCode === 13) {
@@ -288,7 +291,7 @@ function settlementHistory(props) {
   }
 
   return (
-    <div id="SettlementHistory">
+    <div id="TransactionHistory">
       <Paper className={classes.paper}>
         <div className={classes.header}>
           <Autocomplete
@@ -309,7 +312,7 @@ function settlementHistory(props) {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Search…"
+                placeholder="Search Entry"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -336,7 +339,7 @@ function settlementHistory(props) {
                 return (
                   <TableRow hover className={classes.tableRow} key={index} onClick={(event) => handleRowClick(event, data)}>
                     <TableCell component="th" scope="row" align="left">
-                      <u>{data.order_id}</u>
+                      {data.order_id}
                     </TableCell>
                     {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
                     <TableCell align="left">{data.order_type}</TableCell>
@@ -352,8 +355,16 @@ function settlementHistory(props) {
                   ))
               )
           }
+          {
+            !isLoading && !transactionHistory &&
+            <tr>
+              <td style={{ textAlign: 'center' }} colSpan='5'>
+                <p style={{ fontWeight: '16px' }}>No records  found</p>
+              </td>
+            </tr>
+          }
         </Table>
-        {
+        {/* {
           !isLoading &&
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
@@ -364,10 +375,20 @@ function settlementHistory(props) {
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
           />
+        } */}
+        {
+          !isLoading &&
+          <Pagination
+            activePage={parseInt(pageNo)}
+            itemsCountPerPage={parseInt(pageLimit)}
+            totalItemsCount={transactionHistoryCount}
+            pageRangeDisplayed={5}
+            setPage={handleChangePage}
+          />
         }
       </Paper>
     </div>
   )
 }
 
-export default settlementHistory
+export default transactionHistoryList

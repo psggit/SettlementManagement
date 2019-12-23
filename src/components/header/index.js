@@ -3,6 +3,9 @@ import Icon from "Components/icon"
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import Dialog from "Components/dialog"
+// import Dialog from "Components/dialog"
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -30,11 +33,24 @@ const useStyles = makeStyles(theme => ({
 
 function header () {
   const classes = useStyles();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const logout = () => {
     localStorage.clear();
     window.location.href="/login"
   }
+
+  const unmountModal = () => {
+    setShowLogoutModal(false)
+  }
+
+  const mountModal = () => {
+    setShowLogoutModal(true)
+  }
+
+  // const logout = () => {
+  //   setShowLogoutModal(false)
+  // }
 
   return (
     <div>
@@ -43,12 +59,26 @@ function header () {
           <div>
             <Icon name="headerHipbarLogo" />
           </div>
-          <div className={classes.logoutSection} onClick={logout}>
+          <div className={classes.logoutSection} onClick={mountModal}>
             <Icon name="logout" />
             <p className={classes.text}>Log Out</p>
           </div>
         </Toolbar>
       </AppBar>
+      {showLogoutModal && (
+        <Dialog
+          title="Confirm Logout"
+          subtitle="Are you sure you want to logout?"
+          actions={[
+            <Button onClick={logout} color="primary" autoFocus>
+              Yes
+            </Button>,
+            <Button onClick={unmountModal} color="primary">
+              No
+            </Button>
+          ]}
+        />
+      )}
     </div>
   )
 }
