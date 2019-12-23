@@ -12,11 +12,11 @@ import Login from "Container/login"
 import Overview from "Container/overview"
 import Header from "Components/header"
 import Sidemenu from "Components/sidemenu"
-import SettlementHistory from 'Container/settlement-history'
-import SettlementBreakup from "Container/settlement-history/settlement-breakup"
+import TransactionHistory from 'Container/transaction-history'
+//import SettlementBreakup from "Container/settlement-history/settlement-breakup"
 import Reports from "./container/Reports"
 import UserGuide from "Container/user-guide"
-import RefundHistoty from "./container/refund-history"
+//import RefundHistoty from "./container/refund-history"
 
 
 const history = createHistory()
@@ -117,15 +117,15 @@ function App() {
                 />
                 <Route
                   exact
-                  path="/home/settlement-history"
+                  path="/home/transaction-history"
                   //component={SettlementHistory} 
                   render={
                     props => (
-                      <SettlementHistory {...props} />
+                      <TransactionHistory {...props} />
                     )
                   }
                 />
-                <Route
+                {/* <Route
                   exact
                   path="/home/settlement-breakup/:SettlementId"
                   //component={SettlementHistory} 
@@ -134,7 +134,7 @@ function App() {
                       <SettlementBreakup {...props} />
                     )
                   }
-                />
+                /> */}
                 <Route
                   exact
                   path="/home/Reports"
@@ -145,7 +145,7 @@ function App() {
                     )
                   }
                 />
-                <Route
+                {/* <Route
                   exact
                   path="/home/refund-history"
                   //component={RefundHistoty}
@@ -154,7 +154,7 @@ function App() {
                       <RefundHistoty {...props} />
                     )
                   }
-                />
+                /> */}
 
 
               </div>
