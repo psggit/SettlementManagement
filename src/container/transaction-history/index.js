@@ -157,10 +157,15 @@ const useStyles = makeStyles(theme => ({
   search: {
     width: "300px",
     //height: "38px",
-    //backgroundColor: theme.palette.primary.light,
+    backgroundColor: "#fafafa",
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.primary.light, 0.15),
+    //backgroundColor: fade(theme.palette.primary.light, 0.15),
+    border: `2px solid ${theme.palette.primary.main}`,
+    // '&:focus': {
+    //   border: '2px solid red',
+    //   //width: "100%",
+    // }
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -183,12 +188,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   inputRoot: {
-    color: 'inherit',
+    color: 'inherit'
   },
   inputInput: {
-    height: "38px",
+    height: "34px",
     padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
+    transition: theme.transitions.create('width')
   }
 }))
 
