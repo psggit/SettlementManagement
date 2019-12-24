@@ -18,7 +18,7 @@ import { fetchTransactionHistory } from "../api"
 import TableLoadingShell from "Components/tableLoadingShell"
 import Pagination from "Components/pagination"
 import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/helpers"
-
+import Notification from "Components/notification"
 // const data = [
 //   {
 //     settlement_id: "135246",
@@ -157,10 +157,15 @@ const useStyles = makeStyles(theme => ({
   search: {
     width: "300px",
     //height: "38px",
-    //backgroundColor: theme.palette.primary.light,
+    backgroundColor: "#fafafa",
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.primary.light, 0.15),
+    //backgroundColor: fade(theme.palette.primary.light, 0.15),
+    border: `2px solid ${theme.palette.primary.main}`,
+    // '&:focus': {
+    //   border: '2px solid red',
+    //   //width: "100%",
+    // }
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -183,12 +188,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   inputRoot: {
-    color: 'inherit',
+    color: 'inherit'
   },
   inputInput: {
-    height: "38px",
+    height: "34px",
     padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
+    transition: theme.transitions.create('width')
   }
 }))
 
@@ -205,6 +210,8 @@ function transactionHistoryList(props) {
   const [transactionHistoryCount, seTransactionHistoryCount] = useState(0)
   const [filterField, setFilterField] = useState("")
   const [filterValue, setFieldValue] = useState("")
+  const [isError, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
  
   const classes = useStyles();
 
@@ -231,12 +238,14 @@ function transactionHistoryList(props) {
     fetchTransactionHistory(payload)
     .then((response) => {
       setLoading(false)
+      //setError(true)
       setTransactionHistory(response.transactions)
       seTransactionHistoryCount(response.Count)
     })
     .catch((error) => {
       setLoading(false)
-      console.log("error", error)
+      setError(true)
+      setErrorMessage(error)
     })
   }
 
@@ -288,6 +297,10 @@ function transactionHistoryList(props) {
       history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
       fetchRetailerTransactionHistory()
     }
+  }
+
+  const handleClose = () => {
+    setError(false)
   }
 
   return (
@@ -385,6 +398,15 @@ function transactionHistoryList(props) {
             pageRangeDisplayed={5}
             setPage={handleChangePage}
           />
+        }
+        {
+          isError &&
+          <Notification 
+            message={errorMessage} 
+            messageType="error"
+            open={isError}
+            handleClose={handleClose}
+           />
         }
       </Paper>
     </div>

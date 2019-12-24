@@ -38,9 +38,9 @@ const useStyles = makeStyles(theme => ({
 function login() {
   const classes = useStyles();
 
-  const [mobileNumber, setMobileNumber] = useState()
+  const [mobileNumber, setMobileNumber] = useState("")
   const [mobileErr, setMobileErr] = useState({ status: false, value: "" })
-  const [password, setPassword] = useState()
+  const [password, setPassword] = useState("")
   const [passwordErr, setPasswordErr] = useState({ status: false, value: "" })
   const [showPassword, setShowPassword] = useState(false)
 
@@ -67,12 +67,16 @@ function login() {
 
   const handleMobileChange = event => {
     setMobileErr({ ...mobileErr, status: false })
-    setMobileNumber(event.target.value)
+    if(!isNaN(event.target.value)) {
+      setMobileNumber(event.target.value)
+    }
   }
 
   const handlePasswordChange = event => {
     setPasswordErr({ ...passwordErr, status: false })
-    setPassword(event.target.value)
+    if(!isNaN(event.target.value)) {
+      setPassword(event.target.value)
+    }
   }
 
   // const handleChange = event => {
@@ -168,7 +172,7 @@ function login() {
             label="Mobile Number"
             name="mobileNumber"
             onChange={handleMobileChange}
-            defaultValue={mobileNumber}
+            value={mobileNumber}
             helperText={mobileErr.status ? mobileErr.value : ""}
             variant="outlined"
           />
@@ -180,8 +184,8 @@ function login() {
               type={showPassword ? 'text' : 'password'}
               name="password"
               error={passwordErr.status}
-              defaultValue={password}
               onChange={handlePasswordChange}
+              value={password}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
