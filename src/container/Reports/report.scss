@@ -1,28 +1,20 @@
 .report {
-  margin-bottom: 23px;
   font-weight: 600;
   line-height: 27px;
   font-size: 22px;
-  font-family: Cabin;
   color: #000000;
-  font-style: normal;
+  padding: 10px 18px;
   border-bottom: 2px solid #E97C07;
 }
-.tittle-underline{
-  margin-bottom: 12px;
+
+.report-content {
+  margin-top: calc(12px + 24px);
+  padding: 24px 48px;
 }
-.report-note{
-  font-family: Cabin;
-  font-weight: bold;
+
+.report-note {
   font-size: 16px;
   line-height: 19px;
-  align-items: center;
-  height: 19px;
+  font-weight: 600;
   color:rgba(0, 0, 0, 0.5);
-}
-// .custom-duration-date{
-//   margin-left: 39px;
-// }
-.report-date-to{
-  margin-left: 35px;
 }

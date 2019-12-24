@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -8,6 +8,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
+import { grey } from '@material-ui/core/colors';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -15,57 +16,41 @@ import {
 
 
 const useStyles = makeStyles(theme => ({
-  formControl: {
-    margin: theme.spacing(2),
-    minWidth: "200px",
-    marginLeft: "40px",
-  },
-  FormLabel: {
-    fontFamily: "Cabin",
+  formLabel: {
     fontSize: "normal",
     fontSize: "16px",
     lineHeight: "19px",
-    width: "81px",
     color: "#000000",
-    height: "20px",
-    marginBottom: "7px",
+    height: "20px"
   },
-  RadioGroup: {
-    left: "8.33%",
-    right: "8.33%",
-    top: "8.33%",
-    bottom: "8.33%",
+  radioGroup: {
     color: "#000000",
   },
-  FormControlLabel: {
-    fontFamily: "Cabin",
-    fontStyle: "normal",
-    fontWeight: "normal",
+  formControlLabel: {
     fontSize: "14px",
     lineHeight: "17px",
-    alignItems: "center",
-    color: "rgba(0,0,0,0.87)",
-    top: "29.55%",
-    bottom: "29.55%",
+    color: "#000000"
   },
-  Button: {
+  button: {
     color: "#FFFFFF",
-    fontFamily: "Cabin",
-    fontSize: "16px",
-    lineHeight: "19px",
-    fontWeight: "500",
-    marginTop: "-17px",
+    marginTop: "24px",
+    marginBottom: "36px"
   },
-  KeyboardDatePicker: {
-    width: "200px",
-    height: "55px",
-    left: "35px",
-    fontFamily: "Cabin",
-    fontSize: "14px",
-    alignItems: "flex-end",
-    lineHeight: "17px",
+  keyboardDatePicker: {
+    marginLeft: "35px"
   }
 }));
+
+const BlackRadio = withStyles({
+  root: {
+    color: grey[900],
+    '&$checked': {
+      color: grey[900],
+    },
+  },
+  checked: {},
+})(props => <Radio color="default" {...props} />);
+
 
 export default function Reports() {
   const classes = useStyles();
@@ -73,7 +58,6 @@ export default function Reports() {
   const [showCustomDuration, setShowCustomDuration] = useState(false)
   const [fromDate, setFromDate] = useState()
   const [toDate, setToDate] = useState()
-  //const customeDateRef = useRef(null)
 
   function handleSubmit() {
     console.log("fromDate", fromDate, "todate", toDate)
@@ -109,12 +93,11 @@ export default function Reports() {
 
   return (
     <div className="report-content">
-      <div className="time-period">
-        <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend" className={classes.FormLabel}>Time Period</FormLabel>
-          <RadioGroup className={classes.RadioGroup}>
+        <FormControl component="fieldset">
+          <FormLabel component="legend" className={classes.formLabel}>Time Period</FormLabel>
+          <RadioGroup className={classes.radioGroup}>
             <FormControlLabel
-              className={classes.FormControlLabel}
+              className={classes.formControlLabel}
               name="Yesterday"
               control={<Radio color="default" />}
               label="Yesterday"
@@ -122,15 +105,15 @@ export default function Reports() {
               onChange={(e) => handleTimePeriodChange(e)}
             />
             <FormControlLabel
-              className={classes.FormControlLabel}
+              className={classes.formControlLabel}
               name="Last-7-Days"
-              control={<Radio color="default" />}
+              control={<Radio color="primary" />}
               label="Last 7 Days"
               value="Last 7 Days"
               onChange={(e) => handleTimePeriodChange(e)}
             />
             <FormControlLabel
-              className={classes.FormControlLabel}
+              className={classes.formControlLabel}
               name="Last-30-Days"
               control={<Radio color="default" />}
               label="Last 30 Days"
@@ -139,37 +122,48 @@ export default function Reports() {
             />
             <FormControlLabel
               className={classes.FormControlLabel}
-              value="customduration"
-              control={<Radio color="default" />}
+              control={
+                <BlackRadio
+                  checked={selectedOption === 'customduration'}
+                  onChange={(e) => handleTimePeriodChange(e)}
+                  value="customduration"
+                />
+              }
               label="Custom Duration"
-              onChange={(e) => handleTimePeriodChange(e)}
             />
             {
               showCustomDuration &&
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <div className="custom-duration-date">
-                  <Grid container justify="space-around">
-                    <div className="report-date-from">
+                  <Grid container>
+                    <div className="report-from-date">
                       <KeyboardDatePicker
-                        className={classes.KeyboardDatePicker}
                         disableToolbar
+                        varient="inline"
                         format="dd/MM/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
                         label="From"
                         value={fromDate}
+                        className={classes.keyboardDatePicker}
                         onChange={handleFromDateChange}
-                        minDate={(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000))}
-                        maxDate={new Date()}
+                        minDate={(new Date(Date.now() - 1086 * 24 * 60 * 60 * 1000))}
+                        maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
                       />
                     </div>
-                    <div className="report-date-to">
+                    <div className="report-to-date">
                       <KeyboardDatePicker
-                        className={classes.KeyboardDatePicker}
                         disableToolbar
+                        id="date-picker-inline"
+                        varient="inline"
+                        margin="normal"
                         format="dd/MM/yyyy"
                         label="To"
                         value={toDate}
+                        className={classes.keyboardDatePicker}
                         onChange={handleToDateChange}
-                        maxDate={new Date()}
+                        minDate={(new Date(Date.now() - 1086 * 24 * 60 * 60 * 1000))}
+                        maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
                       />
                     </div>
                   </Grid>
@@ -178,20 +172,19 @@ export default function Reports() {
             }
           </RadioGroup>
         </FormControl>
-      </div>
       <div>
-        <FormControl component="fieldset" className={classes.formControl}>
+        <FormControl component="fieldset">
           <Button variant="contained"
-            className={classes.Button}
+            className={classes.button}
             color="primary"
-            textColor="white"
             disabled={!selectedOption || !fromDate || !toDate}
-            onClick={handleSubmit}>
+            onClick={handleSubmit}
+          >
             DOWNLOAD REPORT
-        </Button>
+          </Button>
         </FormControl>
       </div>
-      <FormControl component="fieldset" className={classes.formControl}>
+      <FormControl component="fieldset">
         <div className="report-note">
           Note: The report will be downloaded as a .csv file
         </div>

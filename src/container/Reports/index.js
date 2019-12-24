@@ -7,7 +7,7 @@ import './report.scss'
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    padding: "20px"
+    marginTop: "0px"
   },
 }));
 
