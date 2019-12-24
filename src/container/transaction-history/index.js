@@ -18,7 +18,7 @@ import { fetchTransactionHistory } from "../api"
 import TableLoadingShell from "Components/tableLoadingShell"
 import Pagination from "Components/pagination"
 import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/helpers"
-
+import Notification from "Components/notification"
 // const data = [
 //   {
 //     settlement_id: "135246",
@@ -205,6 +205,8 @@ function transactionHistoryList(props) {
   const [transactionHistoryCount, seTransactionHistoryCount] = useState(0)
   const [filterField, setFilterField] = useState("")
   const [filterValue, setFieldValue] = useState("")
+  const [isError, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
  
   const classes = useStyles();
 
@@ -236,7 +238,8 @@ function transactionHistoryList(props) {
     })
     .catch((error) => {
       setLoading(false)
-      console.log("error", error)
+      setError(true)
+      setErrorMessage(error)
     })
   }
 
@@ -288,6 +291,10 @@ function transactionHistoryList(props) {
       history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
       fetchRetailerTransactionHistory()
     }
+  }
+
+  const handleClose = () => {
+    setError(false)
   }
 
   return (
@@ -385,6 +392,15 @@ function transactionHistoryList(props) {
             pageRangeDisplayed={5}
             setPage={handleChangePage}
           />
+        }
+        {
+          isError &&
+          <Notification 
+            message={errorMessage} 
+            messageType="error"
+            open={isError}
+            handleClose={handleClose}
+           />
         }
       </Paper>
     </div>
