@@ -56,8 +56,8 @@ export default function Reports() {
   const classes = useStyles();
   const [selectedOption, setSelectedOption] = React.useState('')
   const [showCustomDuration, setShowCustomDuration] = useState(false)
-  const [fromDate, setFromDate] = useState()
-  const [toDate, setToDate] = useState()
+  const [fromDate, setFromDate] = useState(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))
+  const [toDate, setToDate] = useState(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))
 
   function handleSubmit() {
     console.log("fromDate", fromDate, "todate", toDate)
@@ -65,6 +65,7 @@ export default function Reports() {
 
   function handleTimePeriodChange(e) {
     setSelectedOption(e.target.value)
+    console.log("value", e.target.value)
     switch (e.target.value) {
       case 'Yesterday':
         setFromDate(new Date(new Date() - 1 * 24 * 60 * 60 * 1000))
@@ -93,85 +94,103 @@ export default function Reports() {
 
   return (
     <div className="report-content">
-        <FormControl component="fieldset">
-          <FormLabel component="legend" className={classes.formLabel}>Time Period</FormLabel>
-          <RadioGroup className={classes.radioGroup}>
-            <FormControlLabel
-              className={classes.formControlLabel}
-              name="Yesterday"
-              control={<Radio color="default" />}
-              label="Yesterday"
+      <FormControl component="fieldset">
+        <FormLabel component="legend" className={classes.formLabel}>Time Period</FormLabel>
+        <RadioGroup className={classes.radioGroup}>
+          <FormControlLabel
+            className={classes.formControlLabel}
+            name="Yesterday"
+            control={<BlackRadio
+              checked={selectedOption === 'Yesterday'}
+              onChange={(e) => handleTimePeriodChange(e)}
               value="Yesterday"
-              onChange={(e) => handleTimePeriodChange(e)}
-            />
-            <FormControlLabel
-              className={classes.formControlLabel}
-              name="Last-7-Days"
-              control={<Radio color="primary" />}
-              label="Last 7 Days"
-              value="Last 7 Days"
-              onChange={(e) => handleTimePeriodChange(e)}
-            />
-            <FormControlLabel
-              className={classes.formControlLabel}
-              name="Last-30-Days"
-              control={<Radio color="default" />}
-              label="Last 30 Days"
-              value="Last 30 Days"
-              onChange={(e) => handleTimePeriodChange(e)}
-            />
-            <FormControlLabel
-              className={classes.FormControlLabel}
-              control={
-                <BlackRadio
-                  checked={selectedOption === 'customduration'}
-                  onChange={(e) => handleTimePeriodChange(e)}
-                  value="customduration"
-                />
-              }
-              label="Custom Duration"
-            />
-            {
-              showCustomDuration &&
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <div className="custom-duration-date">
-                  <Grid container>
-                    <div className="report-from-date">
-                      <KeyboardDatePicker
-                        disableToolbar
-                        varient="inline"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        id="date-picker-inline"
-                        label="From"
-                        value={fromDate}
-                        className={classes.keyboardDatePicker}
-                        onChange={handleFromDateChange}
-                        minDate={(new Date(Date.now() - 1086 * 24 * 60 * 60 * 1000))}
-                        maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
-                      />
-                    </div>
-                    <div className="report-to-date">
-                      <KeyboardDatePicker
-                        disableToolbar
-                        id="date-picker-inline"
-                        varient="inline"
-                        margin="normal"
-                        format="dd/MM/yyyy"
-                        label="To"
-                        value={toDate}
-                        className={classes.keyboardDatePicker}
-                        onChange={handleToDateChange}
-                        minDate={(new Date(Date.now() - 1086 * 24 * 60 * 60 * 1000))}
-                        maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
-                      />
-                    </div>
-                  </Grid>
-                </div>
-              </MuiPickersUtilsProvider>
+            />}
+            label="Yesterday"
+            onChange={(e) => handleTimePeriodChange(e)}
+          />
+          <FormControlLabel
+            className={classes.formControlLabel}
+            name="Last-7-Days"
+            control={
+              <BlackRadio
+                checked={selectedOption === 'Last 7 Days'}
+                onChange={(e) => handleTimePeriodChange(e)}
+                value="Last 7 Days"
+              />
             }
-          </RadioGroup>
-        </FormControl>
+            label="Last 7 Days"
+            onChange={(e) => handleTimePeriodChange(e)}
+          />
+          <FormControlLabel
+            className={classes.formControlLabel}
+            name="Last-30-Days"
+            control={
+              <BlackRadio
+                checked={selectedOption === 'Last 30 Days'}
+                onChange={(e) => handleTimePeriodChange(e)}
+                value="Last 30 Days"
+              />
+            }
+            label="Last 30 Days"
+            onChange={(e) => handleTimePeriodChange(e)}
+          />
+          <FormControlLabel
+            className={classes.FormControlLabel}
+            control={
+              <BlackRadio
+                checked={selectedOption === 'customduration'}
+                onChange={(e) => handleTimePeriodChange(e)}
+                value="customduration"
+              />
+            }
+            label="Custom Duration"
+          />
+          {
+            showCustomDuration &&
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <div className="custom-duration-date">
+                <Grid container>
+                  <div className="report-from-date">
+                    <KeyboardDatePicker
+                      className={classes.keyboardDatePicker}
+                      disableToolbar
+                      id="date-picker-inline-from"
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      label="From"
+                      value={fromDate}
+                      onChange={handleFromDateChange}
+                      //minDate={01 / 01 / 2017}
+                      //maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
+                      maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
+                      minDate={fromDate ? (toDate - 90 * 24 * 60 * 60 * 1000) : "01/01/2017"}
+                    />
+                  </div>
+                  <div className="report-to-date">
+                    <KeyboardDatePicker
+                      className={classes.keyboardDatePicker}
+                      disableToolbar
+                      id="date-picker-inline-to"
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      label="To"
+                      value={toDate}
+                      onChange={handleToDateChange}
+                      //minDate={(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000))}
+                      //maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
+                      minDate={"01/01/2017"}
+                      maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
+
+                    />
+                  </div>
+                </Grid>
+              </div>
+            </MuiPickersUtilsProvider>
+          }
+        </RadioGroup>
+      </FormControl>
       <div>
         <FormControl component="fieldset">
           <Button variant="contained"
