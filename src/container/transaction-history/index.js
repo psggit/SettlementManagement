@@ -238,6 +238,7 @@ function transactionHistoryList(props) {
     fetchTransactionHistory(payload)
     .then((response) => {
       setLoading(false)
+      //setError(true)
       setTransactionHistory(response.transactions)
       seTransactionHistoryCount(response.Count)
     })
