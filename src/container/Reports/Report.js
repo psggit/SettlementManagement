@@ -21,19 +21,21 @@ const useStyles = makeStyles(theme => ({
     fontSize: "16px",
     lineHeight: "19px",
     color: "#000000 !important",
-    height: "20px"
+    height: "20px",
+    marginBottom: "8px"
   },
-  radioGroup: {
-    color: "#000000",
-  },
+  // radioGroup: {
+  //   color: "#000000",
+  // },
   formControlLabel: {
     fontSize: "14px",
     lineHeight: "17px",
-    color: "#000000"
+    color: "#000000",
+    padding: "8px 0"
   },
   button: {
     color: "#FFFFFF",
-    marginTop: "24px",
+    marginTop: "16px",
     marginBottom: "36px"
   },
   keyboardDatePicker: {
@@ -100,21 +102,18 @@ export default function Reports() {
     <div className="report-content">
       <FormControl component="fieldset">
         <FormLabel component="legend" className={classes.formLabel}>Time Period</FormLabel>
-        <RadioGroup className={classes.radioGroup}>
+        <RadioGroup>
           <FormControlLabel
             className={classes.formControlLabel}
-            name="Yesterday"
             control={<BlackRadio
               checked={selectedOption === 'Yesterday'}
               onChange={(e) => handleTimePeriodChange(e)}
               value="Yesterday"
             />}
             label="Yesterday"
-            onChange={(e) => handleTimePeriodChange(e)}
           />
           <FormControlLabel
             className={classes.formControlLabel}
-            name="Last-7-Days"
             control={
               <BlackRadio
                 checked={selectedOption === 'Last 7 Days'}
@@ -123,11 +122,9 @@ export default function Reports() {
               />
             }
             label="Last 7 Days"
-            onChange={(e) => handleTimePeriodChange(e)}
           />
           <FormControlLabel
             className={classes.formControlLabel}
-            name="Last-30-Days"
             control={
               <BlackRadio
                 checked={selectedOption === 'Last 30 Days'}
@@ -136,7 +133,6 @@ export default function Reports() {
               />
             }
             label="Last 30 Days"
-            onChange={(e) => handleTimePeriodChange(e)}
           />
           <FormControlLabel
             className={classes.FormControlLabel}
