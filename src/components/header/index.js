@@ -61,14 +61,14 @@ function header () {
           </div>
           <div className={classes.logoutSection} onClick={mountModal}>
             <Icon name="logout" />
-            <p className={classes.text}>Log Out</p>
+            <p className={classes.text}>Logout</p>
           </div>
         </Toolbar>
       </AppBar>
       {showLogoutModal && (
         <Dialog
           title="Confirm Logout"
-          subtitle="Are you sure you want to logout?"
+          subtitle="Are you sure you want to log out?"
           actions={[
             <Button onClick={logout} color="primary" autoFocus>
               Yes
