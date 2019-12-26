@@ -59,8 +59,8 @@ export default function Reports() {
   const classes = useStyles();
   const [selectedOption, setSelectedOption] = React.useState('')
   const [showCustomDuration, setShowCustomDuration] = useState(false)
-  const [fromDate, setFromDate] = useState()
-  const [toDate, setToDate] = useState()
+  const [fromDate, setFromDate] = useState(null)
+  const [toDate, setToDate] = useState(null)
 
   function handleSubmit() {
     console.log("fromDate", fromDate, "todate", toDate)
@@ -157,6 +157,7 @@ export default function Reports() {
                       id="date-picker-inline-from"
                       variant="inline"
                       format="dd/MM/yyyy"
+                      placeholder="DD/MM/YYYY"
                       margin="normal"
                       label="From"
                       value={fromDate}
@@ -171,7 +172,8 @@ export default function Reports() {
                       className={classes.keyboardDatePicker}
                       disableToolbar
                       variant="inline"
-                      format="MM/dd/yyyy"
+                      format="dd/MM/yyyy"
+                      placeholder="DD/MM/YYYY"
                       margin="normal"
                       id="date-picker-inline-to"
                       label="To"
