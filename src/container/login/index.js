@@ -40,13 +40,13 @@ function login() {
 
   const [mobileNumber, setMobileNumber] = useState("")
   const [mobileErr, setMobileErr] = useState({ status: false, value: "" })
-  const [password, setPassword] = useState("")
-  const [passwordErr, setPasswordErr] = useState({ status: false, value: "" })
-  const [showPassword, setShowPassword] = useState(false)
+  const [otp, setOtp] = useState("")
+  const [otpErr, setOtpErr] = useState({ status: false, value: "" })
+  const [showOtp, setShowOtp] = useState(false)
 
   const inputNameMap = {
     mobileNumber: "Mobile Number",
-    password: "password"
+    otp: "OTP"
   }
 
   // useEffect(() => {
@@ -72,10 +72,10 @@ function login() {
     }
   }
 
-  const handlePasswordChange = event => {
-    setPasswordErr({ ...passwordErr, status: false })
+  const handleOtpChange = event => {
+    setOtpErr({ ...otpErr, status: false })
     if(!isNaN(event.target.value)) {
-      setPassword(event.target.value)
+      setOtp(event.target.value)
     }
   }
 
@@ -84,11 +84,11 @@ function login() {
   //   setValues({ ...values, [event.target.name]: event.target.value });
   // };
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
+  const handleClickShowOtp = () => {
+    setShowOtp(!showOtp);
   };
 
-  const handleMouseDownPassword = event => {
+  const handleMouseDownOtp = event => {
     event.preventDefault();
   };
 
@@ -137,8 +137,8 @@ function login() {
           ...mobileErr, status: errorObject.status, value: errorObject.value
         })
       } else {
-        setPasswordErr({
-          ...passwordErr, status: errorObject.status, value: errorObject.value
+        setOtpErr({
+          ...otpErr, status: errorObject.status, value: errorObject.value
         })
       }
       // setValues({
@@ -151,7 +151,7 @@ function login() {
 
   const handleLogin = (e) => {
     getInputTags()
-    if (!mobileErr.status && !passwordErr.status) {
+    if (!mobileErr.status && !otpErr.status) {
       createSession({ hasura_id: 123 })
       window.location.href = "/home/overview"
     }
@@ -178,30 +178,30 @@ function login() {
           />
 
           <FormControl className={clsx(classes.textField)} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password" className={`${passwordErr.status ? "Mui-error" : undefined}`}>OTP</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-password" className={`${otpErr.status ? "Mui-error" : undefined}`}>OTP</InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              error={passwordErr.status}
-              onChange={handlePasswordChange}
-              value={password}
+              type={showOtp ? 'text' : 'password'}
+              name="otp"
+              error={otpErr.status}
+              onChange={handleOtpChange}
+              value={otp}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
+                    onClick={handleClickShowOtp}
+                    onMouseDown={handleMouseDownOtp}
                   >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                    {showOtp ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               }
               labelWidth={30}
             />
             {
-              passwordErr.status ?
-                <FormHelperText id="outlined-weight-helper-text" className={`${passwordErr.status ? "Mui-error" : ""}`}>{passwordErr.value}</FormHelperText>
+              otpErr.status ?
+                <FormHelperText id="outlined-weight-helper-text" className={`${otpErr.status ? "Mui-error" : ""}`}>{otpErr.value}</FormHelperText>
                 : ""
             }
           </FormControl>
