@@ -166,7 +166,7 @@ export default function Reports() {
                       onChange={handleFromDateChange}
                       //minDate={"01 / 01 / 2017"}
                       maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
-                      minDate={fromDate ? (toDate - 90 * 24 * 60 * 60 * 1000) : "01/01/2017"}
+                      minDate={(toDate - 90 * 24 * 60 * 60 * 1000) || ("01/01/2017")}
                     />
                   </div>
                   <div className="report-to-date">
