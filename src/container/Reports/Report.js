@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "14px",
     lineHeight: "17px",
     color: "#000000",
-    padding: "8px 0"
+    padding: "4px 0"
   },
   button: {
     color: "#FFFFFF",
@@ -86,6 +86,8 @@ export default function Reports() {
         setShowCustomDuration(false)
         break;
       case 'customduration':
+        setToDate(null)
+        setFromDate(null)
         setShowCustomDuration(true)
         break;
     }
