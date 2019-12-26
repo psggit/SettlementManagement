@@ -85,6 +85,9 @@ MySnackbarContentWrapper.propTypes = {
 const useStyles2 = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1)
+  },
+  snackbar: {
+    marginLeft: `calc(245px + 64px - 24px)`
   }
 }));
 
@@ -97,6 +100,7 @@ export default function CustomizedSnackbars(props) {
           vertical: "bottom",
           horizontal: "left"
         }}
+        className={classes.snackbar}
         open={props.open}
         autoHideDuration={6000}
         onClose={props.handleClose}
