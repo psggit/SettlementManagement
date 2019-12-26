@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
   keyboardDatePicker: {
     marginLeft: "35px",
-    color: "!important",
+    //color: "#fff",
   },
 }));
 
