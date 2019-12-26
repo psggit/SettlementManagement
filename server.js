@@ -34,4 +34,4 @@ app.get('/*', (req, res) => {
 })
 
 //Binding the server to a port(3000)
-app.listen(3000,()=>console.log('express server started at port 3000'));
+app.listen(8080,()=>console.log('express server started at port 8080'));
