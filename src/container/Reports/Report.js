@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "normal",
     fontSize: "16px",
     lineHeight: "19px",
-    color: "#000000",
+    color: "#000000 !important",
     height: "20px"
   },
   radioGroup: {
@@ -37,8 +37,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "36px"
   },
   keyboardDatePicker: {
-    marginLeft: "35px"
-  }
+    marginLeft: "35px",
+    color: "!important",
+  },
 }));
 
 const BlackRadio = withStyles({
@@ -56,8 +57,8 @@ export default function Reports() {
   const classes = useStyles();
   const [selectedOption, setSelectedOption] = React.useState('')
   const [showCustomDuration, setShowCustomDuration] = useState(false)
-  const [fromDate, setFromDate] = useState(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))
-  const [toDate, setToDate] = useState(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))
+  const [fromDate, setFromDate] = useState()
+  const [toDate, setToDate] = useState()
 
   function handleSubmit() {
     console.log("fromDate", fromDate, "todate", toDate)
@@ -70,14 +71,17 @@ export default function Reports() {
       case 'Yesterday':
         setFromDate(new Date(new Date() - 1 * 24 * 60 * 60 * 1000))
         setToDate(new Date())
+        setShowCustomDuration(false)
         break;
       case 'Last 30 Days':
         setFromDate(new Date(new Date() - 30 * 24 * 60 * 60 * 1000))
         setToDate(new Date())
+        setShowCustomDuration(false)
         break;
       case 'Last 7 Days':
         setFromDate(new Date(new Date() - 7 * 24 * 60 * 60 * 1000))
         setToDate(new Date())
+        setShowCustomDuration(false)
         break;
       case 'customduration':
         setShowCustomDuration(true)
@@ -161,8 +165,7 @@ export default function Reports() {
                       label="From"
                       value={fromDate}
                       onChange={handleFromDateChange}
-                      //minDate={01 / 01 / 2017}
-                      //maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
+                      //minDate={"01 / 01 / 2017"}
                       maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
                       minDate={fromDate ? (toDate - 90 * 24 * 60 * 60 * 1000) : "01/01/2017"}
                     />
@@ -171,18 +174,15 @@ export default function Reports() {
                     <KeyboardDatePicker
                       className={classes.keyboardDatePicker}
                       disableToolbar
-                      id="date-picker-inline-to"
                       variant="inline"
-                      format="dd/MM/yyyy"
+                      format="MM/dd/yyyy"
                       margin="normal"
+                      id="date-picker-inline-to"
                       label="To"
                       value={toDate}
                       onChange={handleToDateChange}
-                      //minDate={(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000))}
-                      //maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
                       minDate={"01/01/2017"}
                       maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
-
                     />
                   </div>
                 </Grid>
@@ -205,7 +205,7 @@ export default function Reports() {
       </div>
       <FormControl component="fieldset">
         <div className="report-note">
-          Note: The report will be downloaded as a .csv file
+          <span className="bold-note">Note:</span> The report will be downloaded as a .csv file
         </div>
       </FormControl>
     </div>
