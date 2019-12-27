@@ -89,10 +89,14 @@ export default function Reports() {
 
   const handleFromDateChange = date => {
     setFromDate(date)
+    if (toDate && !(new Date(toDate) > new Date(date)) ||  !(new Date(toDate) <= new Date(date.getTime() + (90 * 24 * 60 * 60 * 1000)))) {
+      setToDate(null)
+    }
   }
 
   const handleToDateChange = date => {
     setToDate(date)
+    console.log("max from", new Date(date.getTime() - (90 * 24 * 60 * 60 * 1000)) > new Date("01/01/2017"), new Date(date.getTime() - (90 * 24 * 60 * 60 * 1000)))
   }
 
   return (
@@ -159,9 +163,13 @@ export default function Reports() {
                       label="From"
                       value={fromDate}
                       onChange={handleFromDateChange}
-                      //minDate={"01 / 01 / 2017"}
+                      // minDate={toDate
+                      //   ? new Date(toDate.getTime() - (90 * 24 * 60 * 60 * 1000)) > new Date("01/01/2017")
+                      //     ? new Date(toDate.getTime() - (90 * 24 * 60 * 60 * 1000))
+                      //     : new Date("01/01/2017")
+                      //   : new Date("01/01/2017")}
+                      minDate={new Date(new Date("01/01/2017"))}
                       maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
-                      minDate={(toDate - 90 * 24 * 60 * 60 * 1000) || ("01/01/2017")}
                     />
                   </div>
                   <div className="report-to-date">
@@ -175,9 +183,14 @@ export default function Reports() {
                       id="date-picker-inline-to"
                       label="To"
                       value={toDate}
+                      disabled={!fromDate}
                       onChange={handleToDateChange}
-                      minDate={"01/01/2017"}
-                      maxDate={(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000))}
+                      minDate={fromDate ? (fromDate.getTime() + (1 * 24 * 60 * 60 * 1000)) : null}
+                      maxDate={fromDate 
+                        ? new Date(fromDate.getTime() + (90 * 24 * 60 * 60 * 1000)) < new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+                          ?  new Date(fromDate.getTime() + (90 * 24 * 60 * 60 * 1000))
+                          : new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+                        : new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)}
                     />
                   </div>
                 </Grid>
@@ -204,5 +217,5 @@ export default function Reports() {
         </div>
       </FormControl>
     </div>
-  );
+  )
 }
