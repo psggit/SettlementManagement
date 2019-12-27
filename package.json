@@ -30,6 +30,7 @@
     "react-hot-loader": "^4.3.5",
     "react-js-pagination": "^3.0.2",
     "stylelint": "^12.0.1",
+    "stylelint-config-recommended": "^3.0.0",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.10.1"
@@ -43,6 +44,11 @@
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.0",
     "date-fns": "^2.8.1",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.15.1",
     "express": "^4.16.3",
     "history": "^4.10.1",
     "html-webpack-plugin": "^3.2.0",
@@ -57,11 +63,6 @@
     "sass-loader": "^8.0.0",
     "style-loader": "^1.1.1",
     "webpack-merge": "^4.2.2",
-    "zlib": "^1.0.5",
-    "eslint": "^6.5.1",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.15.1"
+    "zlib": "^1.0.5"
   }
 }
