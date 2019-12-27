@@ -23,9 +23,9 @@ module.exports = merge(common, {
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
-    new webpack.DefinePlugin({
-      "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL || "hipbar-dev.com")
-    })
+    // new webpack.DefinePlugin({
+    //   "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL || "hipbar-dev.com")
+    // })
   ],
   module: {
     rules: [

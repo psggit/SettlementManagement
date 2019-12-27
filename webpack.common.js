@@ -47,9 +47,9 @@ module.exports = {
       title: "Output Management",
       template: "./index.html"
     }),
-    // new webpack.DefinePlugin({
-    //   "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL || "hipbar-dev.com"),
-    // }),
+    new webpack.DefinePlugin({
+      "process.env.BASE_URL": JSON.stringify(process.env.BASE_URL || "hipbar-dev.com"),
+    }),
     new CompressionPlugin({
       test: /\.js$|\.css$|\.html$/,
       filename: "[path].gz[query]",
