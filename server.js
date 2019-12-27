@@ -1,14 +1,13 @@
-const express = require('express')
-const path = require('path')
-app = express();
+const express = require("express")
+const path = require("path")
+const app = express()
 
 // app.use((req, res, next) => {
 //   if(req) 
 //   next()
 // })
 
-app.get('*.pdf', (req, res) => {
-  console.log("req", req.url, req.url.split("/")[2])
+app.get("*.pdf", (req, res) => {
   res.sendFile(path.join(__dirname, `pdf/${req.url.split("/")[2]}`), (err) => {
     if (err) {
       res.status(500).send(err)
@@ -23,10 +22,10 @@ app.get('*.pdf', (req, res) => {
 //   next();
 // });
 
-app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, "dist")))
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'), (err) => {
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist/index.html"), (err) => {
     if (err) {
       res.status(500).send(err)
     }
@@ -34,4 +33,4 @@ app.get('/*', (req, res) => {
 })
 
 //Binding the server to a port(3000)
-app.listen(8080,()=>console.log('express server started at port 8080'));
+app.listen(8080,()=>console.log("express server started at port 8080"))

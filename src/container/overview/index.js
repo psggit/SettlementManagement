@@ -1,12 +1,12 @@
 import React, { useState } from "react"
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Card from 'Components/card';
+import Tabs from "@material-ui/core/Tabs"
+import Tab from "@material-ui/core/Tab"
+import Card from "Components/card"
 import "./overview.scss"
-import Paper from '@material-ui/core/Paper';
-import LineChart from "Components/lineChart";
+import Paper from "@material-ui/core/Paper"
+import LineChart from "Components/lineChart"
 import Moment from "moment"
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -16,11 +16,11 @@ const useStyles = makeStyles(theme => ({
 
 const AntTab = withStyles(theme => ({
   root: {
-    textTransform: 'none',
+    textTransform: "none",
     fontWeight: theme.typography.fontWeightRegular,
     fontSize: "22px",
-    '&$selected': {
-      color: '#000',
+    "&$selected": {
+      color: "#000",
       fontWeight: 600,
     }
   },
@@ -62,9 +62,8 @@ function overview() {
 
   const [value, setValue] = useState(0)
 
-  const classes = useStyles();
+  const classes = useStyles()
   const handleChange = (event, value) => {
-    console.log("value", value)
     setValue(value)
   }
 
@@ -118,7 +117,7 @@ function overview() {
           <LineChart
             labels={lastWeekDataLabel}
             values={lastWeekDataValue}
-            xLabel={`TIME DURATION`}
+            xLabel="TIME DURATION"
             yLabel="VOLUME (L)"
             tooltipText="LITERS"
           />

@@ -1,17 +1,17 @@
 import React, {useState} from "react"
 import Icon from "Components/icon"
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
+import { makeStyles } from "@material-ui/core/styles"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import Button from "@material-ui/core/Button"
 import Dialog from "Components/dialog"
 // import Dialog from "Components/dialog"
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '15px 40px'
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "15px 40px"
   },
   appBar: {
     zIndex: 1
@@ -32,11 +32,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function header () {
-  const classes = useStyles();
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const classes = useStyles()
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const logout = () => {
-    localStorage.clear();
+    localStorage.clear()
     window.location.href="/login"
   }
 
@@ -70,10 +70,10 @@ function header () {
           title="Confirm Logout"
           subtitle="Are you sure you want to log out?"
           actions={[
-            <Button onClick={logout} color="primary" autoFocus>
+            <Button onClick={logout} color="primary" key={1} autoFocus>
               Yes
             </Button>,
-            <Button onClick={unmountModal} color="primary">
+            <Button onClick={unmountModal} key={2} color="primary">
               No
             </Button>
           ]}

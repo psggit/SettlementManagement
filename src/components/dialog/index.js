@@ -1,10 +1,11 @@
 import React from "react"
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { makeStyles } from '@material-ui/core/styles';
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import { makeStyles } from "@material-ui/core/styles"
+import PropTypes from "prop-types"
 
 const useStyles = makeStyles(theme => ({
   dialogBody: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function dialog (props) {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <Dialog
       open={true}
@@ -51,6 +52,12 @@ function dialog (props) {
       </div>
     </Dialog>
   )
+}
+
+dialog.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  actions: PropTypes.array
 }
 
 export default dialog

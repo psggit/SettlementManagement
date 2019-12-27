@@ -1,134 +1,20 @@
 import React, { useState, useEffect } from "react"
 import Table from "Components/table"
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Paper from '@material-ui/core/Paper';
-import TablePagination from '@material-ui/core/TablePagination';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
-import CrossIcon from '@material-ui/icons/HighlightOff';
-import Moment from "moment"
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import TableRow from "@material-ui/core/TableRow"
+import TableCell from "@material-ui/core/TableCell"
+import Paper from "@material-ui/core/Paper"
+import InputBase from "@material-ui/core/InputBase"
+import SearchIcon from "@material-ui/icons/Search"
+import CrossIcon from "@material-ui/icons/HighlightOff"
+//import Moment from "moment"
+import TextField from "@material-ui/core/TextField"
+import Autocomplete from "@material-ui/lab/Autocomplete"
+import { makeStyles } from "@material-ui/core/styles"
 import { fetchTransactionHistory } from "../api"
 import TableLoadingShell from "Components/tableLoadingShell"
 import Pagination from "Components/pagination"
 import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/helpers"
 import Notification from "Components/notification"
-// const data = [
-//   {
-//     settlement_id: "135246",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   },
-//   {
-//     settlement_id: "#135247",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "Wallet"
-//   },
-//   {
-//     settlement_id: "#135248",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   },
-//   {
-//     settlement_id: "#135249",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   },
-//   {
-//     settlement_id: "#135249",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   },
-//   {
-//     settlement_id: "#135249",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   },
-//   {
-//     settlement_id: "#135249",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   },
-//   {
-//     settlement_id: "#135249",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   },
-//   {
-//     settlement_id: "#135249",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   },
-//   {
-//     settlement_id: "#135249",
-//     settlement_date: "2019-12-17T07:20:36.822425+05:30",
-//     settlement_utr: "#123456789011",
-//     account_no: "HDFC101240598",
-//     settlement_amount: "₹ 24,579",
-//     retailer_id: "147074",
-//     total_transactions: "157",
-//     settlement_type: "UPI"
-//   }
-// ]
-
-// const tableHeaders = [
-//   "UPI Transaction ID",
-//   "Date & Time",
-//   "Bank Account Number",
-//   "Retailer ID",
-//   "Amount"
-// ]
 
 const tableHeaders = [
   { label: "UPI Transaction ID", value: "transaction_id"},
@@ -142,58 +28,48 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: "20px",
   },
-  // tableRow: {
-  //   cursor: "pointer",
-  // },
   header: {
     display: "flex",
     alignItems: "center",
     padding: "20px 0px"
-    //justifyContent: "space-between",
   },
   autocomplete: {
     marginRight: "50px"
   },
   search: {
     width: "300px",
-    //height: "38px",
     backgroundColor: "#fafafa",
-    position: 'relative',
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
-    //backgroundColor: fade(theme.palette.primary.light, 0.15),
     border: `2px solid ${theme.palette.primary.main}`,
-    // '&:focus': {
-    //   border: '2px solid red',
-    //   //width: "100%",
-    // }
   },
   searchIcon: {
     width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   crossIcon: {
     width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
+    height: "100%",
+    position: "absolute",
     top: 0,
     right: 0,
     cursor: "pointer",
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
   inputRoot: {
-    color: 'inherit'
+    color: "inherit"
   },
   inputInput: {
     height: "34px",
     padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width')
+    transition: theme.transitions.create("width")
   }
 }))
 
@@ -201,11 +77,9 @@ function transactionHistoryList(props) {
 
   const pageLimit = 10
   const activePage = getQueryParamByName("activePage") || 1
-  //const itemsPerPage = getQueryParamByName("itemsPerPage") || 5
   const [transactionHistory, setTransactionHistory] = useState([])
   const [isLoading, setLoading] = useState(false)
   const [pageNo, setPageNo] = useState(activePage)
-  //const [rowsPerPage, setRowsPerPage] = React.useState(itemsPerPage);
   const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, pageLimit))
   const [transactionHistoryCount, seTransactionHistoryCount] = useState(0)
   const [filterField, setFilterField] = useState("")
@@ -213,13 +87,13 @@ function transactionHistoryList(props) {
   const [isError, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
  
-  const classes = useStyles();
+  const classes = useStyles()
 
   const searchOptions = [
-    { title: 'UPI Transaction ID', value: 'upi_transaction_id' },
-    { title: 'Retailer ID', value: 'retailer_id' },
-    { title: 'Account Number', value: 'account_no' },
-    { title: 'UPI Reference Number', value: 'upi_reference_no' }
+    { title: "UPI Transaction ID", value: "upi_transaction_id" },
+    { title: "Retailer ID", value: "retailer_id" },
+    { title: "Account Number", value: "account_no" },
+    { title: "UPI Reference Number", value: "upi_reference_no" }
   ]
 
   useEffect(() => {
@@ -236,17 +110,17 @@ function transactionHistoryList(props) {
     }
     setLoading(true)
     fetchTransactionHistory(payload)
-    .then((response) => {
-      setLoading(false)
-      //setError(true)
-      setTransactionHistory(response.transactions)
-      seTransactionHistoryCount(response.Count)
-    })
-    .catch((error) => {
-      setLoading(false)
-      setError(true)
-      setErrorMessage(error)
-    })
+      .then((response) => {
+        setLoading(false)
+        //setError(true)
+        setTransactionHistory(response.transactions)
+        seTransactionHistoryCount(response.Count)
+      })
+      .catch((error) => {
+        setLoading(false)
+        setError(true)
+        setErrorMessage(error)
+      })
   }
 
   const handleSearchChange = (event, option) => {
@@ -274,7 +148,7 @@ function transactionHistoryList(props) {
       // SearchValue: filterValue
     }
     history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
-  };
+  }
 
   // const handleChangeRowsPerPage = event => {
   //   setRowsPerPage(event.target.value)
@@ -333,7 +207,7 @@ function transactionHistoryList(props) {
                 value={filterValue}
                 onChange={handleTextChange}
                 onKeyDown={handlePress}
-                inputProps={{ 'aria-label': 'search' }}
+                inputProps={{ "aria-label": "search" }}
               />
               {
                 filterValue.length > 0 &&
@@ -349,30 +223,30 @@ function transactionHistoryList(props) {
             !isLoading 
               ? (
                 transactionHistory && transactionHistory.map((data, index) => {
-                return (
-                  <TableRow hover className={classes.tableRow} key={index} onClick={(event) => handleRowClick(event, data)}>
-                    <TableCell component="th" scope="row" align="left">
-                      {data.order_id}
-                    </TableCell>
-                    {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
-                    <TableCell align="left">{data.order_type}</TableCell>
-                    <TableCell align="left">{data.consumer_id}</TableCell>
-                    <TableCell align="left">{data.cart_total}</TableCell>
-                    <TableCell align="left">{data.gift_wallet_amount}</TableCell>
-                  </TableRow>
-                )
-              }))
+                  return (
+                    <TableRow hover className={classes.tableRow} key={index} onClick={(event) => handleRowClick(event, data)}>
+                      <TableCell component="th" scope="row" align="left">
+                        {data.order_id}
+                      </TableCell>
+                      {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
+                      <TableCell align="left">{data.order_type}</TableCell>
+                      <TableCell align="left">{data.consumer_id}</TableCell>
+                      <TableCell align="left">{data.cart_total}</TableCell>
+                      <TableCell align="left">{data.gift_wallet_amount}</TableCell>
+                    </TableRow>
+                  )
+                }))
               : (
-                 [1, 2, 3, 4, 5].map(() => (
-                    <TableLoadingShell />
-                  ))
+                [1, 2, 3, 4, 5].map((item, i) => (
+                  <TableLoadingShell key={i} />
+                ))
               )
           }
           {
             !isLoading && !transactionHistory &&
             <tr>
-              <td style={{ textAlign: 'center' }} colSpan='5'>
-                <p style={{ fontWeight: '16px' }}>No records  found</p>
+              <td style={{ textAlign: "center" }} colSpan='5'>
+                <p style={{ fontWeight: "16px" }}>No records  found</p>
               </td>
             </tr>
           }
@@ -406,7 +280,7 @@ function transactionHistoryList(props) {
             messageType="error"
             open={isError}
             handleClose={handleClose}
-           />
+          />
         }
       </Paper>
     </div>

@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import { grey } from '@material-ui/core/colors';
+import React, { useState } from "react"
+import { makeStyles, withStyles } from "@material-ui/core/styles"
+import FormControl from "@material-ui/core/FormControl"
+import Radio from "@material-ui/core/Radio"
+import RadioGroup from "@material-ui/core/RadioGroup"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import FormLabel from "@material-ui/core/FormLabel"
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+import DateFnsUtils from "@date-io/date-fns"
+import { grey } from "@material-ui/core/colors"
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -17,16 +17,12 @@ import {
 
 const useStyles = makeStyles(theme => ({
   formLabel: {
-    fontSize: "normal",
     fontSize: "16px",
     lineHeight: "19px",
     color: "#000000 !important",
     height: "20px",
     marginBottom: "8px"
   },
-  // radioGroup: {
-  //   color: "#000000",
-  // },
   formControlLabel: {
     fontSize: "14px",
     lineHeight: "17px",
@@ -39,25 +35,24 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "36px"
   },
   keyboardDatePicker: {
-    marginLeft: "35px",
-    //color: "#fff",
-  },
-}));
+    marginLeft: "35px"
+  }
+}))
 
 const BlackRadio = withStyles({
   root: {
     color: grey[900],
-    '&$checked': {
+    "&$checked": {
       color: grey[900],
     },
   },
   checked: {},
-})(props => <Radio color="default" {...props} />);
+})(props => <Radio color="default" {...props} />)
 
 
 export default function Reports() {
-  const classes = useStyles();
-  const [selectedOption, setSelectedOption] = React.useState('')
+  const classes = useStyles()
+  const [selectedOption, setSelectedOption] = React.useState("")
   const [showCustomDuration, setShowCustomDuration] = useState(false)
   const [fromDate, setFromDate] = useState(null)
   const [toDate, setToDate] = useState(null)
@@ -68,37 +63,37 @@ export default function Reports() {
 
   function handleTimePeriodChange(e) {
     setSelectedOption(e.target.value)
-    console.log("value", e.target.value)
     switch (e.target.value) {
-      case 'Yesterday':
-        setFromDate(new Date(new Date() - 1 * 24 * 60 * 60 * 1000))
-        setToDate(new Date())
-        setShowCustomDuration(false)
-        break;
-      case 'Last 30 Days':
-        setFromDate(new Date(new Date() - 30 * 24 * 60 * 60 * 1000))
-        setToDate(new Date())
-        setShowCustomDuration(false)
-        break;
-      case 'Last 7 Days':
-        setFromDate(new Date(new Date() - 7 * 24 * 60 * 60 * 1000))
-        setToDate(new Date())
-        setShowCustomDuration(false)
-        break;
-      case 'customduration':
-        setToDate(null)
-        setFromDate(null)
-        setShowCustomDuration(true)
-        break;
+    case "Yesterday":
+      setFromDate(new Date(new Date() - 1 * 24 * 60 * 60 * 1000))
+      setToDate(new Date())
+      setShowCustomDuration(false)
+      break
+    case "Last 30 Days":
+      setFromDate(new Date(new Date() - 30 * 24 * 60 * 60 * 1000))
+      setToDate(new Date())
+      setShowCustomDuration(false)
+      break
+    case "Last 7 Days":
+      setFromDate(new Date(new Date() - 7 * 24 * 60 * 60 * 1000))
+      setToDate(new Date())
+      setShowCustomDuration(false)
+      break
+    case "customduration":
+      setToDate(null)
+      setFromDate(null)
+      setShowCustomDuration(true)
+      break
     }
   }
 
   const handleFromDateChange = date => {
-    setFromDate(date);
-  };
+    setFromDate(date)
+  }
+
   const handleToDateChange = date => {
-    setToDate(date);
-  };
+    setToDate(date)
+  }
 
   return (
     <div className="report-content">
@@ -108,7 +103,7 @@ export default function Reports() {
           <FormControlLabel
             className={classes.formControlLabel}
             control={<BlackRadio
-              checked={selectedOption === 'Yesterday'}
+              checked={selectedOption === "Yesterday"}
               onChange={(e) => handleTimePeriodChange(e)}
               value="Yesterday"
             />}
@@ -118,7 +113,7 @@ export default function Reports() {
             className={classes.formControlLabel}
             control={
               <BlackRadio
-                checked={selectedOption === 'Last 7 Days'}
+                checked={selectedOption === "Last 7 Days"}
                 onChange={(e) => handleTimePeriodChange(e)}
                 value="Last 7 Days"
               />
@@ -129,7 +124,7 @@ export default function Reports() {
             className={classes.formControlLabel}
             control={
               <BlackRadio
-                checked={selectedOption === 'Last 30 Days'}
+                checked={selectedOption === "Last 30 Days"}
                 onChange={(e) => handleTimePeriodChange(e)}
                 value="Last 30 Days"
               />
@@ -140,7 +135,7 @@ export default function Reports() {
             className={classes.FormControlLabel}
             control={
               <BlackRadio
-                checked={selectedOption === 'customduration'}
+                checked={selectedOption === "customduration"}
                 onChange={(e) => handleTimePeriodChange(e)}
                 value="customduration"
               />

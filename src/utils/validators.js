@@ -1,6 +1,5 @@
 const numberRegex = /^[0-9]*$/
 export function validateNumberField({ fieldName, fieldValue }) {
-  console.log("field name", fieldName)
   if (fieldValue && fieldValue.trim().length === 0) {
     return {
       status: true,
@@ -20,6 +19,6 @@ export function validateNumberField({ fieldName, fieldValue }) {
 
   return {
     status: false,
-    value: ''
+    value: ""
   }
 }

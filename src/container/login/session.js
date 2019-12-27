@@ -6,5 +6,5 @@ export function getHasuraId(data) {
 
 export function createSession(data) {
   //localStorage.setItem('x-hasura-role', getHasuraRole(data))
-  localStorage.setItem('hasura-id', getHasuraId(data))
+  localStorage.setItem("hasura-id", getHasuraId(data))
 }

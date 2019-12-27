@@ -1,40 +1,42 @@
-import React from 'react'
-import ReactPagination from 'react-js-pagination'
+import React from "react"
+import ReactPagination from "react-js-pagination"
 import "./pagination.scss"
+import PropTypes from "prop-types"
 
-class Pagination extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handlePageChange = this.handlePageChange.bind(this)
-    this.resetPagination = this.resetPagination.bind(this)
-  }
+function pagination (props) {
 
-  resetPagination() {
-    this.props.setPage({
+  const resetPagination = () => {
+    props.setPage({
       activePage: 1,
       offset: 0
     })
   }
 
-  handlePageChange(activePage) {
-    const offset = this.props.itemsCountPerPage * (activePage - 1)
-    this.props.setPage({
+  const handlePageChange = (activePage) => {
+    const offset = props.itemsCountPerPage * (activePage - 1)
+    props.setPage({
       activePage,
       offset
     })
   }
 
-  render() {
-    return (
-      <ReactPagination
-        activePage={this.props.activePage}
-        itemsCountPerPage={this.props.itemsCountPerPage}
-        totalItemsCount={this.props.totalItemsCount}
-        pageRangeDisplayed={this.props.pageRangeDisplayed}
-        onChange={this.handlePageChange}
-      />
-    )
-  }
+  return (
+    <ReactPagination
+      activePage={props.activePage}
+      itemsCountPerPage={props.itemsCountPerPage}
+      totalItemsCount={props.totalItemsCount}
+      pageRangeDisplayed={props.pageRangeDisplayed}
+      onChange={handlePageChange}
+    />
+  )
 }
 
-export default Pagination
+pagination.propTypes = {
+  activePage: PropTypes.number,
+  itemsCountPerPage: PropTypes.number,
+  totalItemsCount: PropTypes.number,
+  pageRangeDisplayed: PropTypes.number,
+  setPage: PropTypes.func
+}
+
+export default pagination

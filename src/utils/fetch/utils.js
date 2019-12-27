@@ -21,14 +21,14 @@ function getHeaders(type) {
   }
 
   switch (type) {
-    case "FormData":
-      return getToken()
-    case "Public":
-      return Object.assign({}, json_headers)
-    case "RSS":
-      return Object.assign({}, { "Accept": "application/xml", "Content-Type": "application/xml" })
-    default:
-      return Object.assign({}, json_headers)
+  case "FormData":
+    return getToken()
+  case "Public":
+    return Object.assign({}, json_headers)
+  case "RSS":
+    return Object.assign({}, { "Accept": "application/xml", "Content-Type": "application/xml" })
+  default:
+    return Object.assign({}, json_headers)
   }
 }
 
@@ -38,11 +38,11 @@ function getHeaders(type) {
  */
 function constructBody({ type, data }) {
   switch (type) {
-    case "FormData":
-      return data
+  case "FormData":
+    return data
 
-    default:
-      return JSON.stringify(data)
+  default:
+    return JSON.stringify(data)
   }
 }
 

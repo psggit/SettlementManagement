@@ -1,4 +1,4 @@
-import { POST, GET } from "Utils/fetch"
+import { POST } from "Utils/fetch"
 
 export function fetchTransactionHistory(payload) {
   return POST({

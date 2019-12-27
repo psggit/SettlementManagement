@@ -1,5 +1,6 @@
 import React from "react"
 import { Line } from "react-chartjs-2"
+import PropTypes from "prop-types"
 
 class LineChartGraph extends React.Component {
   constructor() {
@@ -74,6 +75,14 @@ class LineChartGraph extends React.Component {
       </div>
     )
   }
+}
+
+LineChartGraph.propTypes = {
+  xLabel: PropTypes.string,
+  yLabel: PropTypes.string,
+  tooltipText: PropTypes.string,
+  values: PropTypes.array,
+  labels: PropTypes.array
 }
 
 export default LineChartGraph

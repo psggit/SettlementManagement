@@ -1,7 +1,7 @@
 import React from "react"
-import Paper from '@material-ui/core/Paper'
+import Paper from "@material-ui/core/Paper"
 import Icon from "Components/icon"
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "20px",
     lineHeight: "24px",
     marginTop: "8px",
-    '& a': {
+    "& a": {
       color: "#000"
     }
   },

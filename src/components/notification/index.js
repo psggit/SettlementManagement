@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ErrorIcon from "@material-ui/icons/Error";
-import InfoIcon from "@material-ui/icons/Info";
-import CloseIcon from "@material-ui/icons/Close";
-import { amber, green } from "@material-ui/core/colors";
-import IconButton from "@material-ui/core/IconButton";
-import Snackbar from "@material-ui/core/Snackbar";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
-import WarningIcon from "@material-ui/icons/Warning";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react"
+import PropTypes from "prop-types"
+import clsx from "clsx"
+import CheckCircleIcon from "@material-ui/icons/CheckCircle"
+import ErrorIcon from "@material-ui/icons/Error"
+import InfoIcon from "@material-ui/icons/Info"
+import CloseIcon from "@material-ui/icons/Close"
+import { amber, green } from "@material-ui/core/colors"
+import IconButton from "@material-ui/core/IconButton"
+import Snackbar from "@material-ui/core/Snackbar"
+import SnackbarContent from "@material-ui/core/SnackbarContent"
+import WarningIcon from "@material-ui/icons/Warning"
+import { makeStyles } from "@material-ui/core/styles"
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -43,12 +43,12 @@ const useStyles1 = makeStyles(theme => ({
     display: "flex",
     alignItems: "center"
   }
-}));
+}))
 
 function MySnackbarContentWrapper(props) {
-  const classes = useStyles1();
-  const { className, message, onClose, variant, ...other } = props;
-  const Icon = variantIcon[variant];
+  const classes = useStyles1()
+  const { className, message, onClose, variant, ...other } = props
+  const Icon = variantIcon[variant]
 
   return (
     <SnackbarContent
@@ -72,7 +72,7 @@ function MySnackbarContentWrapper(props) {
       ]}
       {...other}
     />
-  );
+  )
 }
 
 MySnackbarContentWrapper.propTypes = {
@@ -80,7 +80,7 @@ MySnackbarContentWrapper.propTypes = {
   message: PropTypes.string,
   onClose: PropTypes.func,
   variant: PropTypes.oneOf(["error", "info", "success", "warning"]).isRequired
-};
+}
 
 const useStyles2 = makeStyles(theme => ({
   margin: {
@@ -89,10 +89,10 @@ const useStyles2 = makeStyles(theme => ({
   snackbar: {
     marginLeft: `calc(245px + 64px - 24px)`
   }
-}));
+}))
 
 export default function CustomizedSnackbars(props) {
-  const classes = useStyles2();
+  const classes = useStyles2()
   return (
     <div>
       <Snackbar
@@ -112,5 +112,12 @@ export default function CustomizedSnackbars(props) {
         />
       </Snackbar>
     </div>
-  );
+  )
+}
+
+CustomizedSnackbars.propTypes = {
+  message: PropTypes.string,
+  messageType: PropTypes.string,
+  open: PropTypes.bool,
+  handleClose: PropTypes.func
 }

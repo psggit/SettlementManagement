@@ -1,9 +1,9 @@
-import React from 'react'
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import React from "react"
+import TableRow from "@material-ui/core/TableRow"
+import TableCell from "@material-ui/core/TableCell"
 import "./table.scss"
 
-function TableLoadingShell(data) {
+function TableLoadingShell() {
   return (
     <TableRow className="table-loading-shell">
       {
