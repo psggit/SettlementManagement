@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: "32px",
     "& p": {
       fontSize: "22px",
+      margin: "0px",
       lineHeight: "27px",
       fontWeight: "600",
       textTransform: "uppercase",

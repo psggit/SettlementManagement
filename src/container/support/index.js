@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
     fontStyle: "normal",
     fontWeight: "500",
     fontSize: "20px",
-    lineHeight: "24px"
+    lineHeight: "24px",
+    margin: "0px"
   },
   subheader: {
     fontStyle: "normal",
@@ -27,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   body: {
-    paddingTop: "36px",
+    paddingTop: "46px",
     paddingBottom: "24px",
     display: "flex",
     alignItems: "center",
@@ -41,7 +42,10 @@ const useStyles = makeStyles(theme => ({
     color: "rgba(0, 0, 0, 0.5)",
     display: "flex",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
+    "& p": {
+      margin: "0px"
+    }
   }
 }))
 

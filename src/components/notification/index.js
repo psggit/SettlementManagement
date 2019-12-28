@@ -91,7 +91,7 @@ const useStyles2 = makeStyles(theme => ({
   }
 }))
 
-export default function CustomizedSnackbars(props) {
+export default function CustomizedSnackbars({messageType, message, open, handleClose}) {
   const classes = useStyles2()
   return (
     <div>
@@ -101,14 +101,14 @@ export default function CustomizedSnackbars(props) {
           horizontal: "left"
         }}
         className={classes.snackbar}
-        open={props.open}
+        open={open}
         autoHideDuration={6000}
-        onClose={props.handleClose}
+        onClose={handleClose}
       >
         <MySnackbarContentWrapper
-          onClose={props.handleClose}
-          variant={props.messageType}
-          message={props.message}
+          onClose={handleClose}
+          variant={messageType}
+          message={message}
         />
       </Snackbar>
     </div>

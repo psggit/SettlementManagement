@@ -116,10 +116,10 @@ function transactionHistoryList(props) {
         setTransactionHistory(response.transactions)
         seTransactionHistoryCount(response.Count)
       })
-      .catch((error) => {
+      .catch((json) => {
         setLoading(false)
         setError(true)
-        setErrorMessage(error)
+        setErrorMessage(json.error)
       })
   }
 
@@ -243,7 +243,7 @@ function transactionHistoryList(props) {
               )
           }
           {
-            !isLoading && !transactionHistory &&
+            !isLoading && transactionHistory.length === 0 &&
             <tr>
               <td style={{ textAlign: "center" }} colSpan='5'>
                 <p style={{ fontWeight: "16px" }}>No records  found</p>
@@ -264,7 +264,7 @@ function transactionHistoryList(props) {
           />
         } */}
         {
-          !isLoading &&
+          !isLoading && transactionHistory.length > 0 &&
           <Pagination
             activePage={parseInt(pageNo)}
             itemsCountPerPage={parseInt(pageLimit)}
