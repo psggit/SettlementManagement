@@ -1,0 +1,20 @@
+@keyframes blink {
+  50% {
+    background: #fff;
+  }
+}
+
+.table-loading-shell {
+  background: #f6f6f6;
+  animation-name: blink;
+  animation-timing-function: linear;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+
+  th,
+  td {
+    padding: 24px !important;
+    font-weight: 400;
+    //line-height: 1.43 !important;
+  }
+}
