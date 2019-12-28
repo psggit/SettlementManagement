@@ -19,7 +19,7 @@ import { validateNumberField } from "Utils/validators"
 
 const useStyles = makeStyles(theme => ({
   form: {
-    '& > .input-field': {
+    "& > .input-field": {
       marginBottom: "40px"
     }
   },
