@@ -25,7 +25,7 @@ class LineChartGraph extends React.Component {
           lineTension: 0
         }
       ]
-    };
+    }
 
     const options = {
       tooltips: {
