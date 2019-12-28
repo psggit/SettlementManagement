@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     marginBottom: "40px"
+  },
+  note: {
+    margin: 0
   }
 }))
 
@@ -165,7 +168,7 @@ function login() {
           </div>
         </form>
       </div>
-      <p>Having trouble? Contact Support at <a href="mailto:settlements@hipbar.com">settlements@hipbar.com</a></p>
+      <p className={classes.note}>Having trouble? Contact Support at <a href="mailto:settlements@hipbar.com">settlements@hipbar.com</a></p>
     </div>
   )
 }
