@@ -9,3 +9,12 @@ export function fetchTransactionHistory(payload) {
   })
 }
 
+export function fetchRefundHistory(payload) {
+  return POST({
+    api: "/Api/soa",
+    apiBase: "retailer",
+    handleError: true,
+    data: payload
+  })
+}
+

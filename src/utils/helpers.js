@@ -1,5 +1,5 @@
 export function getOffsetUsingPageNo (pageNo, itemsCountPerPage) {
-  return itemsCountPerPage * (pageNo)
+  return itemsCountPerPage * (pageNo - 1)
 }
 
 export function getQueryParamByName (name, query = location.search.slice(1)) {

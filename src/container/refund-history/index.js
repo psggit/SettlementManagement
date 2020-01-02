@@ -6,19 +6,19 @@ import Paper from "@material-ui/core/Paper"
 import InputBase from "@material-ui/core/InputBase"
 import SearchIcon from "@material-ui/icons/Search"
 import CrossIcon from "@material-ui/icons/HighlightOff"
-//import Moment from "moment"
 import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import { makeStyles } from "@material-ui/core/styles"
-import { fetchTransactionHistory } from "../api"
+import { fetchRefundHistory } from "../api"
 import TableLoadingShell from "Components/tableLoadingShell"
 import Pagination from "Components/pagination"
 import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/helpers"
 import Notification from "Components/notification"
 
 const tableHeaders = [
-  { label: "UPI Transaction ID", value: "transaction_id"},
-  { label: "Date & Time", value: "date_time" },
+  { label: "Refund ID", value: "refund_id" },
+  { label: "UPI Transaction ID", value: "transaction_id" },
+  { label: "Date", value: "date_time" },
   { label: "Bank Account Number", value: "account_no" },
   { label: "Retailer ID", value: "retailer_id" },
   { label: "Amount", value: "amount" }
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: "none",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   crossIcon: {
     width: theme.spacing(7),
@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center"
   },
   inputRoot: {
-    color: "inherit"
+    color: "inherit",
   },
   inputInput: {
     height: "34px",
@@ -73,34 +73,33 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function transactionHistoryList(props) {
-
+function refundHistoryList() {
   const pageLimit = 10
   const activePage = getQueryParamByName("activePage") || 1
-  const [transactionHistory, setTransactionHistory] = useState([])
+  const [refundHistory, setRefundHistory] = useState([])
   const [isLoading, setLoading] = useState(false)
   const [pageNo, setPageNo] = useState(activePage)
   const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, pageLimit))
-  const [transactionHistoryCount, seTransactionHistoryCount] = useState(0)
+  const [refundHistoryCount, setRefundHistoryCount] = useState(0)
   const [filterField, setFilterField] = useState("")
   const [filterValue, setFieldValue] = useState("")
   const [isError, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
- 
+
   const classes = useStyles()
 
   const searchOptions = [
+    { title: "Refund ID", value: "refund_id" },
     { title: "UPI Transaction ID", value: "upi_transaction_id" },
     { title: "Retailer ID", value: "retailer_id" },
-    { title: "Account Number", value: "account_no" },
-    { title: "UPI Reference Number", value: "upi_reference_no" }
+    { title: "Account Number", value: "account_no" }
   ]
 
   useEffect(() => {
-    fetchRetailerTransactionHistory()
+    fetchRetailerRefundHistory()
   }, [pageNo])
 
-  const fetchRetailerTransactionHistory = () => {
+  const fetchRetailerRefundHistory = () => {
     const payload = {
       Limit: pageLimit,
       Offset: offset,
@@ -109,12 +108,11 @@ function transactionHistoryList(props) {
       SearchValue: filterValue
     }
     setLoading(true)
-    fetchTransactionHistory(payload)
+    fetchRefundHistory(payload)
       .then((response) => {
         setLoading(false)
-        //setError(true)
-        setTransactionHistory(response.transactions)
-        seTransactionHistoryCount(response.Count)
+        setRefundHistory(response.transactions)
+        setRefundHistoryCount(response.Count)
       })
       .catch((json) => {
         setLoading(false)
@@ -122,7 +120,6 @@ function transactionHistoryList(props) {
         setErrorMessage(json.error)
       })
   }
-
   const handleSearchChange = (event, option) => {
     console.log("select change", option)
     setFilterField(option.value)
@@ -142,34 +139,18 @@ function transactionHistoryList(props) {
     setOffset(pageObj.offset)
     setPageNo(pageObj.activePage)
     const queryParamsObj = {
-      activePage: pageObj.activePage,
-      //itemsPerPage: rowsPerPage,
-      // SearchTerm: filterField,
-      // SearchValue: filterValue
+      activePage: pageObj.activePage
     }
-    history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
+    history.pushState(queryParamsObj, "refund history listing", `/home/refund-history${getQueryUri(queryParamsObj)}`)
   }
 
-  // const handleChangeRowsPerPage = event => {
-  //   setRowsPerPage(event.target.value)
-  //   setPageNo(0);
-  //   const queryParamsObj = {
-  //     activePage: 0,
-  //     itemsPerPage: event.target.value
-  //   }
-  //   history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
-  // };
-
   const handlePress = (event) => {
-    if(event.keyCode === 13) {
+    if (event.keyCode === 13) {
       const queryParamsObj = {
-        activePage: 0,
-        //itemsPerPage: event.target.value,
-        // SearchTerm: filterField,
-        // SearchValue: filterValue
+        activePage: 0
       }
-      history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
-      fetchRetailerTransactionHistory()
+      history.pushState(queryParamsObj, "refund history listing", `/home/refund-history${getQueryUri(queryParamsObj)}`)
+      fetchRetailerRefundHistory()
     }
   }
 
@@ -178,7 +159,7 @@ function transactionHistoryList(props) {
   }
 
   return (
-    <div id="TransactionHistory">
+    <div id="RefundHistory">
       <Paper className={classes.paper}>
         <div className={classes.header}>
           <Autocomplete
@@ -220,15 +201,16 @@ function transactionHistoryList(props) {
         </div>
         <Table tableHeaders={tableHeaders}>
           {
-            !isLoading 
+            !isLoading
               ? (
-                transactionHistory && transactionHistory.map((data, index) => {
+                refundHistory && refundHistory.map((data, index) => {
                   return (
                     <TableRow hover className={classes.tableRow} key={index}>
                       <TableCell component="th" scope="row" align="left">
                         {data.order_id}
                       </TableCell>
                       {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
+                      <TableCell align="left">{data.order_id}</TableCell>
                       <TableCell align="left">{data.order_type}</TableCell>
                       <TableCell align="left">{data.consumer_id}</TableCell>
                       <TableCell align="left">{data.cart_total}</TableCell>
@@ -243,40 +225,28 @@ function transactionHistoryList(props) {
               )
           }
           {
-            !isLoading && transactionHistory.length === 0 &&
+            !isLoading && refundHistory.length === 0 &&
             <tr>
-              <td style={{ textAlign: "center", padding: "10px 0" }} colSpan='5'>
+              <td style={{ textAlign: "center", padding: "10px 0" }} colSpan='6'>
                 <p style={{ fontWeight: "16px" }}>No records  found</p>
               </td>
             </tr>
           }
         </Table>
-        {/* {
-          !isLoading &&
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={transactionHistoryCount}
-            rowsPerPage={parseInt(rowsPerPage)}
-            page={parseInt(pageNo)}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        } */}
         {
-          !isLoading && transactionHistory.length > 0 &&
+          !isLoading && refundHistory.length > 0 &&
           <Pagination
             activePage={parseInt(pageNo)}
             itemsCountPerPage={parseInt(pageLimit)}
-            totalItemsCount={transactionHistoryCount}
+            totalItemsCount={refundHistoryCount}
             pageRangeDisplayed={5}
             setPage={handleChangePage}
           />
         }
         {
           isError &&
-          <Notification 
-            message={errorMessage} 
+          <Notification
+            message={errorMessage}
             messageType="error"
             open={isError}
             handleClose={handleClose}
@@ -285,6 +255,7 @@ function transactionHistoryList(props) {
       </Paper>
     </div>
   )
+
 }
 
-export default transactionHistoryList
+export default refundHistoryList

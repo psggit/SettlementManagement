@@ -21,6 +21,19 @@ const useStyles = makeStyles(theme => ({
   form: {
     "& > .input-field": {
       marginBottom: "40px"
+    },
+    "& > .input-field input": {
+      padding: "18.5px 40px"
+    },
+    "& > .input-field label.MuiInputLabel-shrink": {
+      paddingLeft:"0px",
+      paddingRight:"0px"
+    },
+    "& > .input-field label": {
+      paddingLeft:"30px"
+    },
+    "& > .input-field .Mui-focused fieldset legend": {
+      width: "86px !important"
     }
   },
   textField: {
@@ -115,9 +128,11 @@ function login() {
       <h2>Account Reconciliation Dashboard</h2>
       <div className="form-container">
         <form className={classes.form}>
+          <span className="number-prefix">+91</span>
           <TextField
             id="outlined-required"
             className="input-field"
+            autoComplete="off"
             error={mobileErr.status}
             label="Mobile Number"
             name="mobileNumber"
@@ -133,6 +148,7 @@ function login() {
               id="outlined-adornment-password"
               type={showOtp ? "text" : "password"}
               name="otp"
+              autoComplete="off"
               error={otpErr.status}
               onChange={handleOtpChange}
               value={otp}

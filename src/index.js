@@ -17,6 +17,7 @@ import TransactionHistory from "Container/transaction-history"
 import UserGuide from "Container/user-guide"
 import Reports from "./container/Reports"
 import Support from "Container/support"
+import RefundHistory from "./container/refund-history"
 
 
 const history = createHistory()
@@ -133,6 +134,15 @@ function App() {
                     )
                   }
                 /> */}
+                <Route
+                  exact
+                  path="/home/refund-history"
+                  render={
+                    props => (
+                      <RefundHistory {...props} />
+                    )
+                  }
+                />
                 <Route
                   exact
                   path="/home/Reports"

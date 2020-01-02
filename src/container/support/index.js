@@ -44,14 +44,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     flexDirection: "column",
     "& p": {
-      margin: "0px"
+      margin: "0px",
+      paddingBottom: "8px"
     }
   }
 }))
 
 function support () {
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Paper className={classes.paper}>

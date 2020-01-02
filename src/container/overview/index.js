@@ -123,6 +123,9 @@ function overview() {
           />
         </Paper>
       }
+      <div>
+        <p className="overview-footer">Last updated at {Moment("2019-12-05T15:56:41.714752+05:30").format("DD/MM/YYYY, h:mm a")}</p>
+      </div>
     </div>
   )
 }
