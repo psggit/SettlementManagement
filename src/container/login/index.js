@@ -29,9 +29,6 @@ const useStyles = makeStyles(theme => ({
       paddingLeft:"0px",
       paddingRight:"0px"
     },
-    "& > .input-field label": {
-      paddingLeft:"30px"
-    },
     "& > .input-field .Mui-focused fieldset legend": {
       width: "86px !important"
     }
@@ -52,6 +49,7 @@ function login() {
   const [otp, setOtp] = useState("")
   const [otpErr, setOtpErr] = useState({ status: false, value: "" })
   const [showOtp, setShowOtp] = useState(false)
+  const [showNumberPrefix, setShowNumberPrefix] = useState(false)
 
   const inputNameMap = {
     mobileNumber: "Mobile Number",
@@ -120,6 +118,16 @@ function login() {
     }
   }
 
+  const handleMobileInputFocus = () => {
+    setShowNumberPrefix(true)
+  }
+
+  const handleMobileBlur = () => {
+    if(mobileNumber.length === 0) {
+      setShowNumberPrefix(false)
+    }
+  }
+
   return (
     <div id="login">
       <div className="logo">
@@ -128,7 +136,10 @@ function login() {
       <h2>Account Reconciliation Dashboard</h2>
       <div className="form-container">
         <form className={classes.form}>
-          <span className="number-prefix">+91</span>
+          {
+            showNumberPrefix &&
+            <span className="number-prefix">+91</span>
+          }
           <TextField
             id="outlined-required"
             className="input-field"
@@ -136,6 +147,8 @@ function login() {
             error={mobileErr.status}
             label="Mobile Number"
             name="mobileNumber"
+            onFocus={handleMobileInputFocus}
+            onBlur={handleMobileBlur}
             onChange={handleMobileChange}
             value={mobileNumber}
             helperText={mobileErr.status ? mobileErr.value : ""}
