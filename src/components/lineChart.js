@@ -72,8 +72,12 @@ class LineChartGraph extends React.Component {
       }
     }
     return (
-      <div style={{ height: '400px', maxHeight: '400px' }}>
-        <Line ref="chart" data={data} options={options} height={0} />
+      <div style={{ height: '400px', maxHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {
+          this.props.values.length === 0 
+            ? <div>No chart data available for Today</div>
+            : <Line ref="chart" data={data} options={options} height={0} />
+        }
       </div>
     )
   }

@@ -17,7 +17,7 @@ import Notification from "Components/notification"
 
 const tableHeaders = [
   { label: "Refund ID", value: "refund_id" },
-  { label: "UPI Transaction ID", value: "transaction_id" },
+  { label: "UTR", value: "utr" },
   { label: "Date", value: "date_time" },
   { label: "Bank Account Number", value: "account_no" },
   { label: "Retailer ID", value: "retailer_id" },
@@ -90,7 +90,7 @@ function refundHistoryList() {
 
   const searchOptions = [
     { title: "Refund ID", value: "refund_id" },
-    { title: "UPI Transaction ID", value: "upi_transaction_id" },
+    { title: "UTR", value: "utr" },
     { title: "Retailer ID", value: "retailer_id" },
     { title: "Account Number", value: "account_no" }
   ]

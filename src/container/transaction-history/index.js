@@ -17,7 +17,7 @@ import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/he
 import Notification from "Components/notification"
 
 const tableHeaders = [
-  { label: "UPI Transaction ID", value: "transaction_id"},
+  { label: "UTR", value: "utr"},
   { label: "Date & Time", value: "date_time" },
   { label: "Bank Account Number", value: "account_no" },
   { label: "Retailer ID", value: "retailer_id" },
@@ -90,10 +90,9 @@ function transactionHistoryList(props) {
   const classes = useStyles()
 
   const searchOptions = [
-    { title: "UPI Transaction ID", value: "upi_transaction_id" },
+    { title: "UTR", value: "utr" },
     { title: "Retailer ID", value: "retailer_id" },
-    { title: "Account Number", value: "account_no" },
-    { title: "UPI Reference Number", value: "upi_reference_no" }
+    { title: "Account Number", value: "account_no" }
   ]
 
   useEffect(() => {

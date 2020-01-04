@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: "60px",
   },
+  note: {
+    textAlign: "center"
+  }
 }))
 
 const AntTab = withStyles(theme => ({
@@ -27,6 +30,9 @@ const AntTab = withStyles(theme => ({
   selected: {},
 }))(props => <Tab disableRipple {...props} />);
 
+
+const todayDataLabel = []
+const todayDataValue = []
 const yesterdayDataLabel = [
   Moment("2019-12-25T12:16:49.464702Z").format("h:mm:ss"),
   Moment("2019-12-25T12:17:49.464702Z").format("h:mm:ss"),
@@ -75,6 +81,7 @@ function overview() {
         onChange={handleChange}
         aria-label="disabled tabs example"
       >
+        <AntTab label="TODAY" />
         <AntTab label="YESTERDAY" />
         <AntTab label="LAST WEEK" />
         <AntTab label="LAST MONTH" />
@@ -103,11 +110,11 @@ function overview() {
         value === 0 &&
         <Paper className={classes.paper}>
           <LineChart
-            labels={yesterdayDataLabel}
-            values={yesterdayDataValue}
+            labels={todayDataLabel}
+            values={todayDataValue}
             xLabel={`TIME DURATION (${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")})`}
-            yLabel="VOLUME (L)"
-            tooltipText="LITERS"
+            yLabel="AMOUNT"
+            tooltipText="₹"
           />
         </Paper>
       }
@@ -115,17 +122,32 @@ function overview() {
         value === 1 &&
         <Paper className={classes.paper}>
           <LineChart
-            labels={lastWeekDataLabel}
-            values={lastWeekDataValue}
-            xLabel="TIME DURATION"
-            yLabel="VOLUME (L)"
-            tooltipText="LITERS"
+            labels={yesterdayDataLabel}
+            values={yesterdayDataValue}
+            xLabel={`TIME DURATION (${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")})`}
+            yLabel="AMOUNT"
+            tooltipText="₹"
           />
         </Paper>
       }
-      <div>
-        <p className="overview-footer">Last updated at {Moment("2019-12-05T15:56:41.714752+05:30").format("DD/MM/YYYY, h:mm a")}</p>
-      </div>
+      {
+        value === 2 &&
+        <Paper className={classes.paper}>
+          <LineChart
+            labels={lastWeekDataLabel}
+            values={lastWeekDataValue}
+            xLabel="TIME DURATION"
+            yLabel="AMOUNT"
+            tooltipText="₹"
+          />
+        </Paper>
+      }
+      {
+        value !== 0 &&
+        <div>
+          <p className="overview-footer">Last updated at {Moment("2019-12-05T15:56:41.714752+05:30").format("DD/MM/YYYY, h:mm a")}</p>
+        </div>
+      }
     </div>
   )
 }
