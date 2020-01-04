@@ -162,7 +162,7 @@ function transactionHistoryList(props) {
   const handlePress = (event) => {
     if(event.keyCode === 13) {
       const queryParamsObj = {
-        activePage: 0,
+        activePage: 1,
         //itemsPerPage: event.target.value,
         // SearchTerm: filterField,
         // SearchValue: filterValue
@@ -223,7 +223,7 @@ function transactionHistoryList(props) {
               ? (
                 transactionHistory && transactionHistory.map((data, index) => {
                   return (
-                    <TableRow hover className={classes.tableRow} key={index}>
+                    <TableRow className={classes.tableRow} key={index}>
                       <TableCell component="th" scope="row" align="left">
                         {data.order_id}
                       </TableCell>

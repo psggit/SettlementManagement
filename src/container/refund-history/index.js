@@ -147,7 +147,7 @@ function refundHistoryList() {
   const handlePress = (event) => {
     if (event.keyCode === 13) {
       const queryParamsObj = {
-        activePage: 0
+        activePage: 1
       }
       history.pushState(queryParamsObj, "refund history listing", `/home/refund-history${getQueryUri(queryParamsObj)}`)
       fetchRetailerRefundHistory()
@@ -205,7 +205,7 @@ function refundHistoryList() {
               ? (
                 refundHistory && refundHistory.map((data, index) => {
                   return (
-                    <TableRow hover className={classes.tableRow} key={index}>
+                    <TableRow className={classes.tableRow} key={index}>
                       <TableCell component="th" scope="row" align="left">
                         {data.order_id}
                       </TableCell>
