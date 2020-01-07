@@ -112,7 +112,7 @@ function overview() {
           <LineChart
             labels={todayDataLabel}
             values={todayDataValue}
-            xLabel={`TIME DURATION (${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")})`}
+            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"
           />
@@ -124,7 +124,7 @@ function overview() {
           <LineChart
             labels={yesterdayDataLabel}
             values={yesterdayDataValue}
-            xLabel={`TIME DURATION (${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")})`}
+            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"
           />
@@ -136,7 +136,7 @@ function overview() {
           <LineChart
             labels={lastWeekDataLabel}
             values={lastWeekDataValue}
-            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000 - 7 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
+            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 6 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"
           />
