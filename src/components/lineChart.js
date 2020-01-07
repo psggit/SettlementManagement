@@ -38,7 +38,12 @@ class LineChartGraph extends React.Component {
         yPadding: 5,
         xPadding: 15,
         mode: 'index',
-        intersect: false
+        intersect: false,
+        callbacks: {
+          label: function (tooltipItem) {
+            return "₹ " + (tooltipItem.yLabel)
+          }
+        }
       },
       hover: {
         mode: 'index',

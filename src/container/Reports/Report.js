@@ -136,7 +136,7 @@ export default function Reports() {
             label="Last 30 Days"
           />
           <FormControlLabel
-            className={classes.FormControlLabel}
+            className={classes.formControlLabel}
             control={
               <BlackRadio
                 checked={selectedOption === "customduration"}

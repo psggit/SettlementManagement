@@ -42,6 +42,9 @@ const useStyles = makeStyles(theme => ({
     bottom: "0",
     padding: "0 24px",
     paddingBottom: "32px",
+    "@media (max-height: 589px)": {
+      display: "none"
+    },
     "& p": {
       fontSize: "22px",
       margin: "0px",
@@ -57,7 +60,7 @@ const useStyles = makeStyles(theme => ({
       color: "rgba(0, 0, 0, 0.5)",
       fontStyle: "normal"
     }
-  }
+  },
 }))
 
 function sidemenu({ menuItems, supportMenuItems, currentRoute, history }) {

@@ -49,20 +49,20 @@ const yesterdayDataLabel = [
   Moment("2019-12-25T15:19:49.464702Z").format("h:mm:ss"),  
 ]
 
-const yesterdayDataValue = [100, 120, 5, 25, 19, 300, 24, 78, 90, 23, 17, 27, 89]
+const yesterdayDataValue = [100, 120, 5, 25, 19, 999, 24, 78, 90, 23, 17, 27, 89]
 
 
 const lastWeekDataLabel = [
   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday" , "Friday", "Saturday"
 ]
 
-const lastWeekDataValue = [100, 200, 50, 2, 67, 90, 23]
+const lastWeekDataValue = [100, 99999, 50, 2, 80524, 90, 23]
 
 // const lastMonthDataLabel = [
 //   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 // ]
 
-// const lastMonthDataValue = []
+// const lastMonthDataValue = [100,500000, 52330, 230000, 80524, 90, 23]
 
 function overview() {
 
@@ -136,14 +136,26 @@ function overview() {
           <LineChart
             labels={lastWeekDataLabel}
             values={lastWeekDataValue}
-            xLabel="TIME DURATION"
+            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000 - 7 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"
           />
         </Paper>
       }
+      {/* {
+        value === 3 &&
+        <Paper className={classes.paper}>
+          <LineChart
+            labels={lastMonthDataLabel}
+            values={lastMonthDataValue}
+            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000 - 31 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
+            yLabel="AMOUNT"
+            tooltipText="₹"
+          />
+        </Paper>
+      } */}
       {
-        value !== 0 &&
+        value !== 0 && value !== 3 &&
         <div>
           <p className="overview-footer">Last updated at {Moment("2019-12-05T15:56:41.714752+05:30").format("DD/MM/YYYY, h:mm a")}</p>
         </div>
