@@ -17,12 +17,13 @@ import Notification from "Components/notification"
 
 const tableHeaders = [
   { label: "Refund ID", value: "refund_id" },
+  {label: "Date & Time", value: "date_time" },
   { label: "UTR", value: "utr" },
-  { label: "Date", value: "date_time" },
   { label: "Bank Account Number", value: "account_no" },
   { label: "Retailer ID", value: "retailer_id" },
-  { label: "Amount", value: "amount" }
+  { label: "Transaction Amount", value: "amount" }
 ]
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -91,8 +92,8 @@ function refundHistoryList() {
   const searchOptions = [
     { title: "Refund ID", value: "refund_id" },
     { title: "UTR", value: "utr" },
-    { title: "Retailer ID", value: "retailer_id" },
-    { title: "Account Number", value: "account_no" }
+    { title: "Bank Account Number", value: "account_no" },
+    { title: "Retailer ID", value: "retailer_id" }
   ]
 
   useEffect(() => {
@@ -180,7 +181,7 @@ function refundHistoryList() {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Search Entry"
+                placeholder="Search"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -210,8 +211,8 @@ function refundHistoryList() {
                         {data.order_id}
                       </TableCell>
                       {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
-                      <TableCell align="left">{data.order_id}</TableCell>
                       <TableCell align="left">{data.order_type}</TableCell>
+                      <TableCell align="left">{data.order_id}</TableCell>
                       <TableCell align="left">{data.consumer_id}</TableCell>
                       <TableCell align="left">{data.cart_total}</TableCell>
                       <TableCell align="left">{data.gift_wallet_amount}</TableCell>

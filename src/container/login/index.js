@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import "./login.scss"
 import Icon from "Components/icon"
 import { createSession } from "./session"
@@ -15,7 +15,6 @@ import FormControl from "@material-ui/core/FormControl"
 import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { validateNumberField } from "Utils/validators"
-
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -50,12 +49,20 @@ function login() {
   const [otpErr, setOtpErr] = useState({ status: false, value: "" })
   const [showOtp, setShowOtp] = useState(false)
   const [showNumberPrefix, setShowNumberPrefix] = useState(false)
+  const [count, setCount] = useState(10)
+  const [delay] = useState(1000)
+
+  const setTimer = () => {
+    setInterval(() => {
+      setCount(count => count - 1)
+    }, delay)
+  }
 
   const inputNameMap = {
     mobileNumber: "Mobile Number",
     otp: "OTP"
   }
-
+  
   const handleMobileChange = event => {
     setMobileErr({ ...mobileErr, status: false })
     if(!isNaN(event.target.value)) {
@@ -126,6 +133,14 @@ function login() {
     if(mobileNumber.length === 0) {
       setShowNumberPrefix(false)
     }
+    fetch("https://jsonplaceholder.typicode.com/todos/1")
+      .then(response => {
+        setTimer()
+        console.log("res",response)
+      })
+      .catch(err => {
+        console.log("error",err)
+      })
   }
 
   return (
@@ -194,6 +209,14 @@ function login() {
             >
               Login
             </Button>
+          </div>
+          <div className="resend-otp">
+            {
+              count > 0 ?
+                <p>Resend OTP in {count} sec</p>
+                : 
+                <p>Resend OTP <Icon name ="resend-otp"/> </p>
+            }
           </div>
         </form>
       </div>

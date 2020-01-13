@@ -30,6 +30,14 @@
     }
   }
 
+  .resend-otp {
+    font-weight: 500;
+    font-size:10px;
+    line-height:12px;
+    margin-top: 8px;
+    color:rgba(85,85,85,0.5)
+  }
+
   form {
     display: flex;
     flex-direction: column;

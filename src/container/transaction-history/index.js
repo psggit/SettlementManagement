@@ -21,7 +21,7 @@ const tableHeaders = [
   { label: "Date & Time", value: "date_time" },
   { label: "Bank Account Number", value: "account_no" },
   { label: "Retailer ID", value: "retailer_id" },
-  { label: "Amount", value: "amount" }
+  { label: "Transaction Amount", value: "amount" }
 ]
 
 const useStyles = makeStyles(theme => ({
@@ -91,8 +91,8 @@ function transactionHistoryList(props) {
 
   const searchOptions = [
     { title: "UTR", value: "utr" },
-    { title: "Retailer ID", value: "retailer_id" },
-    { title: "Account Number", value: "account_no" }
+    { title: "Bank Account Number", value: "account_no" },
+    { title: "Retailer ID", value: "retailer_id" }
   ]
 
   useEffect(() => {
@@ -198,7 +198,7 @@ function transactionHistoryList(props) {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Search Entry"
+                placeholder="Search"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
