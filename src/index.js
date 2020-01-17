@@ -39,10 +39,9 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: [
-      "-apple-system",
+      "Cabin",
       "BlinkMacSystemFont",
       '"Segoe UI"',
-      "Cabin",
       '"Helvetica Neue"',
       "Arial",
       "sans-serif",

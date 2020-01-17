@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState } from "react"
 import "./login.scss"
 import Icon from "Components/icon"
 import { createSession } from "./session"
@@ -15,6 +15,7 @@ import FormControl from "@material-ui/core/FormControl"
 import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { validateNumberField } from "Utils/validators"
+import { getOtpWithMobileNo } from "../api"
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -49,13 +50,34 @@ function login() {
   const [otpErr, setOtpErr] = useState({ status: false, value: "" })
   const [showOtp, setShowOtp] = useState(false)
   const [showNumberPrefix, setShowNumberPrefix] = useState(false)
-  const [count, setCount] = useState(10)
+  const [count, setCount] = useState(30)
   const [delay] = useState(1000)
+  const pageLimit = 10
+  const [offset] = useState(pageLimit)
+  const [filterField] = useState("")
+  const [filterValue] = useState("")
 
   const setTimer = () => {
     setInterval(() => {
       setCount(count => count - 1)
     }, delay)
+  }
+
+  function getOtp () {
+    const payload = {
+      Limit: pageLimit,
+      Offset: offset,
+      RetailerID: 93,
+      SearchTerm: filterField,
+      SearchValue: filterValue
+    }
+    getOtpWithMobileNo (payload)
+      .then(() => {
+        setTimer()
+      })
+      .catch(err => {
+        console.log("Error in getting otp", err)
+      })
   }
 
   const inputNameMap = {
@@ -133,14 +155,7 @@ function login() {
     if(mobileNumber.length === 0) {
       setShowNumberPrefix(false)
     }
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then(response => {
-        setTimer()
-        console.log("res",response)
-      })
-      .catch(err => {
-        console.log("error",err)
-      })
+    getOtp ()
   }
 
   return (

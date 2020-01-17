@@ -27,7 +27,7 @@ const tableHeaders = [
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    padding: "20px",
+    padding: "24px 24px 36px 24px"
   },
   header: {
     display: "flex",
