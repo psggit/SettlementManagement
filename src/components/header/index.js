@@ -63,8 +63,6 @@ function header () {
         localStorage.clear()
         location.href = '/login'
       })
-    // localStorage.clear()
-    // window.location.href="/login"
   }
 
   const unmountModal = () => {

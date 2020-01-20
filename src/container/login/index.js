@@ -151,12 +151,7 @@ function login() {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    //console.log("error flag", errorFlag)
-    //getInputTags("otp")
-    //setTimeout(() => {
     if (!errorFlag) {
-      //createSession({ hasura_id: 123 })
-      // window.location.href = "/home/overview"
       const payload = {
         mobile: mobileNumber,
         otp
@@ -171,7 +166,6 @@ function login() {
           console.log("Error in logging in", error, error.message)
         })
     }
-    //}, 1000)
   }
 
   const handleMobileInputFocus = () => {
