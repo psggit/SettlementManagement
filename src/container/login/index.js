@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import "./login.scss"
 import Icon from "Components/icon"
-import { createSession } from "./session"
 import Notification from "Components/notification"
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from "@material-ui/core/styles"
@@ -156,7 +155,7 @@ function login() {
     //getInputTags("otp")
     //setTimeout(() => {
     if (!errorFlag) {
-      createSession({ hasura_id: 123 })
+      //createSession({ hasura_id: 123 })
       // window.location.href = "/home/overview"
       const payload = {
         mobile: mobileNumber,

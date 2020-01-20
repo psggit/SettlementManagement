@@ -30,14 +30,41 @@ const useStyles = makeStyles(theme => ({
     cursor: "pointer"
   }
 }))
+const authUrl = `auth.${process.env.BASE_URL}`
 
 function header () {
   const classes = useStyles()
   const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const logout = () => {
-    localStorage.clear()
-    window.location.href="/login"
+
+    const fetchOptions = {
+      method: 'get',
+      credentials: 'include',
+      mode: 'cors',
+      'x-hasura-role': 'user'
+    }
+
+    fetch(`https://${authUrl}/user/logout`, fetchOptions)
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log(`Looks like there was a problem. Status Code: ${response.status}`)
+          localStorage.clear()
+          location.href = '/login'
+          return
+        }
+        response.json().then((data) => {
+          localStorage.clear()
+          location.href = '/login'
+        })
+      })
+      .catch((err) => {
+        console.log('Fetch Error :-S', err)
+        localStorage.clear()
+        location.href = '/login'
+      })
+    // localStorage.clear()
+    // window.location.href="/login"
   }
 
   const unmountModal = () => {
