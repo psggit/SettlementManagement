@@ -56,10 +56,8 @@ export function checkStatus(response) {
 
   // return response
   else {
-    //console.log(response.statusText);
-    var error = new Error(response.statusText)
-    //console.log("res", response)
-    //var error = new Error(response.error)
+    var error = new Error()
+    //var error = new Error(response.statusText)
     error.response = response
     throw error
   }
@@ -87,7 +85,6 @@ export function constructFetchUtility(options) {
   if (data && method !== "GET") {
     fetchOptions.body = constructBody({ type, data })
   }
-
   return (options.handleError)
     ? fetch(url, fetchOptions)
       .then(checkStatus)

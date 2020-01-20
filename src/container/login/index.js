@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import "./login.scss"
 import Icon from "Components/icon"
 import { createSession } from "./session"
+import Notification from "Components/notification"
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -15,7 +16,7 @@ import FormControl from "@material-ui/core/FormControl"
 import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { validateNumberField } from "Utils/validators"
-import { getOtpWithMobileNo } from "../api"
+import { getOtpWithMobileNo, handleUserLogin } from "../api"
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -48,31 +49,31 @@ function login() {
   const [mobileErr, setMobileErr] = useState({ status: false, value: "" })
   const [otp, setOtp] = useState("")
   const [otpErr, setOtpErr] = useState({ status: false, value: "" })
-  const [showOtp, setShowOtp] = useState(false)
+  const [errorFlag, setErrorFlag] = useState(false)
+  const [showOtpValue, setShowOtpValue] = useState(false)
+  const [enableLogin, setEnableLogin] = useState(false)
+  //const [enableGenerateOTP, setGenerateOtp] = useState(false)
   const [showNumberPrefix, setShowNumberPrefix] = useState(false)
-  const [count, setCount] = useState(30)
+  const [count, setCount] = useState(0)
   const [delay] = useState(1000)
-  const pageLimit = 10
-  const [offset] = useState(pageLimit)
-  const [filterField] = useState("")
-  const [filterValue] = useState("")
+  const [isLoginErr, setLoginError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
   const setTimer = () => {
+    setCount(5)
     setInterval(() => {
       setCount(count => count - 1)
     }, delay)
   }
 
-  function getOtp () {
+  function generateOtp () {
     const payload = {
-      Limit: pageLimit,
-      Offset: offset,
-      RetailerID: 93,
-      SearchTerm: filterField,
-      SearchValue: filterValue
+      mobile: mobileNumber
     }
+    //setGenerateOtp(false)
     getOtpWithMobileNo (payload)
       .then(() => {
+        //setGenerateOtp(true)
         setTimer()
       })
       .catch(err => {
@@ -87,6 +88,7 @@ function login() {
   
   const handleMobileChange = event => {
     setMobileErr({ ...mobileErr, status: false })
+    setErrorFlag(false)
     if(!isNaN(event.target.value)) {
       setMobileNumber(event.target.value)
     }
@@ -94,13 +96,21 @@ function login() {
 
   const handleOtpChange = event => {
     setOtpErr({ ...otpErr, status: false })
+    setErrorFlag(false)
     if(!isNaN(event.target.value)) {
       setOtp(event.target.value)
+    }
+    if(event.target.value.length === 6) {
+      setEnableLogin(true)
     }
   }
 
   const handleClickShowOtp = () => {
-    setShowOtp(!showOtp)
+    setShowOtpValue(!showOtpValue)
+  }
+
+  const handleClose = () => {
+    setLoginError(false)
   }
 
   const handleMouseDownOtp = event => {
@@ -115,17 +125,19 @@ function login() {
     return errorObj
   }
 
-  const getInputTags = () => {
+  const getInputTags = (fieldName) => {
     const formEl = document.getElementById("login")
     const inputCollection = formEl.getElementsByTagName("input")
     const inputsArr = Array.prototype.slice.call(inputCollection)
-
-    const textInputs = inputsArr.filter(item => item.type == "text" || "password")
+    const textInputs = inputsArr.filter(item => item.name == fieldName)
     textInputs.forEach(item => {
       let errorObject = validateFormField({
         name: inputNameMap[item.name],
         value: item.value
       })
+      if (errorObject.status) {
+        setErrorFlag(true)
+      }
       if (item.name === "mobileNumber") {
         setMobileErr({
           ...mobileErr, status: errorObject.status, value: errorObject.value
@@ -140,22 +152,50 @@ function login() {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    getInputTags()
-    if (!mobileErr.status && !otpErr.status) {
-      createSession({ hasura_id: 123 })
-      window.location.href = "/home/overview"
+    console.log("error flag", errorFlag)
+    //getInputTags("otp")
+    //setTimeout(() => {
+    if (!errorFlag) {
+      // createSession({ hasura_id: 123 })
+      // window.location.href = "/home/overview"
+      const payload = {
+        mobile: mobileNumber,
+        otp
+      }
+      handleUserLogin(payload)
+        .then((response) => {
+          location.href = "/home/overview"
+        })
+        .catch((error) => {
+          setLoginError(true)
+          setErrorMessage(error.message)
+          console.log("Error in logging in", error, error.message)
+        })
     }
+    //}, 1000)
   }
 
   const handleMobileInputFocus = () => {
     setShowNumberPrefix(true)
   }
 
+  const handleOtpBlur = () => {
+    getInputTags("otp")
+  }
+
   const handleMobileBlur = () => {
     if(mobileNumber.length === 0) {
       setShowNumberPrefix(false)
+    } else if (mobileNumber.length === 10) {
+      getInputTags("mobileNumber")
+      //setGenerateOtp(true)
+      if(!errorFlag) {
+        generateOtp()
+      }
+      setOtp("")
+    } else {
+      getInputTags("mobileNumber")
     }
-    getOtp ()
   }
 
   return (
@@ -172,6 +212,9 @@ function login() {
           }
           <TextField
             id="outlined-required"
+            inputProps={{
+              maxLength: 10
+            }}
             className="input-field"
             autoComplete="off"
             error={mobileErr.status}
@@ -189,12 +232,16 @@ function login() {
             <InputLabel htmlFor="outlined-adornment-password" className={`${otpErr.status ? "Mui-error" : undefined}`}>OTP</InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
-              type={showOtp ? "text" : "password"}
+              type={showOtpValue ? "text" : "password"}
               name="otp"
               autoComplete="off"
+              onBlur={handleOtpBlur}
               error={otpErr.status}
               onChange={handleOtpChange}
               value={otp}
+              inputProps={{
+                maxLength: 6
+              }}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -202,7 +249,7 @@ function login() {
                     onClick={handleClickShowOtp}
                     onMouseDown={handleMouseDownOtp}
                   >
-                    {showOtp ? <Visibility /> : <VisibilityOff />}
+                    {showOtpValue ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               }
@@ -220,22 +267,51 @@ function login() {
               variant="contained"
               color="primary"
               size="large"
+              disabled={!enableLogin}
               onClick={(e) => handleLogin(e)}
             >
               Login
-            </Button>
+            </Button> 
           </div>
+          {/* <div className="submit">
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              //disabled={(!enableLogin && !enableGenerateOTP) || (!enableGenerateOTP)}
+              disabled={!enableLogin}
+              onClick={enableLogin ? (e) => handleLogin(e) : (e) => generateOtp(e)}
+            >
+              {
+                !enableLogin ? "Generate OTP" : "Login"
+              }
+            </Button>
+          </div> */}
           <div className="resend-otp">
             {
-              count > 0 ?
+              enableLogin && count > 0 &&
                 <p>Resend OTP in {count} sec</p>
-                : 
-                <p>Resend OTP <Icon name ="resend-otp"/> </p>
+            }
+            {
+              enableLogin && count <= 0 &&
+                <div onClick={generateOtp}>
+                  <p>Resend OTP </p>
+                  <span><Icon name="resend-otp" /></span>
+                </div>
             }
           </div>
         </form>
       </div>
       <p className={classes.note}>Having trouble? Contact Support at <a href="mailto:settlements@hipbar.com">settlements@hipbar.com</a></p>
+      {
+        isLoginErr &&
+        <Notification
+          message={errorMessage}
+          messageType="error"
+          open={isLoginErr}
+          handleClose={handleClose}
+        />
+      }
     </div>
   )
 }

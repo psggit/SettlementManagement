@@ -21,7 +21,7 @@ import RefundHistory from "./container/refund-history"
 
 
 const history = createHistory()
-
+const authUrl = `auth.${process.env.BASE_URL}`
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -72,17 +72,48 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("hasura-id") ? true : false)
 
   useEffect(() => {
-    if (!localStorage.getItem("hasura-id") && !location.pathname.includes("login")) {
-      window.location.href = "/login"
-    } else if (localStorage.getItem("hasura-id") && !location.pathname.includes("/home")) {
-      window.location.href = "/home/overview"
+    const fetchOptions = {
+      method: 'get',
+      credentials: 'include',
+      mode: 'cors',
+      'x-hasura-role': 'user'
     }
+    fetch(`https://${authUrl}/user/account/info`, fetchOptions)
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log(`Looks like there was a problem. Status Code: ${response.status}`)
+          if (location.pathname !== '/login') {
+            location.href = '/login'
+          }
+          return
+        }
+        response.json().then((data) => {
+          createSession(data)
+          if (!location.pathname.includes('home')) {
+            location.href = '/home'
+          }
+        })
+      })
+      .catch((err) => {
+        console.log('Fetch Error :-S', err)
+        if (location.pathname !== '/login') {
+          location.href = '/login'
+        }
+      })
+  }, [])
+
+  useEffect(() => {
+    // if (!localStorage.getItem("hasura-id") && !location.pathname.includes("login")) {
+    //   window.location.href = "/login"
+    // } else if (localStorage.getItem("hasura-id") && !location.pathname.includes("/home")) {
+    //   window.location.href = "/home/overview"
+    // }
     history.listen((location) => {
       const newRoute = location.pathname.split("/")[2]
       setKey(key + 1)
       setCurrentRoute(newRoute)
     })
-  }, [key])
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
