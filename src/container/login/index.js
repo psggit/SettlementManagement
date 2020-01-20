@@ -152,7 +152,7 @@ function login() {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    console.log("error flag", errorFlag)
+    //console.log("error flag", errorFlag)
     //getInputTags("otp")
     //setTimeout(() => {
     if (!errorFlag) {
@@ -164,7 +164,7 @@ function login() {
       }
       handleUserLogin(payload)
         .then((response) => {
-          location.href = "/home/overview"
+          //location.href = "/home/overview"
         })
         .catch((error) => {
           setLoginError(true)
