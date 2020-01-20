@@ -156,7 +156,7 @@ function login() {
     //getInputTags("otp")
     //setTimeout(() => {
     if (!errorFlag) {
-      // createSession({ hasura_id: 123 })
+      createSession({ hasura_id: 123 })
       // window.location.href = "/home/overview"
       const payload = {
         mobile: mobileNumber,
