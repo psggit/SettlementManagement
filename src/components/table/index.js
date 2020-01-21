@@ -11,8 +11,11 @@ import PropTypes from "prop-types"
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
-    fontFamily: "Cabin, sans-serif"
+    //fontFamily: "Cabin, sans-serif"
   },
+  tableHeader: {
+    color: "rgba(0,0,0,0.5)"
+  }
 })
 
 function table (props) {
@@ -23,7 +26,7 @@ function table (props) {
         <TableHead>
           <TableRow>
             {props.tableHeaders.map((item, i) => (
-              <TableCell align="left" key={i}>{item.label}</TableCell>
+              <TableCell className={classes.tableHeader} align="left" key={i}>{item.label}</TableCell>
             ))}
           </TableRow>
         </TableHead>

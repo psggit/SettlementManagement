@@ -158,7 +158,7 @@ function login() {
       }
       handleUserLogin(payload)
         .then((response) => {
-          //location.href = "/home/overview"
+          location.href = "/home/overview"
         })
         .catch((error) => {
           setLoginError(true)
