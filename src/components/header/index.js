@@ -5,7 +5,7 @@ import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Button from "@material-ui/core/Button"
 import Dialog from "Components/dialog"
-// import Dialog from "Components/dialog"
+import {authUrl} from "Utils/config"
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -30,7 +30,6 @@ const useStyles = makeStyles(theme => ({
     cursor: "pointer"
   }
 }))
-const authUrl = `auth.${process.env.BASE_URL}`
 
 function header () {
   const classes = useStyles()
@@ -72,10 +71,6 @@ function header () {
   const mountModal = () => {
     setShowLogoutModal(true)
   }
-
-  // const logout = () => {
-  //   setShowLogoutModal(false)
-  // }
 
   return (
     <div>

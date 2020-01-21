@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Card from "Components/card"
@@ -6,6 +6,7 @@ import "./overview.scss"
 import Paper from "@material-ui/core/Paper"
 import LineChart from "Components/lineChart"
 import Moment from "moment"
+import {fetchOverviewData} from "./../api"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
@@ -72,6 +73,25 @@ function overview() {
   const handleChange = (event, value) => {
     setValue(value)
   }
+
+  useEffect(() => {
+    let timeFrame = ""
+    switch(value) {
+    case 0:
+      timeFrame = "today"
+      break
+    case 1: 
+      timeFrame = "yesterday"
+      break
+    }
+    fetchOverviewData(timeFrame)
+      .then((response) => {
+        console.log("res", response)
+      })
+      .catch((error) => {
+        console.log("err", error)
+      })
+  }, [value])
 
   return (
     <div id="overview">

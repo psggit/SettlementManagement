@@ -19,10 +19,10 @@ import UserGuide from "Container/user-guide"
 import Reports from "./container/Reports"
 import Support from "Container/support"
 import RefundHistory from "./container/refund-history"
+import { authUrl } from "Utils/config"
 
 
 const history = createHistory()
-const authUrl = `auth.${process.env.BASE_URL}`
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -90,9 +90,9 @@ function App() {
         }
         response.json().then((data) => {
           createSession(data)
-          //createSession({ hasura_id: 123 })
+          setIsLoggedIn(true)
           if (!location.pathname.includes('home')) {
-            location.href = '/home'
+            location.href = '/home/overview'
           }
         })
       })
@@ -110,12 +110,13 @@ function App() {
     // } else if (localStorage.getItem("hasura-id") && !location.pathname.includes("/home")) {
     //   window.location.href = "/home/overview"
     // }
+    console.log("key", key)
     history.listen((location) => {
       const newRoute = location.pathname.split("/")[2]
       setKey(key + 1)
       setCurrentRoute(newRoute)
     })
-  }, [key])
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>

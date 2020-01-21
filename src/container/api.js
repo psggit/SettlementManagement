@@ -1,4 +1,4 @@
-import { POST } from "Utils/fetch"
+import { POST, GET } from "Utils/fetch"
 
 export function getOtpWithMobileNo (payload) {
   return POST({
@@ -12,6 +12,15 @@ export function getOtpWithMobileNo (payload) {
 export function handleUserLogin (payload) {
   return POST({
     api: "/settlements/api/1/login",
+    apiBase: "api",
+    handleError: true,
+    data: payload
+  })
+}
+
+export function fetchOverviewData (payload) {
+  return GET({
+    api: `/settlements/api/1/overview/${payload}`,
     apiBase: "api",
     handleError: true,
     data: payload
