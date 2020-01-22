@@ -68,7 +68,12 @@ const lastWeekDataValue = [100, 99999, 50, 2, 80524, 90, 23]
 function overview() {
 
   const [value, setValue] = useState(0)
-
+  const [xAxisLabels, setXaxisLabels] = useState([])
+  const [yAxisValues, setYaxisValues] = useState([])
+  const [totalAmount, setTotalAmount] = useState("")
+  const [totalStores, setTotalStores] = useState(0)
+  const [totalTransactions, setTotalTransactions] = useState(0)
+ 
   const classes = useStyles()
   const handleChange = (event, value) => {
     setValue(value)
@@ -86,7 +91,14 @@ function overview() {
     }
     fetchOverviewData(timeFrame)
       .then((response) => {
-        console.log("res", response)
+        let xAxisLabels = response.data.XAxisTime.map((item) => {
+          return Moment(item).format("h:mm:ss")
+        }) 
+        setXaxisLabels(xAxisLabels)
+        setYaxisValues(response.data.YAxisAmount)
+        setTotalAmount(response.data.TotalAmountText)
+        setTotalStores(response.data.TotalStores)
+        setTotalTransactions(response.data.TotalTransactions)
       })
       .catch((error) => {
         console.log("err", error)
@@ -109,19 +121,19 @@ function overview() {
       <div className="settlement-details">
         <Card
           title="Total Transactions"
-          value={"531"}
+          value={totalTransactions}
           width={"164px"}
           marginRight={"48px"}
         />
         <Card
           title="Total UPI Amount"
-          value={"₹ 1,35,790"}
+          value={totalAmount}
           width={"164px"}
           marginRight={"48px"}
         />
         <Card
           title="Store Active"
-          value={"15"}
+          value={totalStores}
           width={"164px"}
           marginRight={"48px"}
         />
@@ -142,8 +154,8 @@ function overview() {
         value === 1 &&
         <Paper className={classes.paper}>
           <LineChart
-            labels={yesterdayDataLabel}
-            values={yesterdayDataValue}
+            labels={xAxisLabels}
+            values={yAxisValues}
             xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"
