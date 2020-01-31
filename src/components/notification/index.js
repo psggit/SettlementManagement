@@ -17,7 +17,7 @@ const variantIcon = {
   warning: WarningIcon,
   error: ErrorIcon,
   info: InfoIcon
-};
+}
 
 const useStyles1 = makeStyles(theme => ({
   success: {

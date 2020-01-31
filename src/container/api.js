@@ -9,15 +9,6 @@ export function getOtpWithMobileNo (payload) {
   })
 }
 
-export function handleUserLogin (payload) {
-  return POST({
-    api: "/settlements/api/1/login",
-    apiBase: "api",
-    handleError: true,
-    data: payload
-  })
-}
-
 export function fetchOverviewData (payload) {
   return GET({
     api: `/settlements/api/1/overview/${payload}`,
@@ -26,6 +17,15 @@ export function fetchOverviewData (payload) {
     data: payload
   })
 }
+
+// export function fetchOverviewData (payload) {
+//   return GET({
+//     api: `/settlements/api/1/overview/${payload}`,
+//     apiBase: "api",
+//     handleError: true,
+//     data: payload
+//   })
+// }
 
 export function fetchTransactionHistory(payload) {
   return POST({
@@ -38,8 +38,8 @@ export function fetchTransactionHistory(payload) {
 
 export function fetchRefundHistory(payload) {
   return POST({
-    api: "/Api/soa",
-    apiBase: "retailer",
+    api: "/settlements/api/1/refund/refund_history",
+    apiBase: "api",
     handleError: true,
     data: payload
   })

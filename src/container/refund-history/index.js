@@ -102,11 +102,10 @@ function refundHistoryList() {
 
   const fetchRetailerRefundHistory = () => {
     const payload = {
-      Limit: pageLimit,
-      Offset: offset,
-      RetailerID: 93,
-      SearchTerm: filterField,
-      SearchValue: filterValue
+      limit: pageLimit.toString(),
+      offset: offset.toString(),
+      search_by: filterField,
+      search_attribute: filterValue
     }
     setLoading(true)
     fetchRefundHistory(payload)

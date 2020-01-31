@@ -15,7 +15,8 @@ import FormControl from "@material-ui/core/FormControl"
 import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { validateNumberField } from "Utils/validators"
-import { getOtpWithMobileNo, handleUserLogin } from "../api"
+import { getOtpWithMobileNo } from "../api"
+import { apiUrl } from "Utils/config"
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -156,9 +157,27 @@ function login() {
         mobile: mobileNumber,
         otp
       }
-      handleUserLogin(payload)
+      const fetchOptions = {
+        method: "post",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      }
+      //handleUserLogin(payload)
+      fetch(`https://${apiUrl}/settlements/api/1/login`, fetchOptions)
         .then((response) => {
-          location.href = "/home/overview"
+          if (response.status !== 200) {
+            response.json().then(json => {
+              setLoginError(true)
+              setErrorMessage(json.message)
+            })
+            return
+          }
+          response.json().then((data) => {
+            //location.href = "/home/overview"
+          })
         })
         .catch((error) => {
           setLoginError(true)
