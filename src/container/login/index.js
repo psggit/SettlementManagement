@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import "./login.scss"
 import Icon from "Components/icon"
-import Notification from "Components/notification"
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -15,7 +14,6 @@ import FormControl from "@material-ui/core/FormControl"
 import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { validateNumberField } from "Utils/validators"
-import { getOtpWithMobileNo } from "../api"
 import { apiUrl } from "Utils/config"
 
 const useStyles = makeStyles(theme => ({
@@ -56,8 +54,6 @@ function login() {
   const [showNumberPrefix, setShowNumberPrefix] = useState(false)
   const [count, setCount] = useState(0)
   const [delay] = useState(1000)
-  const [isLoginErr, setLoginError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState("")
 
   const setTimer = () => {
     setCount(5)
@@ -71,12 +67,25 @@ function login() {
       mobile: mobileNumber
     }
     //setGenerateOtp(false)
-    getOtpWithMobileNo (payload)
+    const fetchOptions = {
+      method: "post",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify(payload)
+    }
+    fetch(`https://${apiUrl}/settlements/api/1/generate-otp`, fetchOptions)
       .then(() => {
         //setGenerateOtp(true)
         setTimer()
       })
       .catch(err => {
+        setMobileErr({
+          status: true,
+          value: err.message
+        })
         console.log("Error in getting otp", err)
       })
   }
@@ -107,10 +116,6 @@ function login() {
 
   const handleClickShowOtp = () => {
     setShowOtpValue(!showOtpValue)
-  }
-
-  const handleClose = () => {
-    setLoginError(false)
   }
 
   const handleMouseDownOtp = event => {
@@ -163,25 +168,28 @@ function login() {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
+        credentials: "include",
         body: JSON.stringify(payload)
       }
-      //handleUserLogin(payload)
+
       fetch(`https://${apiUrl}/settlements/api/1/login`, fetchOptions)
         .then((response) => {
           if (response.status !== 200) {
             response.json().then(json => {
-              setLoginError(true)
-              setErrorMessage(json.message)
+              setOtpErr({
+                status: true,
+                value: json.message
+              })
             })
             return
           }
-          response.json().then((data) => {
-            //location.href = "/home/overview"
-          })
+          location.href = "/home/overview"
         })
         .catch((error) => {
-          setLoginError(true)
-          setErrorMessage(error.message)
+          setOtpErr({
+            status: true,
+            value: error.message
+          })
           console.log("Error in logging in", error, error.message)
         })
     }
@@ -315,7 +323,7 @@ function login() {
         </form>
       </div>
       <p className={classes.note}>Having trouble? Contact Support at <a href="mailto:settlements@hipbar.com">settlements@hipbar.com</a></p>
-      {
+      {/* {
         isLoginErr &&
         <Notification
           message={errorMessage}
@@ -323,7 +331,7 @@ function login() {
           open={isLoginErr}
           handleClose={handleClose}
         />
-      }
+      } */}
     </div>
   )
 }

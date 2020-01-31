@@ -1,14 +1,5 @@
 import { POST, GET } from "Utils/fetch"
 
-export function getOtpWithMobileNo (payload) {
-  return POST({
-    api: "/settlements/api/1/generate-otp",
-    apiBase: "api",
-    handleError: true,
-    data: payload
-  })
-}
-
 export function fetchOverviewData (payload) {
   return GET({
     api: `/settlements/api/1/overview/${payload}`,
@@ -17,15 +8,6 @@ export function fetchOverviewData (payload) {
     data: payload
   })
 }
-
-// export function fetchOverviewData (payload) {
-//   return GET({
-//     api: `/settlements/api/1/overview/${payload}`,
-//     apiBase: "api",
-//     handleError: true,
-//     data: payload
-//   })
-// }
 
 export function fetchTransactionHistory(payload) {
   return POST({

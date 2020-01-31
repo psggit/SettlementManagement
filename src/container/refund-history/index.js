@@ -14,6 +14,7 @@ import TableLoadingShell from "Components/tableLoadingShell"
 import Pagination from "Components/pagination"
 import { getOffsetUsingPageNo, getQueryParamByName, getQueryUri } from "Utils/helpers"
 import Notification from "Components/notification"
+import Moment from "moment"
 
 const tableHeaders = [
   { label: "Refund ID", value: "refund_id" },
@@ -82,8 +83,8 @@ function refundHistoryList() {
   const [pageNo, setPageNo] = useState(activePage)
   const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, pageLimit))
   const [refundHistoryCount, setRefundHistoryCount] = useState(0)
-  const [filterField, setFilterField] = useState("")
-  const [filterValue, setFieldValue] = useState("")
+  const [filterField, setFilterField] = useState("retailer_id")
+  const [filterValue, setFieldValue] = useState("2222")
   const [isError, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
 
@@ -91,8 +92,8 @@ function refundHistoryList() {
 
   const searchOptions = [
     { title: "Refund ID", value: "refund_id" },
-    { title: "Initial Transaction ID", value: "transaction_id" },
-    { title: "Bank Account Number", value: "account_no" },
+    { title: "Initial Transaction ID", value: "initial_txn_id" },
+    { title: "Bank Account Number", value: "bank_acc_no" },
     { title: "Retailer ID", value: "retailer_id" }
   ]
 
@@ -111,7 +112,7 @@ function refundHistoryList() {
     fetchRefundHistory(payload)
       .then((response) => {
         setLoading(false)
-        setRefundHistory(response.transactions)
+        setRefundHistory(response.refund_list)
         setRefundHistoryCount(response.Count)
       })
       .catch((json) => {
@@ -207,14 +208,13 @@ function refundHistoryList() {
                   return (
                     <TableRow className={classes.tableRow} key={index}>
                       <TableCell component="th" scope="row" align="left">
-                        {data.order_id}
+                        {data.refund_id}
                       </TableCell>
-                      {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
-                      <TableCell align="left">{data.order_type}</TableCell>
-                      <TableCell align="left">{data.order_id}</TableCell>
-                      <TableCell align="left">{data.consumer_id}</TableCell>
-                      <TableCell align="left">{data.cart_total}</TableCell>
-                      <TableCell align="left">{data.gift_wallet_amount}</TableCell>
+                      <TableCell align="left">{Moment(data.date_and_time).format("DD/MM/YYYY h:mm A")}</TableCell>
+                      <TableCell align="left">{data.initial_txn_id}</TableCell>
+                      <TableCell align="left">{data.bank_acc_no}</TableCell>
+                      <TableCell align="left">{data.retailer_id}</TableCell>
+                      <TableCell align="left">{data.txn_amount}</TableCell>
                     </TableRow>
                   )
                 }))
