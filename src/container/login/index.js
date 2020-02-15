@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import "./login.scss"
 import Icon from "Components/icon"
 import TextField from "@material-ui/core/TextField"
@@ -15,6 +15,7 @@ import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { validateNumberField } from "Utils/validators"
 import { apiUrl } from "Utils/config"
+import { callbackify } from "util"
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -42,7 +43,6 @@ const useStyles = makeStyles(theme => ({
 
 function login() {
   const classes = useStyles()
-
   const [mobileNumber, setMobileNumber] = useState("")
   const [mobileErr, setMobileErr] = useState({ status: false, value: "" })
   const [otp, setOtp] = useState("")
@@ -94,12 +94,23 @@ function login() {
     mobileNumber: "Mobile Number",
     otp: "OTP"
   }
+
+  useEffect(() => {
+    setAutoFocus()
+  }, [mobileNumber])
   
-  const handleMobileChange = event => {
+  const handleMobileChange = (event) => {
     setMobileErr({ ...mobileErr, status: false })
     setErrorFlag(false)
     if(!isNaN(event.target.value)) {
       setMobileNumber(event.target.value)
+    }
+  }
+
+  const setAutoFocus = () => {
+    if (mobileNumber.length === 10) {
+      //document.querySelectorAll("#outlined-required")[0].blur()
+      document.querySelectorAll("#outlined-adornment-password")[0].focus()
     }
   }
 
@@ -171,7 +182,6 @@ function login() {
         credentials: "include",
         body: JSON.stringify(payload)
       }
-
       fetch(`https://${apiUrl}/settlements/api/1/login`, fetchOptions)
         .then((response) => {
           if (response.status !== 200) {
@@ -208,7 +218,6 @@ function login() {
       setShowNumberPrefix(false)
     } else if (mobileNumber.length === 10) {
       getInputTags("mobileNumber")
-      //setGenerateOtp(true)
       if(!errorFlag) {
         generateOtp()
       }
@@ -242,7 +251,7 @@ function login() {
             name="mobileNumber"
             onFocus={handleMobileInputFocus}
             onBlur={handleMobileBlur}
-            onChange={handleMobileChange}
+            onChange={(e) => handleMobileChange(e)}
             value={mobileNumber}
             helperText={mobileErr.status ? mobileErr.value : ""}
             variant="outlined"

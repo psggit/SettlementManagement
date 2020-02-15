@@ -79,6 +79,21 @@ function overview() {
     setValue(value)
   }
 
+  const getFormattedXAxisLabels = ({timeFrame, data}) => {
+    let XAxisLabels = []
+    switch(timeFrame) {
+    case "yesterday":
+      XAxisLabels = data.XAxisTime.map((item) => {
+        return Moment(item).format("h:mm:ss")
+      }) 
+      break
+    case "last_week":
+      XAxisLabels = data.XAxisDays
+      break
+    }
+    return XAxisLabels
+  }
+
   useEffect(() => {
     let timeFrame = ""
     switch(value) {
@@ -88,12 +103,13 @@ function overview() {
     case 1: 
       timeFrame = "yesterday"
       break
+    case 2:
+      timeFrame = "last_week"
+      break
     }
     fetchOverviewData(timeFrame)
       .then((response) => {
-        let xAxisLabels = response.data.XAxisTime.map((item) => {
-          return Moment(item).format("h:mm:ss")
-        }) 
+        let xAxisLabels = getFormattedXAxisLabels({timeframe: timeFrame, data: response.data})
         setXaxisLabels(xAxisLabels)
         setYaxisValues(response.data.YAxisAmount)
         setTotalAmount(response.data.TotalAmountText)
@@ -101,7 +117,7 @@ function overview() {
         setTotalTransactions(response.data.TotalTransactions)
       })
       .catch((error) => {
-        console.log("err", error)
+        console.log("Error in fetching overviiew data", error)
       })
   }, [value])
 
@@ -166,8 +182,8 @@ function overview() {
         value === 2 &&
         <Paper className={classes.paper}>
           <LineChart
-            labels={lastWeekDataLabel}
-            values={lastWeekDataValue}
+            labels={xAxisLabels}
+            values={yAxisValues}
             xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 6 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"

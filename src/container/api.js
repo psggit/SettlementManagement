@@ -5,7 +5,7 @@ export function fetchOverviewData (payload) {
     api: `/settlements/api/1/overview/${payload}`,
     apiBase: "api",
     handleError: true,
-    data: payload
+    //data: payload
   })
 }
 
