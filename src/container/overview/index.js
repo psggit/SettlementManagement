@@ -53,11 +53,11 @@ const yesterdayDataLabel = [
 const yesterdayDataValue = [100, 120, 5, 25, 19, 999, 24, 78, 90, 23, 17, 27, 89]
 
 
-const lastWeekDataLabel = [
-  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday" , "Friday", "Saturday"
-]
+// const lastWeekDataLabel = [
+//   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday" , "Friday", "Saturday"
+// ]
 
-const lastWeekDataValue = [100, 99999, 50, 2, 80524, 90, 23]
+//const lastWeekDataValue = [100, 99999, 50, 2, 80524, 90, 23]
 
 // const lastMonthDataLabel = [
 //   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -73,10 +73,36 @@ function overview() {
   const [totalAmount, setTotalAmount] = useState("")
   const [totalStores, setTotalStores] = useState(0)
   const [totalTransactions, setTotalTransactions] = useState(0)
+  const [lastUpdatedDate, setLastUpdatedDate] = useState()
  
   const classes = useStyles()
   const handleChange = (event, value) => {
     setValue(value)
+    resetValues()
+  }
+
+  const resetValues = () => {
+    setXaxisLabels([])
+    setYaxisValues([])
+    setTotalAmount(0)
+    setTotalStores(0)
+    setTotalTransactions(0)
+    setLastUpdatedDate()
+  }
+
+  const getFormattedXAxisLabels = ({timeFrame, data}) => {
+    let XAxisLabels = []
+    switch(timeFrame) {
+    case "yesterday":
+      XAxisLabels = data.XAxisTime.map((item) => {
+        return Moment(item).format("h:mm:ss")
+      }) 
+      break
+    case "last_week":
+      XAxisLabels = data.XAxisDays
+      break
+    }
+    return XAxisLabels
   }
 
   const getFormattedXAxisLabels = ({timeFrame, data}) => {
@@ -96,6 +122,7 @@ function overview() {
 
   useEffect(() => {
     let timeFrame = ""
+
     switch(value) {
     case 0:
       timeFrame = "today"
@@ -107,14 +134,16 @@ function overview() {
       timeFrame = "last_week"
       break
     }
+
     fetchOverviewData(timeFrame)
       .then((response) => {
-        let xAxisLabels = getFormattedXAxisLabels({timeframe: timeFrame, data: response.data})
+        let xAxisLabels = getFormattedXAxisLabels({timeFrame: timeFrame, data: response.data})
         setXaxisLabels(xAxisLabels)
         setYaxisValues(response.data.YAxisAmount)
         setTotalAmount(response.data.TotalAmountText)
         setTotalStores(response.data.TotalStores)
         setTotalTransactions(response.data.TotalTransactions)
+        setLastUpdatedDate(response.data.LastUpdatedAt)
       })
       .catch((error) => {
         console.log("Error in fetching overviiew data", error)
@@ -137,19 +166,19 @@ function overview() {
       <div className="settlement-details">
         <Card
           title="Total Transactions"
-          value={totalTransactions}
+          value={totalTransactions ? totalTransactions : "-"}
           width={"164px"}
           marginRight={"48px"}
         />
         <Card
           title="Total UPI Amount"
-          value={totalAmount}
+          value={totalAmount ? totalAmount : "-"}
           width={"164px"}
           marginRight={"48px"}
         />
         <Card
           title="Store Active"
-          value={totalStores}
+          value={totalStores ? totalStores : "-"}
           width={"164px"}
           marginRight={"48px"}
         />
@@ -205,7 +234,7 @@ function overview() {
       {
         value !== 0 && value !== 3 &&
         <div>
-          <p className="overview-footer">Last updated at {Moment("2019-12-05T15:56:41.714752+05:30").format("DD/MM/YYYY, h:mm a")}</p>
+          <p className="overview-footer">Last updated at {Moment(lastUpdatedDate).format("DD/MM/YYYY, h:mm a")}</p>
         </div>
       }
     </div>
