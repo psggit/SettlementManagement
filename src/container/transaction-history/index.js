@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper"
 import InputBase from "@material-ui/core/InputBase"
 import SearchIcon from "@material-ui/icons/Search"
 import CrossIcon from "@material-ui/icons/HighlightOff"
-//import Moment from "moment"
+import Moment from "moment"
 import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import { makeStyles } from "@material-ui/core/styles"
@@ -21,7 +21,7 @@ const tableHeaders = [
   { label: "Date & Time", value: "date_time" },
   { label: "Bank Account Number", value: "account_no" },
   { label: "Retailer ID", value: "retailer_id" },
-  { label: "Transaction Amount", value: "amount" }
+  { label: "Transaction Amount", value: "payer_amount" }
 ]
 
 const useStyles = makeStyles(theme => ({
@@ -90,8 +90,8 @@ function transactionHistoryList(props) {
   const classes = useStyles()
 
   const searchOptions = [
-    { title: "UTR", value: "utr" },
-    { title: "Bank Account Number", value: "account_no" },
+    { title: "UTR", value: "order_id" },
+    { title: "Bank Account Number", value: "bank_rrn" },
     { title: "Retailer ID", value: "retailer_id" }
   ]
 
@@ -101,29 +101,29 @@ function transactionHistoryList(props) {
 
   const fetchRetailerTransactionHistory = () => {
     const payload = {
-      Limit: pageLimit,
-      Offset: offset,
-      RetailerID: 93,
-      SearchTerm: filterField,
-      SearchValue: filterValue
+      limit: pageLimit.toString(),
+      offset: offset.toString(),
+      search_by: filterField,
+      search_attribute: filterValue
     }
     setLoading(true)
     fetchTransactionHistory(payload)
       .then((response) => {
-        setLoading(false)
-        //setError(true)
-        setTransactionHistory(response.transactions)
-        seTransactionHistoryCount(response.Count)
+        if (Object.keys(response.data).length > 0) {
+          setLoading(false)
+          setTransactionHistory(response.data)
+          seTransactionHistoryCount(response.count)
+        }
       })
       .catch((json) => {
+        console.log("json", json)
         setLoading(false)
         setError(true)
-        setErrorMessage(json.error)
+        setErrorMessage("Error in fetching transaction history")
       })
   }
 
   const handleSearchChange = (event, option) => {
-    console.log("select change", option)
     setFilterField(option.value)
     setFieldValue("")
   }
@@ -227,11 +227,11 @@ function transactionHistoryList(props) {
                       <TableCell component="th" scope="row" align="left">
                         {data.order_id}
                       </TableCell>
-                      {/* <TableCell align="left">{Moment(data.order_type).format("DD/MM/YYYY h:mm a")}</TableCell> */}
-                      <TableCell align="left">{data.order_type}</TableCell>
-                      <TableCell align="left">{data.consumer_id}</TableCell>
-                      <TableCell align="left">{data.cart_total}</TableCell>
-                      <TableCell align="left">{data.gift_wallet_amount}</TableCell>
+                      <TableCell align="left">{Moment(data.txn_complete_date).format("DD/MM/YYYY h:mm a")}</TableCell>
+                      {/* <TableCell align="left">{data.txn_complete_date}</TableCell> */}
+                      <TableCell align="left">{data.bank_rrn}</TableCell>
+                      <TableCell align="left">{data.retailer_id}</TableCell>
+                      <TableCell align="left">{data.payer_amount}</TableCell>
                     </TableRow>
                   )
                 }))

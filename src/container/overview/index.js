@@ -34,6 +34,7 @@ const AntTab = withStyles(theme => ({
 
 const todayDataLabel = []
 const todayDataValue = []
+
 const yesterdayDataLabel = [
   Moment("2019-12-25T12:16:49.464702Z").format("h:mm:ss"),
   Moment("2019-12-25T12:17:49.464702Z").format("h:mm:ss"),
@@ -51,19 +52,6 @@ const yesterdayDataLabel = [
 ]
 
 const yesterdayDataValue = [100, 120, 5, 25, 19, 999, 24, 78, 90, 23, 17, 27, 89]
-
-
-// const lastWeekDataLabel = [
-//   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday" , "Friday", "Saturday"
-// ]
-
-//const lastWeekDataValue = [100, 99999, 50, 2, 80524, 90, 23]
-
-// const lastMonthDataLabel = [
-//   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-// ]
-
-// const lastMonthDataValue = [100,500000, 52330, 230000, 80524, 90, 23]
 
 function overview() {
 
@@ -140,7 +128,7 @@ function overview() {
         let xAxisLabels = getFormattedXAxisLabels({timeFrame: timeFrame, data: response.data})
         setXaxisLabels(xAxisLabels)
         setYaxisValues(response.data.YAxisAmount)
-        setTotalAmount(response.data.TotalAmountText)
+        setTotalAmount(response.data.TotalAmount)
         setTotalStores(response.data.TotalStores)
         setTotalTransactions(response.data.TotalTransactions)
         setLastUpdatedDate(response.data.LastUpdatedAt)

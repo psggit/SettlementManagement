@@ -102,7 +102,7 @@ export default function CustomizedSnackbars({messageType, message, open, handleC
         }}
         className={classes.snackbar}
         open={open}
-        //autoHideDuration={6000}
+        autoHideDuration={6000}
         onClose={handleClose}
       >
         <MySnackbarContentWrapper

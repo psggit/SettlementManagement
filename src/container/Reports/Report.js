@@ -9,10 +9,11 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import DateFnsUtils from "@date-io/date-fns"
 import { grey } from "@material-ui/core/colors"
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { apiUrl } from "Utils/config"
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers"
+import Notification from "Components/notification"
+//import {exportCSV } from "src/utils/fetch/logic-utils.js"
+// import {exportCSV} from "Utils/logic-utils"
 
 
 const useStyles = makeStyles(theme => ({
@@ -56,40 +57,72 @@ export default function Reports() {
   const [showCustomDuration, setShowCustomDuration] = useState(false)
   const [fromDate, setFromDate] = useState(null)
   const [toDate, setToDate] = useState(null)
+  const [isErrorInDownloadingReport, setErrorInDownloadingReport] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+  const [isReportDownloading, downloadingReport] = useState(false)
 
   function handleSubmit() {
-    console.log("fromDate", fromDate, "todate", toDate)
+    fetchRetailerReport()
+  }
+
+  const fetchRetailerReport = () => {
+    const payload = {
+      from_date: new Date(fromDate).toISOString(),
+      to_date: new Date(toDate).toISOString()
+    }
+    downloadingReport(true)
+    fetch(`https://${apiUrl}/settlements/api/1/generatereport`, { method: 'post', body: JSON.stringify(payload) })
+      .then((response) => {
+        downloadingReport(false)
+        var reader = response.body.getReader()
+        reader.read().then(function (response) {
+          const filename = "report.csv"
+          const data = new TextDecoder("utf-8").decode(response.value)
+          const blob = new Blob([data], { type: "text/csv" })
+          const link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          link.download = filename
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        })
+      })
+      .catch((json) => {
+        setErrorInDownloadingReport(true)
+        downloadingReport(false)
+        setErrorMessage("Error in downloading report")
+      })
   }
 
   function handleTimePeriodChange(e) {
     setSelectedOption(e.target.value)
     switch (e.target.value) {
-    case "Yesterday":
-      setFromDate(new Date(new Date() - 1 * 24 * 60 * 60 * 1000))
-      setToDate(new Date())
-      setShowCustomDuration(false)
-      break
-    case "Last 30 Days":
-      setFromDate(new Date(new Date() - 30 * 24 * 60 * 60 * 1000))
-      setToDate(new Date())
-      setShowCustomDuration(false)
-      break
-    case "Last 7 Days":
-      setFromDate(new Date(new Date() - 7 * 24 * 60 * 60 * 1000))
-      setToDate(new Date())
-      setShowCustomDuration(false)
-      break
-    case "customduration":
-      setToDate(null)
-      setFromDate(null)
-      setShowCustomDuration(true)
-      break
+      case "Yesterday":
+        setFromDate(new Date(new Date() - 1 * 24 * 60 * 60 * 1000))
+        setToDate(new Date())
+        setShowCustomDuration(false)
+        break
+      case "Last 30 Days":
+        setFromDate(new Date(new Date() - 30 * 24 * 60 * 60 * 1000))
+        setToDate(new Date())
+        setShowCustomDuration(false)
+        break
+      case "Last 7 Days":
+        setFromDate(new Date(new Date() - 7 * 24 * 60 * 60 * 1000))
+        setToDate(new Date())
+        setShowCustomDuration(false)
+        break
+      case "customduration":
+        setToDate(null)
+        setFromDate(null)
+        setShowCustomDuration(true)
+        break
     }
   }
 
   const handleFromDateChange = date => {
     setFromDate(date)
-    if (toDate && !(new Date(toDate) > new Date(date)) ||  !(new Date(toDate) <= new Date(date.getTime() + (90 * 24 * 60 * 60 * 1000)))) {
+    if (toDate && !(new Date(toDate) > new Date(date)) || !(new Date(toDate) <= new Date(date.getTime() + (90 * 24 * 60 * 60 * 1000)))) {
       setToDate(null)
     }
   }
@@ -97,6 +130,10 @@ export default function Reports() {
   const handleToDateChange = date => {
     setToDate(date)
     console.log("max from", new Date(date.getTime() - (90 * 24 * 60 * 60 * 1000)) > new Date("01/01/2017"), new Date(date.getTime() - (90 * 24 * 60 * 60 * 1000)))
+  }
+
+  const handleClose = () => {
+    setErrorInDownloadingReport(false)
   }
 
   return (
@@ -186,9 +223,9 @@ export default function Reports() {
                       disabled={!fromDate}
                       onChange={handleToDateChange}
                       minDate={fromDate ? (fromDate.getTime() + (1 * 24 * 60 * 60 * 1000)) : null}
-                      maxDate={fromDate 
+                      maxDate={fromDate
                         ? new Date(fromDate.getTime() + (90 * 24 * 60 * 60 * 1000)) < new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
-                          ?  new Date(fromDate.getTime() + (90 * 24 * 60 * 60 * 1000))
+                          ? new Date(fromDate.getTime() + (90 * 24 * 60 * 60 * 1000))
                           : new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
                         : new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)}
                     />
@@ -204,7 +241,7 @@ export default function Reports() {
           <Button variant="contained"
             className={classes.button}
             color="primary"
-            disabled={!selectedOption || !fromDate || !toDate}
+            disabled={!selectedOption || !fromDate || !toDate || isReportDownloading}
             onClick={handleSubmit}
           >
             DOWNLOAD REPORT
@@ -216,6 +253,15 @@ export default function Reports() {
           <span className="bold-note">Note:</span> The report will be downloaded as a .csv file
         </div>
       </FormControl>
+      {
+        isErrorInDownloadingReport &&
+        <Notification
+          message={errorMessage}
+          messageType="error"
+          open={isErrorInDownloadingReport}
+          handleClose={handleClose}
+        />
+      }
     </div>
   )
 }

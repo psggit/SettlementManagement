@@ -28,7 +28,7 @@ function getHeaders(type) {
   case "RSS":
     return Object.assign({}, { "Accept": "application/xml", "Content-Type": "application/xml" })
   default:
-    return Object.assign({}, json_headers)
+    return Object.assign({}, json_headers, getToken())
   }
 }
 

@@ -83,8 +83,8 @@ function refundHistoryList() {
   const [pageNo, setPageNo] = useState(activePage)
   const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, pageLimit))
   const [refundHistoryCount, setRefundHistoryCount] = useState(0)
-  const [filterField, setFilterField] = useState("retailer_id")
-  const [filterValue, setFieldValue] = useState("2222")
+  const [filterField, setFilterField] = useState("")
+  const [filterValue, setFieldValue] = useState("")
   const [isError, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
 
@@ -111,18 +111,19 @@ function refundHistoryList() {
     setLoading(true)
     fetchRefundHistory(payload)
       .then((response) => {
-        setLoading(false)
-        setRefundHistory(response.refund_list)
-        setRefundHistoryCount(response.Count)
+        if (Object.keys(response.data).length > 0) {
+          setLoading(false)
+          setRefundHistory(response.refund_list)
+          setRefundHistoryCount(response.Count)
+        }
       })
       .catch((json) => {
         setLoading(false)
         setError(true)
-        setErrorMessage(json.error)
+        setErrorMessage("Error in fetching refund history")
       })
   }
   const handleSearchChange = (event, option) => {
-    console.log("select change", option)
     setFilterField(option.value)
     setFieldValue("")
   }

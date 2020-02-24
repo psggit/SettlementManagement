@@ -11,8 +11,8 @@ export function fetchOverviewData (payload) {
 
 export function fetchTransactionHistory(payload) {
   return POST({
-    api: "/Api/soa",
-    apiBase: "retailer",
+    api: "/settlements/api/1/transactionhistory",
+    apiBase: "api",
     handleError: true,
     data: payload
   })
@@ -27,3 +27,12 @@ export function fetchRefundHistory(payload) {
   })
 }
 
+// export function fetchReport(payload) {
+//   return POST({
+//     api: "/settlements/api/1/generate-report",
+//     apiBase: "api",
+//     handleError: true,
+//     data: payload
+//   })
+  
+// }
