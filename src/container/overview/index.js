@@ -93,21 +93,6 @@ function overview() {
     return XAxisLabels
   }
 
-  const getFormattedXAxisLabels = ({timeFrame, data}) => {
-    let XAxisLabels = []
-    switch(timeFrame) {
-    case "yesterday":
-      XAxisLabels = data.XAxisTime.map((item) => {
-        return Moment(item).format("h:mm:ss")
-      }) 
-      break
-    case "last_week":
-      XAxisLabels = data.XAxisDays
-      break
-    }
-    return XAxisLabels
-  }
-
   useEffect(() => {
     let timeFrame = ""
 
