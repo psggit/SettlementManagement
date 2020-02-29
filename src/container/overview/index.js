@@ -29,29 +29,11 @@ const AntTab = withStyles(theme => ({
     }
   },
   selected: {},
-}))(props => <Tab disableRipple {...props} />);
+}))(props => <Tab disableRipple {...props} />)
 
 
 const todayDataLabel = []
 const todayDataValue = []
-
-const yesterdayDataLabel = [
-  Moment("2019-12-25T12:16:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T12:17:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T12:18:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T13:16:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T13:17:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T13:18:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T14:16:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T14:17:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T14:18:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T15:16:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T15:17:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T15:18:49.464702Z").format("h:mm:ss"),
-  Moment("2019-12-25T15:19:49.464702Z").format("h:mm:ss"),  
-]
-
-const yesterdayDataValue = [100, 120, 5, 25, 19, 999, 24, 78, 90, 23, 17, 27, 89]
 
 function overview() {
 
@@ -61,7 +43,7 @@ function overview() {
   const [totalAmount, setTotalAmount] = useState("")
   const [totalStores, setTotalStores] = useState(0)
   const [totalTransactions, setTotalTransactions] = useState(0)
-  const [lastUpdatedDate, setLastUpdatedDate] = useState()
+  const [lastUpdatedDate, setLastUpdatedDate] = useState("")
  
   const classes = useStyles()
   const handleChange = (event, value) => {
@@ -75,16 +57,18 @@ function overview() {
     setTotalAmount(0)
     setTotalStores(0)
     setTotalTransactions(0)
-    setLastUpdatedDate()
+    setLastUpdatedDate("")
   }
 
   const getFormattedXAxisLabels = ({timeFrame, data}) => {
     let XAxisLabels = []
     switch(timeFrame) {
     case "yesterday":
-      XAxisLabels = data.XAxisTime.map((item) => {
-        return Moment(item).format("h:mm:ss")
-      }) 
+      // XAxisLabels = data.XAxisTime.map((item) => {
+      //   return Moment(item).format("h:mm:ss")
+      // }) 
+      
+      XAxisLabels = data.XAxisHours
       break
     case "last_week":
       XAxisLabels = data.XAxisDays
@@ -205,7 +189,7 @@ function overview() {
         </Paper>
       } */}
       {
-        value !== 0 && value !== 3 &&
+        value !== 0 && value !== 3 && lastUpdatedDate &&
         <div>
           <p className="overview-footer">Last updated at {Moment(lastUpdatedDate).format("DD/MM/YYYY, h:mm a")}</p>
         </div>

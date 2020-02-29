@@ -80,6 +80,7 @@ function transactionHistoryList(props) {
   const [transactionHistory, setTransactionHistory] = useState([])
   const [isLoading, setLoading] = useState(false)
   const [pageNo, setPageNo] = useState(activePage)
+  const [isResetted, setIsResetted] = useState(false)
   const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, pageLimit))
   const [transactionHistoryCount, seTransactionHistoryCount] = useState(0)
   const [filterField, setFilterField] = useState("")
@@ -91,25 +92,25 @@ function transactionHistoryList(props) {
 
   const searchOptions = [
     { title: "UTR", value: "order_id" },
-    { title: "Bank Account Number", value: "bank_rrn" },
+    { title: "Bank Account Number", value: "bank_acc_no" },
     { title: "Retailer ID", value: "retailer_id" }
   ]
 
   useEffect(() => {
     fetchRetailerTransactionHistory()
-  }, [pageNo])
+  }, [pageNo, isResetted])
 
   const fetchRetailerTransactionHistory = () => {
     const payload = {
       limit: pageLimit.toString(),
-      offset: offset.toString(),
-      search_by: filterField,
+      offset: ((pageNo - 1) * parseInt(pageLimit)).toString(),
+      search_by: filterValue && filterValue.trim().length > 0 ? filterField : "",
       search_attribute: filterValue
     }
     setLoading(true)
     fetchTransactionHistory(payload)
       .then((response) => {
-        if (Object.keys(response.data).length > 0) {
+        if (response.data && Object.keys(response.data).length >= 0) {
           setLoading(false)
           setTransactionHistory(response.data)
           seTransactionHistoryCount(response.count)
@@ -124,17 +125,20 @@ function transactionHistoryList(props) {
   }
 
   const handleSearchChange = (event, option) => {
+    setIsResetted(false)
     setFilterField(option.value)
     setFieldValue("")
   }
 
   const handleTextChange = (event) => {
+    //if (!isNaN(event.target.value)) {
     setFieldValue(event.target.value)
-    console.log("text change", event.target.value)
+    //}
   }
 
   const resetFilterValue = (event) => {
     setFieldValue("")
+    setIsResetted(true)
   }
 
   const handleChangePage = (pageObj) => {
@@ -161,6 +165,7 @@ function transactionHistoryList(props) {
 
   const handlePress = (event) => {
     if(event.keyCode === 13) {
+      setPageNo(1)
       const queryParamsObj = {
         activePage: 1,
         //itemsPerPage: event.target.value,
@@ -168,7 +173,7 @@ function transactionHistoryList(props) {
         // SearchValue: filterValue
       }
       history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
-      fetchRetailerTransactionHistory()
+      //fetchRetailerTransactionHistory()
     }
   }
 
@@ -228,8 +233,7 @@ function transactionHistoryList(props) {
                         {data.order_id}
                       </TableCell>
                       <TableCell align="left">{Moment(data.txn_complete_date).format("DD/MM/YYYY h:mm a")}</TableCell>
-                      {/* <TableCell align="left">{data.txn_complete_date}</TableCell> */}
-                      <TableCell align="left">{data.bank_rrn}</TableCell>
+                      <TableCell align="left">{data.bank_acc_no}</TableCell>
                       <TableCell align="left">{data.retailer_id}</TableCell>
                       <TableCell align="left">{data.payer_amount}</TableCell>
                     </TableRow>
@@ -263,7 +267,7 @@ function transactionHistoryList(props) {
           />
         } */}
         {
-          !isLoading && transactionHistory.length > 0 &&
+          transactionHistory.length > 0 && !isLoading &&
           <Pagination
             activePage={parseInt(pageNo)}
             itemsCountPerPage={parseInt(pageLimit)}

@@ -79,6 +79,7 @@ function refundHistoryList() {
   const pageLimit = 10
   const activePage = getQueryParamByName("activePage") || 1
   const [refundHistory, setRefundHistory] = useState([])
+  const [isResetted, setIsResetted] = useState(false)
   const [isLoading, setLoading] = useState(false)
   const [pageNo, setPageNo] = useState(activePage)
   const [offset, setOffset] = useState(getOffsetUsingPageNo(activePage, pageLimit))
@@ -99,22 +100,23 @@ function refundHistoryList() {
 
   useEffect(() => {
     fetchRetailerRefundHistory()
-  }, [pageNo])
+  }, [pageNo, isResetted])
 
   const fetchRetailerRefundHistory = () => {
+    console.log("pageno", pageNo, ((pageNo - 1) * parseInt(pageLimit)).toString())
     const payload = {
       limit: pageLimit.toString(),
-      offset: offset.toString(),
-      search_by: filterField,
+      offset: ((pageNo - 1) * parseInt(pageLimit)).toString(),
+      search_by: filterValue && filterValue.trim().length > 0 ? filterField : "",
       search_attribute: filterValue
     }
     setLoading(true)
     fetchRefundHistory(payload)
       .then((response) => {
-        if (Object.keys(response.data).length > 0) {
+        if (response.refund_list && Object.keys(response.refund_list).length >= 0) {
           setLoading(false)
           setRefundHistory(response.refund_list)
-          setRefundHistoryCount(response.Count)
+          setRefundHistoryCount(response.count)
         }
       })
       .catch((json) => {
@@ -123,18 +125,25 @@ function refundHistoryList() {
         setErrorMessage("Error in fetching refund history")
       })
   }
+  
   const handleSearchChange = (event, option) => {
+    setIsResetted(false)
     setFilterField(option.value)
     setFieldValue("")
   }
 
   const handleTextChange = (event) => {
-    setFieldValue(event.target.value)
-    console.log("text change", event.target.value)
+    if (!isNaN(event.target.value)) {
+      setFieldValue(event.target.value)
+    }
+    // setFieldValue(event.target.value)
+    // console.log("text change", event.target.value)
   }
 
   const resetFilterValue = (event) => {
     setFieldValue("")
+    setIsResetted(true)
+    //fetchRetailerRefundHistory()
   }
 
   const handleChangePage = (pageObj) => {
@@ -148,11 +157,12 @@ function refundHistoryList() {
 
   const handlePress = (event) => {
     if (event.keyCode === 13) {
+      setPageNo(1)
       const queryParamsObj = {
         activePage: 1
       }
       history.pushState(queryParamsObj, "refund history listing", `/home/refund-history${getQueryUri(queryParamsObj)}`)
-      fetchRetailerRefundHistory()
+      //fetchRetailerRefundHistory()
     }
   }
 
@@ -235,7 +245,7 @@ function refundHistoryList() {
           }
         </Table>
         {
-          !isLoading && refundHistory.length > 0 &&
+          refundHistory.length > 0 && !isLoading &&
           <Pagination
             activePage={parseInt(pageNo)}
             itemsCountPerPage={parseInt(pageLimit)}
