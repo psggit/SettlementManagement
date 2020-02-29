@@ -99,8 +99,15 @@ function refundHistoryList() {
   ]
 
   useEffect(() => {
+    //console.log("hello", pageNo)
     fetchRetailerRefundHistory()
   }, [pageNo, isResetted])
+
+  useEffect(() => {
+    if (isResetted) {
+      fetchRetailerRefundHistory()
+    }
+  }, [isResetted])
 
   const fetchRetailerRefundHistory = () => {
     console.log("pageno", pageNo, ((pageNo - 1) * parseInt(pageLimit)).toString())
@@ -113,6 +120,7 @@ function refundHistoryList() {
     setLoading(true)
     fetchRefundHistory(payload)
       .then((response) => {
+        setIsResetted(false)
         if (response.refund_list && Object.keys(response.refund_list).length >= 0) {
           setLoading(false)
           setRefundHistory(response.refund_list)
@@ -121,6 +129,7 @@ function refundHistoryList() {
       })
       .catch((json) => {
         setLoading(false)
+        setIsResetted(false)
         setError(true)
         setErrorMessage("Error in fetching refund history")
       })
@@ -162,7 +171,7 @@ function refundHistoryList() {
         activePage: 1
       }
       history.pushState(queryParamsObj, "refund history listing", `/home/refund-history${getQueryUri(queryParamsObj)}`)
-      //fetchRetailerRefundHistory()
+      pageNo !== 1 ? setPageNo(1) : setIsResetted(true)
     }
   }
 

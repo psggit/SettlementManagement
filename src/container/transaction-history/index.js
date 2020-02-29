@@ -100,6 +100,12 @@ function transactionHistoryList(props) {
     fetchRetailerTransactionHistory()
   }, [pageNo, isResetted])
 
+  useEffect(() => {
+    if (isResetted) {
+      fetchRetailerTransactionHistory()
+    }
+  }, [isResetted])
+
   const fetchRetailerTransactionHistory = () => {
     const payload = {
       limit: pageLimit.toString(),
@@ -110,6 +116,7 @@ function transactionHistoryList(props) {
     setLoading(true)
     fetchTransactionHistory(payload)
       .then((response) => {
+        setIsResetted(false)
         if (response.data && Object.keys(response.data).length >= 0) {
           setLoading(false)
           setTransactionHistory(response.data)
@@ -120,6 +127,7 @@ function transactionHistoryList(props) {
         console.log("json", json)
         setLoading(false)
         setError(true)
+        setIsResetted(false)
         setErrorMessage("Error in fetching transaction history")
       })
   }
@@ -131,9 +139,7 @@ function transactionHistoryList(props) {
   }
 
   const handleTextChange = (event) => {
-    //if (!isNaN(event.target.value)) {
     setFieldValue(event.target.value)
-    //}
   }
 
   const resetFilterValue = (event) => {
@@ -173,7 +179,7 @@ function transactionHistoryList(props) {
         // SearchValue: filterValue
       }
       history.pushState(queryParamsObj, "transaction history listing", `/home/transaction-history${getQueryUri(queryParamsObj)}`)
-      //fetchRetailerTransactionHistory()
+      pageNo !== 1 ? setPageNo(1) : setIsResetted(true)
     }
   }
 
