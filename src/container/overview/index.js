@@ -32,9 +32,6 @@ const AntTab = withStyles(theme => ({
 }))(props => <Tab disableRipple {...props} />)
 
 
-const todayDataLabel = []
-const todayDataValue = []
-
 function overview() {
 
   const [value, setValue] = useState(0)
@@ -63,15 +60,25 @@ function overview() {
   const getFormattedXAxisLabels = ({timeFrame, data}) => {
     let XAxisLabels = []
     switch(timeFrame) {
+    case "today" :
+      XAxisLabels = data.XAxisHours.map((data) => {
+        return Moment(data).format("h:mm:ss")
+      })
+      break
     case "yesterday":
-      // XAxisLabels = data.XAxisTime.map((item) => {
-      //   return Moment(item).format("h:mm:ss")
-      // }) 
-      
-      XAxisLabels = data.XAxisHours
+      //XAxisLabels = data.XAxisHours
+      XAxisLabels = data.XAxisHours.map((data) => {
+        return Moment(data).format("DD/MM/YYYY h:mm:ss")
+      })
       break
     case "last_week":
       XAxisLabels = data.XAxisDays
+      break
+    case "last_month":
+      //XAxisLabels = data.XAxisDate
+      XAxisLabels = data.XAxisDate.map((data) => {
+        return Moment(data).format("DD/MM/YYYY")
+      })
       break
     }
     return XAxisLabels
@@ -90,6 +97,9 @@ function overview() {
     case 2:
       timeFrame = "last_week"
       break
+    case 3:
+      timeFrame = "last_month"
+      break  
     }
 
     fetchOverviewData(timeFrame)
@@ -123,19 +133,19 @@ function overview() {
       <div className="settlement-details">
         <Card
           title="Total Transactions"
-          value={totalTransactions ? totalTransactions : "-"}
+          value={totalTransactions ? totalTransactions.toString() : "-"}
           width={"164px"}
           marginRight={"48px"}
         />
         <Card
           title="Total UPI Amount"
-          value={totalAmount ? totalAmount : "-"}
+          value={totalAmount ? totalAmount.toString() : "-"}
           width={"164px"}
           marginRight={"48px"}
         />
         <Card
           title="Store Active"
-          value={totalStores ? totalStores : "-"}
+          value={totalStores ? totalStores.toString() : "-"}
           width={"164px"}
           marginRight={"48px"}
         />
@@ -144,9 +154,9 @@ function overview() {
         value === 0 &&
         <Paper className={classes.paper}>
           <LineChart
-            labels={todayDataLabel}
-            values={todayDataValue}
-            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
+            labels={xAxisLabels}
+            values={yAxisValues}
+            xLabel={`TIME DURATION ( ${Moment(new Date()).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"
           />
@@ -170,26 +180,27 @@ function overview() {
           <LineChart
             labels={xAxisLabels}
             values={yAxisValues}
-            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 6 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
+            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 6 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date()).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"
           />
         </Paper>
       }
-      {/* {
+      {
         value === 3 &&
         <Paper className={classes.paper}>
           <LineChart
-            labels={lastMonthDataLabel}
-            values={lastMonthDataValue}
-            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000 - 31 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date(new Date() - 1 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} )`}
+            labels={xAxisLabels}
+            values={yAxisValues}
+            xLabel={`TIME DURATION ( ${Moment(new Date(new Date() - 30 * 24 * 60 * 60 * 1000)).format("DD/MM/YYYY")} - ${Moment(new Date()).format("DD/MM/YYYY")} )`}
             yLabel="AMOUNT"
             tooltipText="₹"
           />
         </Paper>
-      } */}
+      }
       {
-        value !== 0 && value !== 3 && lastUpdatedDate &&
+        //value !== 0 && value !== 3 && lastUpdatedDate &&
+        lastUpdatedDate &&
         <div>
           <p className="overview-footer">Last updated at {Moment(lastUpdatedDate).format("DD/MM/YYYY, h:mm a")}</p>
         </div>

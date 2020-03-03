@@ -71,7 +71,13 @@ export default function Reports() {
       to_date: new Date(toDate).toISOString()
     }
     downloadingReport(true)
-    fetch(`https://${apiUrl}/settlements/api/1/generatereport`, { method: 'post', body: JSON.stringify(payload) })
+    fetch(`https://${apiUrl}/settlements/api/1/generatereport`, 
+      { 
+        method: "post", 
+        body: JSON.stringify(payload), 
+        "x-hasura-role": "account_manager", 
+        credentials: "include"
+      })
       .then((response) => {
         downloadingReport(false)
         var reader = response.body.getReader()
