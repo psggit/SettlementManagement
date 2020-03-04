@@ -77,7 +77,7 @@ function App() {
       method: 'get',
       credentials: 'include',
       mode: 'cors',
-      'x-hasura-role': 'account_manager'
+      //'x-hasura-role': 'account_manager'
     }
     fetch(`https://${authUrl}/user/account/info`, fetchOptions)
       .then((response) => {

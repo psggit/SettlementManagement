@@ -75,8 +75,10 @@ export default function Reports() {
       { 
         method: "post", 
         body: JSON.stringify(payload), 
-        "x-hasura-role": "account_manager", 
-        credentials: "include"
+        credentials: "include", 
+        headers: {
+          "x-hasura-role": `${localStorage.getItem("x-hasura-role")}`
+        }
       })
       .then((response) => {
         downloadingReport(false)

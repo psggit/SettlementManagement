@@ -38,10 +38,11 @@ function header () {
   const logout = () => {
 
     const fetchOptions = {
-      method: 'get',
-      credentials: 'include',
-      mode: 'cors',
-      'x-hasura-role': 'account_manager'
+      method: "get",
+      credentials: "include",
+      // headers: {
+      //   "x-hasura-role": `${localStorage.getItem("x-hasura-role")}`
+      // }
     }
 
     fetch(`https://${authUrl}/user/logout`, fetchOptions)
