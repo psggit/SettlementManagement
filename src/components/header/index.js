@@ -5,7 +5,7 @@ import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Button from "@material-ui/core/Button"
 import Dialog from "Components/dialog"
-import {authUrl} from "Utils/config"
+import { apiUrl} from "Utils/config"
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -40,12 +40,12 @@ function header () {
     const fetchOptions = {
       method: "get",
       credentials: "include",
-      // headers: {
-      //   "x-hasura-role": `${localStorage.getItem("x-hasura-role")}`
-      // }
+      headers: {
+        "x-hasura-role": `${localStorage.getItem("x-hasura-role")}`
+      }
     }
 
-    fetch(`https://${authUrl}/user/logout`, fetchOptions)
+    fetch(`https://${apiUrl}/settlements/api/1/logout`, fetchOptions)
       .then((response) => {
         if (response.status !== 200) {
           console.log(`Looks like there was a problem. Status Code: ${response.status}`)

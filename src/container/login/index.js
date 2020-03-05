@@ -166,8 +166,13 @@ function login() {
     })
   }
 
-  const handleLogin = (e) => {
-    e.preventDefault()
+  const handleKeyPress = (e) => {
+    if(e.keyCode === 13)
+      handleLogin()
+  }
+
+  const handleLogin = () => {
+    // e.preventDefault()
     if (!errorFlag) {
       const payload = {
         mobile: mobileNumber,
@@ -267,6 +272,7 @@ function login() {
               onBlur={handleOtpBlur}
               error={otpErr.status}
               onChange={handleOtpChange}
+              onKeyDown={handleKeyPress}
               value={otp}
               inputProps={{
                 maxLength: 6
